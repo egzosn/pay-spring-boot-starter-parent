@@ -39,7 +39,7 @@ public abstract class PayConfigurerAdapter<O, B extends PayBuilder<O>> implement
 
 	/**
 	 * Sets the {@link PayBuilder} to be used. This is automatically set when using
-	 * {@link AbstractConfiguredPayBuilder#apply(PayConfigurerAdapter)}
+	 * {@link MerchantDetailsServiceBuider#apply(PayConfigurerAdapter)}
 	 *
 	 * @param builder the {@link PayBuilder} to set
 	 */
