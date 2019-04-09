@@ -1,10 +1,12 @@
 package com.egzosn.pay.spring.boot.autoconfigue;
 
 /**
- * Created by egan on 2018/11/21.
- * <a href="mailto:zheng.zaosheng@iwhalecloud.com">郑灶生</a>
- * <br/>
- * email: zheng.zaosheng@iwhalecloud.com
+ * 支付转载配置
+ * @author egan
+ *         <pre>
+ *         email egzosn@gmail.com
+ *         date  2018/11/21.
+ *         </pre>
  */
 public class PayAutoConfiguration {
 }
