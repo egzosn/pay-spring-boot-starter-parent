@@ -5,6 +5,10 @@
  
  项目正在开发中，请持续关注……
 
+#### 本项目在以下代码托管网站
+* 码云：https://gitee.com/egzosn/pay-spring-boot-starter-parent
+* GitHub：https://github.com/egzosn/pay-spring-boot-starter-parent
+
 #### 软件架构
 spring-boot  pay-java
 
