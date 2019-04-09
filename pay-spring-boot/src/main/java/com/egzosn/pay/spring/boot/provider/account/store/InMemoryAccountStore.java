@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class InMemoryAccountStore implements AccountStore {
 
-    Map<String, PayConfigStorage> accountStore = new ConcurrentHashMap<>();
+    Map<String, PayConfigStorage> accountStore = new ConcurrentHashMap<String, PayConfigStorage>();
 
 
 
