@@ -44,9 +44,9 @@ public class InMemoryMerchantDetailsManager<T extends MerchantDetails> implement
     @Override
     public void createMerchant(T merchant) {
 
-        Assert.isTrue(!merchantExists(merchant.getMerchantId()), "商户信息已存在");
+        Assert.isTrue(!merchantExists(merchant.getDetailsId()), "商户信息已存在");
 
-        merchantDetails.put(merchant.getMerchantId(), merchant);
+        merchantDetails.put(merchant.getDetailsId(), merchant);
 
     }
 
@@ -57,8 +57,8 @@ public class InMemoryMerchantDetailsManager<T extends MerchantDetails> implement
      */
     @Override
     public void updateMerchant(T merchant) {
-        Assert.isTrue(merchantExists(merchant.getMerchantId()), "商户信息不存在");
-        merchantDetails.put(merchant.getMerchantId(), merchant);
+        Assert.isTrue(merchantExists(merchant.getDetailsId()), "商户信息不存在");
+        merchantDetails.put(merchant.getDetailsId(), merchant);
     }
 
     /**

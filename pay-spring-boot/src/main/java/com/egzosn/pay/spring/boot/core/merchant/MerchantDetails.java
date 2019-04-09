@@ -17,9 +17,9 @@ public interface MerchantDetails extends PayConfigStorage, Serializable {
 
 
     /**
-     * 获取支付商户id
+     * 获取支付商户详细信息id
      *
-     * @return 支付商户id
+     * @return 支付商户详细信息id
      */
-    String getMerchantId();
+    String getDetailsId();
 }

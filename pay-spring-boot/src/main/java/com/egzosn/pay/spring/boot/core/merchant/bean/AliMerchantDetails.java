@@ -15,7 +15,7 @@ import com.egzosn.pay.spring.boot.provider.merchant.platform.AliPaymentPlatform;
  */
 public class AliMerchantDetails extends AliPayConfigStorage implements  PaymentPlatformMerchantDetails {
 
-    private String merchantId;
+    private String detailsId;
 
     /**
      * 获取支付平台
@@ -27,13 +27,17 @@ public class AliMerchantDetails extends AliPayConfigStorage implements  PaymentP
         return AliPaymentPlatform.PLATFORM;
     }
 
+    public void setDetailsId(String detailsId) {
+        this.detailsId = detailsId;
+    }
+
     /**
      * 获取支付商户id
      *
      * @return 支付商户id
      */
     @Override
-    public String getMerchantId() {
-        return merchantId;
+    public String getDetailsId() {
+        return detailsId;
     }
 }
