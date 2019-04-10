@@ -1,13 +1,13 @@
 package com.egzosn.pay.spring.boot.provider.merchant.platform;
 
+import com.egzosn.pay.ali.api.AliPayConfigStorage;
+import com.egzosn.pay.ali.api.AliPayService;
+import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
-import com.egzosn.pay.wx.api.WxPayConfigStorage;
-import com.egzosn.pay.wx.api.WxPayService;
-import com.egzosn.pay.wx.bean.WxTransactionType;
 
 /**
  * 支付宝支付平台
@@ -17,14 +17,15 @@ import com.egzosn.pay.wx.bean.WxTransactionType;
  *         date  2019/4/4 14:35.
  *         </pre>
  */
-public  class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlatform {
+public  class YoudianPaymentPlatform implements PaymentPlatform {
 
-    private static final String platformName = "wxPay";
+    private static final String platformName = "youdianPay";
 
-    public static final PaymentPlatform PLATFORM = new WxPaymentPlatform();
+    public static final PaymentPlatform PLATFORM = new YoudianPaymentPlatform();
 
-    private WxPaymentPlatform() {
+    private YoudianPaymentPlatform() {
     }
+
 
 
     /**
@@ -45,15 +46,15 @@ public  class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPla
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if ( payConfigStorage instanceof WxPayConfigStorage ){
-            return new WxPayService((WxPayConfigStorage) payConfigStorage);
+        if ( payConfigStorage instanceof AliPayConfigStorage ){
+            return new AliPayService((AliPayConfigStorage) payConfigStorage);
         }
-        WxPayConfigStorage configStorage = new WxPayConfigStorage();
+        AliPayConfigStorage configStorage = new AliPayConfigStorage();
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
-        configStorage.setAppid(payConfigStorage.getAppid());
-        configStorage.setMchId(payConfigStorage.getPid());
-//        configStorage.setSubAppid();
+        configStorage.setAppId(payConfigStorage.getAppid());
+        configStorage.setPid(payConfigStorage.getPid());
         configStorage.setAttach(payConfigStorage.getAttach());
+        configStorage.setSeller(payConfigStorage.getSeller());
         configStorage.setKeyPrivate(payConfigStorage.getKeyPrivate());
         configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
         configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
@@ -62,7 +63,7 @@ public  class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPla
         configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());
-        return new WxPayService(configStorage);
+        return new AliPayService(configStorage);
     }
 
     /**
@@ -81,7 +82,7 @@ public  class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPla
 
     @Override
     public TransactionType getTransactionType(String name) {
-        return WxTransactionType.valueOf(name);
+        return AliTransactionType.valueOf(name);
     }
 
 
