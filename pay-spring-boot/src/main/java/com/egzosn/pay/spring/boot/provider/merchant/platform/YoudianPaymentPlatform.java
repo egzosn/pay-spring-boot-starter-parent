@@ -1,13 +1,13 @@
 package com.egzosn.pay.spring.boot.provider.merchant.platform;
 
-import com.egzosn.pay.ali.api.AliPayConfigStorage;
-import com.egzosn.pay.ali.api.AliPayService;
-import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
+import com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage;
+import com.egzosn.pay.wx.youdian.api.WxYouDianPayService;
+import com.egzosn.pay.wx.youdian.bean.YoudianTransactionType;
 
 /**
  * 支付宝支付平台
@@ -46,24 +46,19 @@ public  class YoudianPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if ( payConfigStorage instanceof AliPayConfigStorage ){
-            return new AliPayService((AliPayConfigStorage) payConfigStorage);
+        if ( payConfigStorage instanceof WxYouDianPayConfigStorage ){
+            return new WxYouDianPayService((WxYouDianPayConfigStorage) payConfigStorage);
         }
-        AliPayConfigStorage configStorage = new AliPayConfigStorage();
-        configStorage.setInputCharset(payConfigStorage.getInputCharset());
-        configStorage.setAppId(payConfigStorage.getAppid());
-        configStorage.setPid(payConfigStorage.getPid());
-        configStorage.setAttach(payConfigStorage.getAttach());
-        configStorage.setSeller(payConfigStorage.getSeller());
+        WxYouDianPayConfigStorage configStorage = new WxYouDianPayConfigStorage();
         configStorage.setKeyPrivate(payConfigStorage.getKeyPrivate());
         configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
-        configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
-        configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
-        configStorage.setMsgType(payConfigStorage.getMsgType());
-        configStorage.setPayType(payConfigStorage.getPayType());
-        configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());
-        return new AliPayService(configStorage);
+        configStorage.setPayType(payConfigStorage.getPayType().toString());
+        configStorage.setMsgType(payConfigStorage.getMsgType());
+        configStorage.setSeller(payConfigStorage.getSeller());
+        configStorage.setInputCharset(payConfigStorage.getInputCharset());
+        configStorage.setTest(payConfigStorage.isTest());
+        return new WxYouDianPayService(configStorage);
     }
 
     /**
@@ -82,7 +77,7 @@ public  class YoudianPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
-        return AliTransactionType.valueOf(name);
+        return YoudianTransactionType.valueOf(name);
     }
 
 

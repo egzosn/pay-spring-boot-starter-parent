@@ -14,7 +14,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <pay.version>2.12.6</pay.version>
+        <pay.version>2.12.7-SNAPSHOT</pay.version>
     </properties>
 
     <dependencies>
