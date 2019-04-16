@@ -10,6 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>pay-spring-boot-autoconfigue</artifactId>
-
+    <dependencies>
+    <dependency>
+        <groupId>com.egzosn</groupId>
+        <artifactId>pay-spring-boot</artifactId>
+        <version>0.0.1</version>
+    </dependency>
+    </dependencies>
 
 </project>

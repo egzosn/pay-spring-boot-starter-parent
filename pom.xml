@@ -13,11 +13,77 @@
         <module>pay-spring-boot-starter</module>
         <module>pay-spring-boot-autoconfigue</module>
     </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <pay.version>2.12.7-SNAPSHOT</pay.version>
+    </properties>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Egan</name>
+            <email>egzosn@gmail.com</email>
+            <url>https://github.com/egzosn</url>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://github.com/egzosn/pay-java-parent.git</connection>
+        <developerConnection>scm:git:git@github.com:egzosn/pay-java-parent.git</developerConnection>
+        <url>https://github.com/egzosn/pay-java-parent</url>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-ali</artifactId>
+            <version>${pay.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-wx</artifactId>
+            <version>${pay.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-wx-youdian</artifactId>
+            <version>${pay.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-union</artifactId>
+            <version>${pay.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-payoneer</artifactId>
+            <version>${pay.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-paypal</artifactId>
+            <version>${pay.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-fuiou</artifactId>
+            <version>${pay.version}</version>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -28,18 +94,22 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>com.egzosn</groupId>
-                <artifactId>pay-java-ali</artifactId>
-                <version>2.12.1</version>
-            </dependency>
-           <!-- <dependency>
-                <groupId>com.egzosn</groupId>
-                <artifactId></artifactId>
-                <version>2.12.1</version>
-            </dependency>-->
+
+
         </dependencies>
     </dependencyManagement>
 
-
+    <build>
+    <plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+            <encoding>utf-8</encoding>
+        </configuration>
+    </plugin>
+    </plugins>
+    </build>
 </project>

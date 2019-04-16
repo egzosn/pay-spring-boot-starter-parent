@@ -12,10 +12,8 @@
     <groupId>com.egzosn</groupId>
     <artifactId>pay-spring-boot</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.egzosn</groupId>
-            <artifactId>pay-java-ali</artifactId>
-        </dependency>
-    </dependencies>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
 </project>
