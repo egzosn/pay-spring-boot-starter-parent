@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import java.io.IOException;
 
 /**
- * 支付宝支付平台
+ * 微信支付平台
  * @author egan
  *         <pre>
  *         email egzosn@gmail.com
@@ -27,7 +27,7 @@ public  class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPla
 
     protected final Log LOG = LogFactory.getLog(WxPaymentPlatform.class);
 
-    private static final String platformName = "wxPay";
+    public static final String platformName = "wxPay";
 
     public static final PaymentPlatform PLATFORM = new WxPaymentPlatform();
 

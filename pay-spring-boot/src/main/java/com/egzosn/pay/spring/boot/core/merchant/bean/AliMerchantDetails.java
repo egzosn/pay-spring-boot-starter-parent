@@ -40,4 +40,52 @@ public class AliMerchantDetails extends AliPayConfigStorage implements  PaymentP
     public String getDetailsId() {
         return detailsId;
     }
+
+    public AliMerchantDetails detailsId(String detailsId){
+        this.detailsId = detailsId;
+        return this;
+    }
+
+
+    public AliMerchantDetails pid(String pid){
+        setPid(pid);
+        return this;
+    }
+    public AliMerchantDetails appid(String appid){
+        setAppid(appid);
+        return this;
+    }
+    public AliMerchantDetails keyPrivate(String keyPrivate){
+        setKeyPrivate(keyPrivate);
+        return this;
+    }
+    public AliMerchantDetails keyPublic(String keyPublic){
+        setKeyPublic(keyPublic);
+        return this;
+    }
+
+    public AliMerchantDetails seller(String seller){
+        setSeller(seller);
+        return this;
+    }
+    public AliMerchantDetails notifyUrl(String notifyUrl){
+        setNotifyUrl(notifyUrl);
+        return this;
+    }
+    public AliMerchantDetails returnUrl(String returnUrl){
+        setReturnUrl(returnUrl);
+        return this;
+    }
+    public AliMerchantDetails signType(String signType){
+        setSignType(signType);
+        return this;
+    }
+    public AliMerchantDetails inputCharset(String inputCharset){
+            setInputCharset("utf-8");
+        return this;
+    }
+    public AliMerchantDetails test(boolean test){
+        setTest(test);
+        return this;
+    }
 }

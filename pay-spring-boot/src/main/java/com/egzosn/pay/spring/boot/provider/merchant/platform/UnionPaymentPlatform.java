@@ -26,7 +26,7 @@ import java.io.IOException;
  */
 public class UnionPaymentPlatform implements PaymentPlatform {
     protected final Log LOG = LogFactory.getLog(UnionPaymentPlatform.class);
-    private static final String platformName = "unionPay";
+    public static final String platformName = "unionPay";
 
     public static final PaymentPlatform PLATFORM = new UnionPaymentPlatform();
 
@@ -59,7 +59,6 @@ public class UnionPaymentPlatform implements PaymentPlatform {
         configStorage.setMerId(payConfigStorage.getPid());
         //是否为证书签名
         configStorage.setCertSign(true);
-        configStorage.setInputCharset(payConfigStorage.getInputCharset());
         configStorage.setPid(payConfigStorage.getPid());
         configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
         configStorage.setReturnUrl(payConfigStorage.getReturnUrl());

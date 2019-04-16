@@ -1,31 +1,30 @@
 package com.egzosn.pay.spring.boot.provider.merchant.platform;
 
-import com.egzosn.pay.ali.api.AliPayConfigStorage;
-import com.egzosn.pay.ali.api.AliPayService;
-import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.paypal.api.PayPalConfigStorage;
+import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
+import com.egzosn.pay.union.bean.UnionTransactionType;
 
 /**
- * 支付宝支付平台
+ * 贝宝支付平台
+ *
  * @author egan
  *         <pre>
- *         email egzosn@gmail.com
- *         date  2019/4/4 14:35.
- *         </pre>
+ *                 email egzosn@gmail.com
+ *                 date  2019/4/4 14:35.
+ *                 </pre>
  */
-public  class AliPaymentPlatform implements PaymentPlatform {
+public class PaypalPaymentPlatform implements PaymentPlatform {
+    public static final String platformName = "paypalPay";
 
-    public static final String platformName = "aliPay";
+    public static final PaymentPlatform PLATFORM = new PaypalPaymentPlatform();
 
-    public static final PaymentPlatform PLATFORM = new AliPaymentPlatform();
-
-    private AliPaymentPlatform() {
+    private PaypalPaymentPlatform() {
     }
-
 
 
     /**
@@ -46,24 +45,21 @@ public  class AliPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if ( payConfigStorage instanceof AliPayConfigStorage ){
-            return new AliPayService((AliPayConfigStorage) payConfigStorage);
+        if (payConfigStorage instanceof PayPalConfigStorage) {
+            return new PayPalPayService((PayPalConfigStorage) payConfigStorage);
         }
-        AliPayConfigStorage configStorage = new AliPayConfigStorage();
-        configStorage.setInputCharset(payConfigStorage.getInputCharset());
-        configStorage.setAppid(payConfigStorage.getAppid());
-        configStorage.setPid(payConfigStorage.getPid());
-        configStorage.setAttach(payConfigStorage.getAttach());
-        configStorage.setSeller(payConfigStorage.getSeller());
-        configStorage.setKeyPrivate(payConfigStorage.getKeyPrivate());
-        configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
-        configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
+        PayPalConfigStorage configStorage = new PayPalConfigStorage();
+        configStorage.setClientID(payConfigStorage.getPid());
+        configStorage.setClientSecret(payConfigStorage.getKeyPrivate());
         configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
-        configStorage.setMsgType(payConfigStorage.getMsgType());
-        configStorage.setPayType(payConfigStorage.getPayType());
-        configStorage.setTest(payConfigStorage.isTest());
+        //取消按钮转跳地址,这里用异步通知地址的兼容的做法
+        configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
         configStorage.setSignType(payConfigStorage.getSignType());
-        return new AliPayService(configStorage);
+        configStorage.setPayType(payConfigStorage.getPayType());
+        configStorage.setMsgType(payConfigStorage.getMsgType());
+        configStorage.setInputCharset(payConfigStorage.getInputCharset());
+        configStorage.setTest(payConfigStorage.isTest());
+        return new PayPalPayService(configStorage);
     }
 
     /**
@@ -82,7 +78,7 @@ public  class AliPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
-        return AliTransactionType.valueOf(name);
+        return UnionTransactionType.valueOf(name);
     }
 
 

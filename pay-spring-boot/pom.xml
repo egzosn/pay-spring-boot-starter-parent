@@ -14,51 +14,6 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <pay.version>2.12.7-SNAPSHOT</pay.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.egzosn</groupId>
-            <artifactId>pay-java-ali</artifactId>
-            <version>${pay.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.egzosn</groupId>
-            <artifactId>pay-java-wx</artifactId>
-            <version>${pay.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.egzosn</groupId>
-            <artifactId>pay-java-wx-youdian</artifactId>
-            <version>${pay.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.egzosn</groupId>
-            <artifactId>pay-java-union</artifactId>
-            <version>${pay.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.egzosn</groupId>
-            <artifactId>pay-java-payoneer</artifactId>
-            <version>${pay.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.egzosn</groupId>
-            <artifactId>pay-java-paypal</artifactId>
-            <version>${pay.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.egzosn</groupId>
-            <artifactId>pay-java-fuiou</artifactId>
-            <version>${pay.version}</version>
-            <optional>true</optional>
-        </dependency>
-    </dependencies>
 </project>

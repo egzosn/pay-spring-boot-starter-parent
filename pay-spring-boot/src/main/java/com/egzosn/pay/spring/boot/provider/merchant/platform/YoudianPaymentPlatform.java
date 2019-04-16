@@ -10,7 +10,7 @@ import com.egzosn.pay.wx.youdian.api.WxYouDianPayService;
 import com.egzosn.pay.wx.youdian.bean.YoudianTransactionType;
 
 /**
- * 支付宝支付平台
+ * 友店支付平台
  * @author egan
  *         <pre>
  *         email egzosn@gmail.com
@@ -19,7 +19,7 @@ import com.egzosn.pay.wx.youdian.bean.YoudianTransactionType;
  */
 public  class YoudianPaymentPlatform implements PaymentPlatform {
 
-    private static final String platformName = "youdianPay";
+    public static final String platformName = "youdianPay";
 
     public static final PaymentPlatform PLATFORM = new YoudianPaymentPlatform();
 
