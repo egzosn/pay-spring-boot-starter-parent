@@ -1,0 +1,222 @@
+package com.egzosn.pay.spring.boot.core.merchant.bean;
+
+import com.egzosn.pay.common.api.BasePayConfigStorage;
+import com.egzosn.pay.common.bean.CertStoreType;
+import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
+import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
+import com.egzosn.pay.spring.boot.provider.merchant.platform.PaymentPlatforms;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+/**
+ * 公共的支付商户信息列表
+ * @author egan
+ *         <pre>
+ *         email egzosn@gmail.com
+ *         date   2019/4/9 19:39.
+ *         </pre>
+ */
+public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage implements PaymentPlatformMerchantDetails {
+
+    private String detailsId;
+    private String appid;
+    private  String mchId;
+    private  String seller;
+    private String subAppId;
+    private String subMchId;
+    /**
+     * 证书（PKCS12）
+     */
+    private Object keystore;
+    /**
+     * 证书（PKCS12）对应密码
+     */
+    private String keystorePwd;
+
+    /**
+     * 公钥证书
+     */
+    private Object keyPublicCert;
+    /**
+     * 公钥证书，这里针对双证书校验， 银联的根级证书
+     */
+    private Object keyPublicCert1;
+
+
+    /**
+     * 证书存储类型
+     */
+    private CertStoreType certStoreType;
+
+    /**
+     * 获取支付平台
+     *
+     * @return 支付平台
+     */
+    @Override
+    public PaymentPlatform getPaymentPlatform() {
+        return PaymentPlatforms.getPaymentPlatform(this.getPayType());
+    }
+
+
+    public void setDetailsId(String detailsId) {
+        this.detailsId = detailsId;
+    }
+
+    /**
+     * 获取支付商户id
+     *
+     * @return 支付商户id
+     */
+    @Override
+    public String getDetailsId() {
+        return detailsId;
+    }
+
+
+
+    public void setAppid(String appid) {
+        this.appid = appid;
+    }
+
+    public String getMchId() {
+        return mchId;
+    }
+
+    public void setMchId(String mchId) {
+        this.mchId = mchId;
+    }
+
+    @Override
+    public String getAppid() {
+        return appid;
+    }
+
+    @Override
+    public String getPid() {
+        return mchId;
+    }
+
+    @Override
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    public String getSubAppId() {
+        return subAppId;
+    }
+
+    public void setSubAppId(String subAppId) {
+        this.subAppId = subAppId;
+    }
+
+    public String getSubMchId() {
+        return subMchId;
+    }
+
+    public void setSubMchId(String subMchId) {
+        this.subMchId = subMchId;
+    }
+
+
+    /**
+     * 设置私钥证书
+     *
+     * @param keystore 私钥证书地址 或者证书内容字符串
+     *                        私钥证书密码 {@link #setKeyPrivateCertPwd(String)}
+     */
+    public void setKeystore(String keystore) {
+        super.setKeyPrivate(keystore);
+        this.keystore = keystore;
+    }
+    /**
+     * 设置私钥证书
+     *
+     * @param keystore 私钥证书信息流
+     * 私钥证书密码 {@link #setKeyPrivateCertPwd(String)}
+     */
+    public void setKeystore(InputStream keystore) {
+        this.keystore = keystore;
+    }
+
+    public InputStream getKeystoreInputStream() throws IOException {
+        return certStoreType.getInputStream(keystore);
+    }
+
+    public Object getKeystore() {
+        return keystore;
+    }
+
+    public String getKeystorePwd() {
+        return keystorePwd;
+    }
+
+    public void setKeystorePwd(String keystorePwd) {
+        this.keystorePwd = keystorePwd;
+    }
+
+
+
+    public String getKeyPublicCert() {
+        return (String) keyPublicCert;
+    }
+
+    /**
+     *  设置公钥证书
+     * @param keyPublicCert 证书信息或者证书路径
+     */
+    public void setKeyPublicCert(String keyPublicCert) {
+        this.keyPublicCert = keyPublicCert;
+    }
+    /**
+     *  设置公钥证书
+     * @param keyPublicCert 证书文件
+     */
+    public void setKeyPublicCert(InputStream keyPublicCert) {
+        this.keyPublicCert = keyPublicCert;
+    }
+
+    public String getKeyPublicCert1() {
+        return (String) keyPublicCert1;
+    }
+    /**
+     *  公钥证书，这里针对双证书校验， 银联的根级证书
+     * @param keyPublicCert1 证书信息或者证书路径
+     */
+    public void setKeyPublicCert1(String keyPublicCert1) {
+        this.keyPublicCert1 = keyPublicCert1;
+    }
+
+    /**
+     * 公钥证书，这里针对双证书校验， 银联的根级证书
+     * @param keyPublicCert1 证书文件
+     */
+    public void setKeyPublicCert1(InputStream keyPublicCert1) {
+        this.keyPublicCert1 = keyPublicCert1;
+    }
+
+    public InputStream getKeyPublicCertInputStream() throws IOException {
+        return certStoreType.getInputStream(keyPublicCert);
+    }
+
+    public InputStream getKeyPublicCert1InputStream() throws IOException {
+        return certStoreType.getInputStream(keyPublicCert1);
+    }
+    /**
+     * 证书存储类型
+     * @return 证书存储类型
+     */
+    public CertStoreType getCertStoreType() {
+        return certStoreType;
+    }
+
+    public void setCertStoreType(CertStoreType certStoreType) {
+        this.certStoreType = certStoreType;
+    }
+
+}
