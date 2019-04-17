@@ -6,8 +6,11 @@ import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.payoneer.api.PayoneerConfigStorage;
 import com.egzosn.pay.payoneer.api.PayoneerPayService;
+import com.egzosn.pay.payoneer.bean.PayoneerTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
-import com.egzosn.pay.union.bean.UnionTransactionType;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * P卡(派安盈)支付平台
@@ -18,14 +21,12 @@ import com.egzosn.pay.union.bean.UnionTransactionType;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
+@Configuration(PayoneerPaymentPlatform.platformName)
+@ConditionalOnMissingBean(PayoneerPaymentPlatform.class)
+@ConditionalOnClass(name = {"com.egzosn.pay.payoneer.api.PayoneerConfigStorage"})
 public class PayoneerPaymentPlatform implements PaymentPlatform {
+
     public static final String platformName = "payoneerPay";
-
-    public static final PaymentPlatform PLATFORM = new PayoneerPaymentPlatform();
-
-    private PayoneerPaymentPlatform() {
-    }
-
 
     /**
      * 获取商户平台
@@ -78,7 +79,7 @@ public class PayoneerPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
-        return UnionTransactionType.valueOf(name);
+        return PayoneerTransactionType.valueOf(name);
     }
 
 

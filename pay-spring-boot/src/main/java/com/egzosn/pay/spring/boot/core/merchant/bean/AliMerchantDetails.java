@@ -4,6 +4,7 @@ import com.egzosn.pay.ali.api.AliPayConfigStorage;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.provider.merchant.platform.AliPaymentPlatform;
+import com.egzosn.pay.spring.boot.provider.merchant.platform.PaymentPlatforms;
 
 /**
  * 支付宝商户信息列表
@@ -16,7 +17,9 @@ import com.egzosn.pay.spring.boot.provider.merchant.platform.AliPaymentPlatform;
 public class AliMerchantDetails extends AliPayConfigStorage implements  PaymentPlatformMerchantDetails {
 
     private String detailsId;
-
+    public AliMerchantDetails() {
+        setPayType(AliPaymentPlatform.platformName);
+    }
     /**
      * 获取支付平台
      *
@@ -24,7 +27,7 @@ public class AliMerchantDetails extends AliPayConfigStorage implements  PaymentP
      */
     @Override
     public PaymentPlatform getPaymentPlatform() {
-        return AliPaymentPlatform.PLATFORM;
+        return PaymentPlatforms.getPaymentPlatform(getPayType());
     }
 
     public void setDetailsId(String detailsId) {

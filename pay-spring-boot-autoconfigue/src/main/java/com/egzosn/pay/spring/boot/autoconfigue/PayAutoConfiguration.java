@@ -1,83 +1,88 @@
 package com.egzosn.pay.spring.boot.autoconfigue;
 
-import com.egzosn.pay.ali.api.AliPayConfigStorage;
-import com.egzosn.pay.fuiou.api.FuiouPayConfigStorage;
-import com.egzosn.pay.payoneer.api.PayoneerConfigStorage;
-import com.egzosn.pay.paypal.api.PayPalConfigStorage;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.provider.merchant.platform.*;
-import com.egzosn.pay.union.api.UnionPayConfigStorage;
-import com.egzosn.pay.wx.api.WxPayConfigStorage;
-import com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+
+import java.util.List;
 
 /**
  * 支付转载配置
  *
  * @author egan
  *         <pre>
- *                 email egzosn@gmail.com
- *                 date  2018/11/21.
- *                 </pre>
+ *                         email egzosn@gmail.com
+ *                         date  2018/11/21.
+ *                         </pre>
  */
 @Configuration
+@ImportAutoConfiguration({AliPaymentPlatform.class, FuiouPaymentPlatform.class, PayoneerPaymentPlatform.class, PaypalPaymentPlatform.class, UnionPaymentPlatform.class, WxPaymentPlatform.class, YoudianPaymentPlatform.class})
 public class PayAutoConfiguration {
 
-    @Bean(AliPaymentPlatform.platformName)
-    @ConditionalOnClass({AliPayConfigStorage.class})
-    public PaymentPlatform aliPaymentPlatform() {
-        PaymentPlatform platform = AliPaymentPlatform.PLATFORM;
-        PaymentPlatforms.loadPaymentPlatform(platform);
-        return platform;
-    }
 
+/*    @Bean(AliPaymentPlatform.platformName)
+    @ConditionalOnMissingBean(AliPaymentPlatform.class)
+    @ConditionalOnClass(name = {"com.egzosn.pay.ali.api.AliPayConfigStorage"})
+    public PaymentPlatform aliPaymentPlatform() {
+        return new AliPaymentPlatform();
+    }*/
+/*
     @Bean(FuiouPaymentPlatform.platformName)
+    @ConditionalOnMissingBean(FuiouPaymentPlatform.class)
     @ConditionalOnClass({FuiouPayConfigStorage.class})
     public PaymentPlatform fuiouPaymentPlatform() {
-        PaymentPlatform platform = FuiouPaymentPlatform.PLATFORM;
-        PaymentPlatforms.loadPaymentPlatform(platform);
-        return platform;
+        return new FuiouPaymentPlatform();
     }
+*/
 
-    @Bean(PayoneerPaymentPlatform.platformName)
+/*    @Bean(PayoneerPaymentPlatform.platformName)
+    @ConditionalOnMissingBean(PayoneerPaymentPlatform.class)
     @ConditionalOnClass({PayoneerConfigStorage.class})
     public PaymentPlatform payoneerPaymentPlatform() {
-        PaymentPlatform platform = PayoneerPaymentPlatform.PLATFORM;
-        PaymentPlatforms.loadPaymentPlatform(platform);
-        return platform;
-    }
+        return new PayoneerPaymentPlatform();
+    }*/
 
+/*
     @Bean(PaypalPaymentPlatform.platformName)
+    @ConditionalOnMissingBean(PaypalPaymentPlatform.class)
     @ConditionalOnClass({PayPalConfigStorage.class})
     public PaymentPlatform paypalPaymentPlatform() {
-        PaymentPlatform platform = PaypalPaymentPlatform.PLATFORM;
-        PaymentPlatforms.loadPaymentPlatform(platform);
-        return platform;
+        return new PaypalPaymentPlatform();
     }
+*/
 
-    @Bean(UnionPaymentPlatform.platformName)
+/*    @Bean(UnionPaymentPlatform.platformName)
+    @ConditionalOnMissingBean(UnionPaymentPlatform.class)
     @ConditionalOnClass({UnionPayConfigStorage.class})
     public PaymentPlatform unionPaymentPlatform() {
-        PaymentPlatform platform = UnionPaymentPlatform.PLATFORM;
-        PaymentPlatforms.loadPaymentPlatform(platform);
-        return platform;
-    }
+        return new UnionPaymentPlatform();
+    }*/
 
-    @Bean(WxPaymentPlatform.platformName)
+/*    @Bean(WxPaymentPlatform.platformName)
+    @ConditionalOnMissingBean(WxPaymentPlatform.class)
     @ConditionalOnClass({WxPayConfigStorage.class})
     public PaymentPlatform wxPaymentPlatform() {
-        PaymentPlatform platform = WxPaymentPlatform.PLATFORM;
-        PaymentPlatforms.loadPaymentPlatform(platform);
-        return platform;
-    }
-
+        return new WxPaymentPlatform();
+    }*/
+/*
     @Bean(YoudianPaymentPlatform.platformName)
+    @ConditionalOnMissingBean(YoudianPaymentPlatform.class)
     @ConditionalOnClass({WxYouDianPayConfigStorage.class})
     public PaymentPlatform youdianPaymentPlatform() {
-        PaymentPlatform platform = YoudianPaymentPlatform.PLATFORM;
-        PaymentPlatforms.loadPaymentPlatform(platform);
-        return platform;
+        return new YoudianPaymentPlatform();
+    }*/
+
+    @Bean
+    @Order
+    public void/*List<PaymentPlatform>*/ loadPaymentPlatforms(List<PaymentPlatform> platforms){
+        for (PaymentPlatform platform : platforms){
+            PaymentPlatforms.loadPaymentPlatform(platform);
+        }
+//        return platforms;
     }
 }

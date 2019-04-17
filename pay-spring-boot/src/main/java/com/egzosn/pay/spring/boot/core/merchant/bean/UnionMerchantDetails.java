@@ -2,6 +2,7 @@ package com.egzosn.pay.spring.boot.core.merchant.bean;
 
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
+import com.egzosn.pay.spring.boot.provider.merchant.platform.PaymentPlatforms;
 import com.egzosn.pay.spring.boot.provider.merchant.platform.UnionPaymentPlatform;
 import com.egzosn.pay.union.api.UnionPayConfigStorage;
 
@@ -17,6 +18,10 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements  Paym
 
     private String detailsId;
 
+    public UnionMerchantDetails() {
+        setPayType(UnionPaymentPlatform.platformName);
+    }
+
     /**
      * 获取支付平台
      *
@@ -24,7 +29,7 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements  Paym
      */
     @Override
     public PaymentPlatform getPaymentPlatform() {
-        return UnionPaymentPlatform.PLATFORM;
+        return PaymentPlatforms.getPaymentPlatform(getPayType());
     }
 
     public void setDetailsId(String detailsId) {

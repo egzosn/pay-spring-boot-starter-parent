@@ -12,6 +12,9 @@ import com.egzosn.pay.union.api.UnionPayService;
 import com.egzosn.pay.union.bean.UnionTransactionType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
@@ -24,14 +27,13 @@ import java.io.IOException;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
+@Configuration(UnionPaymentPlatform.platformName)
+@ConditionalOnMissingBean(UnionPaymentPlatform.class)
+@ConditionalOnClass(name = {"com.egzosn.pay.union.api.UnionPayConfigStorage"})
 public class UnionPaymentPlatform implements PaymentPlatform {
     protected final Log LOG = LogFactory.getLog(UnionPaymentPlatform.class);
     public static final String platformName = "unionPay";
 
-    public static final PaymentPlatform PLATFORM = new UnionPaymentPlatform();
-
-    private UnionPaymentPlatform() {
-    }
 
 
     /**
