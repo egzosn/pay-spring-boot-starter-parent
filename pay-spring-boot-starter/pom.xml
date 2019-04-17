@@ -11,5 +11,11 @@
 
     <artifactId>pay-spring-boot-starter</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-spring-boot-autoconfigue</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
 </project>

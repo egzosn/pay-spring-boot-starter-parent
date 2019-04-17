@@ -12,27 +12,30 @@ import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 
 /**
  * 微信支付平台
+ *
  * @author egan
  *         <pre>
- *         email egzosn@gmail.com
- *         date  2019/4/4 14:35.
- *         </pre>
+ *                 email egzosn@gmail.com
+ *                 date  2019/4/4 14:35.
+ *                 </pre>
  */
-public  class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlatform {
+@Configuration(WxPaymentPlatform.platformName)
+@ConditionalOnMissingBean(WxPaymentPlatform.class)
+@ConditionalOnClass(name = {"com.egzosn.pay.wx.api.WxPayConfigStorage"})
+public class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlatform {
 
     protected final Log LOG = LogFactory.getLog(WxPaymentPlatform.class);
 
     public static final String platformName = "wxPay";
 
-    public static final PaymentPlatform PLATFORM = new WxPaymentPlatform();
-
-    private WxPaymentPlatform() {
-    }
 
 
     /**
@@ -53,7 +56,7 @@ public  class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPla
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        return  getPayService(payConfigStorage, null);
+        return getPayService(payConfigStorage, null);
     }
 
     /**
@@ -65,7 +68,7 @@ public  class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPla
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage, HttpConfigStorage httpConfigStorage) {
-        if ( payConfigStorage instanceof WxPayConfigStorage ){
+        if (payConfigStorage instanceof WxPayConfigStorage) {
             WxPayService wxPayService = new WxPayService((WxPayConfigStorage) payConfigStorage);
             wxPayService.setRequestTemplateConfigStorage(httpConfigStorage);
             return wxPayService;
@@ -84,12 +87,12 @@ public  class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPla
         configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());
 
-        if ( payConfigStorage instanceof CommonPaymentPlatformMerchantDetails){
-            CommonPaymentPlatformMerchantDetails merchantDetails =  (CommonPaymentPlatformMerchantDetails) payConfigStorage;
+        if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails) {
+            CommonPaymentPlatformMerchantDetails merchantDetails = (CommonPaymentPlatformMerchantDetails) payConfigStorage;
             configStorage.setSubAppid(merchantDetails.getSubAppId());
             configStorage.setSubMchId(merchantDetails.getSubMchId());
-            if (null != merchantDetails.getKeystore()){
-                if (null == httpConfigStorage){
+            if (null != merchantDetails.getKeystore()) {
+                if (null == httpConfigStorage) {
                     httpConfigStorage = new HttpConfigStorage();
                 }
                 try {

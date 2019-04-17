@@ -8,6 +8,9 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage;
 import com.egzosn.pay.wx.youdian.api.WxYouDianPayService;
 import com.egzosn.pay.wx.youdian.bean.YoudianTransactionType;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 友店支付平台
@@ -17,14 +20,13 @@ import com.egzosn.pay.wx.youdian.bean.YoudianTransactionType;
  *         date  2019/4/4 14:35.
  *         </pre>
  */
+@Configuration(YoudianPaymentPlatform.platformName)
+@ConditionalOnMissingBean(YoudianPaymentPlatform.class)
+@ConditionalOnClass(name = {"com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage"})
 public  class YoudianPaymentPlatform implements PaymentPlatform {
 
     public static final String platformName = "youdianPay";
 
-    public static final PaymentPlatform PLATFORM = new YoudianPaymentPlatform();
-
-    private YoudianPaymentPlatform() {
-    }
 
 
 

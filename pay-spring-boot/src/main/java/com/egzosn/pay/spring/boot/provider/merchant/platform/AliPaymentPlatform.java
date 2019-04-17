@@ -8,24 +8,33 @@ import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 支付宝支付平台
+ *
  * @author egan
  *         <pre>
- *         email egzosn@gmail.com
- *         date  2019/4/4 14:35.
- *         </pre>
+ *                 email egzosn@gmail.com
+ *                 date  2019/4/4 14:35.
+ *                 </pre>
  */
-public  class AliPaymentPlatform implements PaymentPlatform {
+@Configuration(AliPaymentPlatform.platformName)
+@ConditionalOnMissingBean(AliPaymentPlatform.class)
+@ConditionalOnClass(name = {"com.egzosn.pay.ali.api.AliPayConfigStorage"})
+public class AliPaymentPlatform implements PaymentPlatform {
 
     public static final String platformName = "aliPay";
 
-    public static final PaymentPlatform PLATFORM = new AliPaymentPlatform();
 
-    private AliPaymentPlatform() {
+    @PostConstruct
+    public void init(){
+        System.out.println("AliPaymentPlatform");
     }
-
 
 
     /**
@@ -46,7 +55,7 @@ public  class AliPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if ( payConfigStorage instanceof AliPayConfigStorage ){
+        if (payConfigStorage instanceof AliPayConfigStorage) {
             return new AliPayService((AliPayConfigStorage) payConfigStorage);
         }
         AliPayConfigStorage configStorage = new AliPayConfigStorage();
