@@ -12,13 +12,13 @@ import java.util.*;
  *
  * @author egan
  *         <pre>
- *         email egzosn@gmail.com
- *         date 2018-11-22 17:18:03
- *         </pre>
+ *                 email egzosn@gmail.com
+ *                 date 2018-11-22 17:18:03
+ *           </pre>
  */
 public class InMemoryMerchantDetailsManager<T extends MerchantDetails> implements MerchantDetailsManager<T> {
 
-    Map<String, T> merchantDetails = new HashMap<String, T>();
+    private Map<String, T> merchantDetails = new HashMap<String, T>();
 
 
     public InMemoryMerchantDetailsManager() {
@@ -30,10 +30,17 @@ public class InMemoryMerchantDetailsManager<T extends MerchantDetails> implement
         }
     }
 
+    public InMemoryMerchantDetailsManager(Map<String, T> merchantDetails) {
+        this.merchantDetails = merchantDetails;
+    }
+
+    /**
+     * 这个暂时还未定义，后期版本进行
+     * @param merchants 属性配置
+     */
     public InMemoryMerchantDetailsManager(Properties merchants) {
 
     }
-
 
 
     /**
@@ -73,6 +80,7 @@ public class InMemoryMerchantDetailsManager<T extends MerchantDetails> implement
 
     /**
      * 检查商户是否存在
+     *
      * @param id 商户id
      * @return 检查商户是否存在
      */
@@ -91,7 +99,7 @@ public class InMemoryMerchantDetailsManager<T extends MerchantDetails> implement
     public T loadMerchantByMerchantId(String merchantId) {
 
         T details = merchantDetails.get(merchantId);
-        if (null == details){
+        if (null == details) {
             throw new MerchantNotFoundException(merchantId);
         }
         return details;

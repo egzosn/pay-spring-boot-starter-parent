@@ -1,6 +1,8 @@
 package com.egzosn.pay.spring.boot.core.merchant.bean;
 
 import com.egzosn.pay.payoneer.api.PayoneerConfigStorage;
+import com.egzosn.pay.spring.boot.core.PayConfigurerAdapter;
+import com.egzosn.pay.spring.boot.core.builders.MerchantDetailsServiceBuilder;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.provider.merchant.platform.PaymentPlatforms;
@@ -11,18 +13,36 @@ import com.egzosn.pay.spring.boot.provider.merchant.platform.PayoneerPaymentPlat
  *
  * @author egan
  *         <pre>
- *                 email egzosn@gmail.com
- *                 date   2019/4/4 14:30.
- *                 </pre>
+ *                         email egzosn@gmail.com
+ *                         date   2019/4/6 14:30.
+ *                         </pre>
  */
-public class PayoneerMerchantDetails extends PayoneerConfigStorage implements PaymentPlatformMerchantDetails {
+public class PayoneerMerchantDetails extends PayoneerConfigStorage implements PaymentPlatformMerchantDetails, PayConfigurerAdapter<MerchantDetailsServiceBuilder> {
 
     private String detailsId;
 
 
+    private MerchantDetailsServiceBuilder builder;
+
+    /**
+     * 外部调用者使用，链式的做法
+     *
+     * @return 返回对应外部调用者
+     */
+    @Override
+    public MerchantDetailsServiceBuilder and() {
+        return builder;
+    }
+
+    public PayoneerMerchantDetails(MerchantDetailsServiceBuilder builder) {
+        this();
+        this.builder = builder;
+    }
+
     public PayoneerMerchantDetails() {
         setPayType(PayoneerPaymentPlatform.platformName);
     }
+
     /**
      * 获取支付平台
      *

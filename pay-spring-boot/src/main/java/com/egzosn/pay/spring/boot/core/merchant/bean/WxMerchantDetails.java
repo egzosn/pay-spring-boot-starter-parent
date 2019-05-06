@@ -1,13 +1,12 @@
 package com.egzosn.pay.spring.boot.core.merchant.bean;
 
-import com.egzosn.pay.ali.api.AliPayConfigStorage;
 import com.egzosn.pay.spring.boot.core.PayConfigurerAdapter;
 import com.egzosn.pay.spring.boot.core.builders.InMemoryMerchantDetailsServiceBuilder;
-import com.egzosn.pay.spring.boot.core.builders.MerchantDetailsServiceBuilder;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.provider.merchant.platform.AliPaymentPlatform;
 import com.egzosn.pay.spring.boot.provider.merchant.platform.PaymentPlatforms;
+import com.egzosn.pay.wx.api.WxPayConfigStorage;
 
 /**
  * 支付宝商户信息列表
@@ -15,10 +14,10 @@ import com.egzosn.pay.spring.boot.provider.merchant.platform.PaymentPlatforms;
  * @author egan
  *         <pre>
  *                 email egzosn@gmail.com
- *                 date   2019/4/6 14:30.
+ *                 date   2019/4/6 20:10.
  *                 </pre>
  */
-public class AliMerchantDetails extends AliPayConfigStorage implements PaymentPlatformMerchantDetails, PayConfigurerAdapter<InMemoryMerchantDetailsServiceBuilder> {
+public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlatformMerchantDetails, PayConfigurerAdapter<InMemoryMerchantDetailsServiceBuilder> {
 
 
     private String detailsId;
@@ -32,15 +31,16 @@ public class AliMerchantDetails extends AliPayConfigStorage implements PaymentPl
      */
     @Override
     public InMemoryMerchantDetailsServiceBuilder and() {
+
         return builder;
     }
 
-    public AliMerchantDetails(InMemoryMerchantDetailsServiceBuilder builder) {
+    public WxMerchantDetails(InMemoryMerchantDetailsServiceBuilder builder) {
         this();
         this.builder = builder;
     }
 
-    public AliMerchantDetails() {
+    public WxMerchantDetails() {
         setPayType(AliPaymentPlatform.platformName);
     }
 
@@ -68,60 +68,69 @@ public class AliMerchantDetails extends AliPayConfigStorage implements PaymentPl
         return detailsId;
     }
 
-    public AliMerchantDetails detailsId(String detailsId) {
+    public WxMerchantDetails detailsId(String detailsId) {
         this.detailsId = detailsId;
         return this;
     }
 
-    public AliMerchantDetails notifyUrl(String notifyUrl) {
+    public WxMerchantDetails notifyUrl(String notifyUrl) {
         setNotifyUrl(notifyUrl);
         return this;
     }
 
-    public AliMerchantDetails returnUrl(String returnUrl) {
+    public WxMerchantDetails returnUrl(String returnUrl) {
         setReturnUrl(returnUrl);
         return this;
     }
 
-    public AliMerchantDetails signType(String signType) {
+    public WxMerchantDetails signType(String signType) {
         setSignType(signType);
         return this;
     }
 
-    public AliMerchantDetails inputCharset(String inputCharset) {
+    public WxMerchantDetails inputCharset(String inputCharset) {
         setInputCharset("utf-8");
         return this;
     }
 
-    public AliMerchantDetails test(boolean test) {
+    public WxMerchantDetails test(boolean test) {
         setTest(test);
         return this;
     }
 
-    public AliMerchantDetails pid(String pid) {
-        setPid(pid);
-        return this;
-    }
 
-    public AliMerchantDetails appid(String appid) {
+
+    public WxMerchantDetails appid(String appid) {
         setAppid(appid);
         return this;
     }
 
-    public AliMerchantDetails keyPrivate(String keyPrivate) {
-        setKeyPrivate(keyPrivate);
+    public WxMerchantDetails secretKey(String secretKey) {
+        setSecretKey(secretKey);
         return this;
     }
 
-    public AliMerchantDetails keyPublic(String keyPublic) {
+    public WxMerchantDetails keyPublic(String keyPublic) {
         setKeyPublic(keyPublic);
         return this;
     }
 
-    public AliMerchantDetails seller(String seller) {
-        setSeller(seller);
+    public WxMerchantDetails mchId(String mchId) {
+        setMchId(mchId);
         return this;
     }
+
+    public WxMerchantDetails subAppid(String subAppid) {
+        setSubAppid(subAppid);
+        return this;
+    }
+
+    public WxMerchantDetails subMchId(String subMchId) {
+        setSubMchId(subMchId);
+        return this;
+    }
+
+
 
 
 }

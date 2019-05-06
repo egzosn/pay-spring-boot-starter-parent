@@ -25,64 +25,11 @@ import java.util.List;
 public class PayAutoConfiguration {
 
 
-/*    @Bean(AliPaymentPlatform.platformName)
-    @ConditionalOnMissingBean(AliPaymentPlatform.class)
-    @ConditionalOnClass(name = {"com.egzosn.pay.ali.api.AliPayConfigStorage"})
-    public PaymentPlatform aliPaymentPlatform() {
-        return new AliPaymentPlatform();
-    }*/
-/*
-    @Bean(FuiouPaymentPlatform.platformName)
-    @ConditionalOnMissingBean(FuiouPaymentPlatform.class)
-    @ConditionalOnClass({FuiouPayConfigStorage.class})
-    public PaymentPlatform fuiouPaymentPlatform() {
-        return new FuiouPaymentPlatform();
-    }
-*/
-
-/*    @Bean(PayoneerPaymentPlatform.platformName)
-    @ConditionalOnMissingBean(PayoneerPaymentPlatform.class)
-    @ConditionalOnClass({PayoneerConfigStorage.class})
-    public PaymentPlatform payoneerPaymentPlatform() {
-        return new PayoneerPaymentPlatform();
-    }*/
-
-/*
-    @Bean(PaypalPaymentPlatform.platformName)
-    @ConditionalOnMissingBean(PaypalPaymentPlatform.class)
-    @ConditionalOnClass({PayPalConfigStorage.class})
-    public PaymentPlatform paypalPaymentPlatform() {
-        return new PaypalPaymentPlatform();
-    }
-*/
-
-/*    @Bean(UnionPaymentPlatform.platformName)
-    @ConditionalOnMissingBean(UnionPaymentPlatform.class)
-    @ConditionalOnClass({UnionPayConfigStorage.class})
-    public PaymentPlatform unionPaymentPlatform() {
-        return new UnionPaymentPlatform();
-    }*/
-
-/*    @Bean(WxPaymentPlatform.platformName)
-    @ConditionalOnMissingBean(WxPaymentPlatform.class)
-    @ConditionalOnClass({WxPayConfigStorage.class})
-    public PaymentPlatform wxPaymentPlatform() {
-        return new WxPaymentPlatform();
-    }*/
-/*
-    @Bean(YoudianPaymentPlatform.platformName)
-    @ConditionalOnMissingBean(YoudianPaymentPlatform.class)
-    @ConditionalOnClass({WxYouDianPayConfigStorage.class})
-    public PaymentPlatform youdianPaymentPlatform() {
-        return new YoudianPaymentPlatform();
-    }*/
-
     @Bean
     @Order
-    public void/*List<PaymentPlatform>*/ loadPaymentPlatforms(List<PaymentPlatform> platforms){
+    public void loadPaymentPlatforms(List<PaymentPlatform> platforms){
         for (PaymentPlatform platform : platforms){
             PaymentPlatforms.loadPaymentPlatform(platform);
         }
-//        return platforms;
     }
 }
