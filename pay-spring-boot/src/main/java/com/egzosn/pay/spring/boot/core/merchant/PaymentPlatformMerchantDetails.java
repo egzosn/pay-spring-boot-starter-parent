@@ -5,7 +5,7 @@ package com.egzosn.pay.spring.boot.core.merchant;
  * @author egan
  *         <pre>
  *         email egzosn@gmail.com
- *         date 2019/4/2 17:28.
+ *         date 2019/4/6 17:28.
  *         </pre>
  */
 public interface PaymentPlatformMerchantDetails extends MerchantDetails{

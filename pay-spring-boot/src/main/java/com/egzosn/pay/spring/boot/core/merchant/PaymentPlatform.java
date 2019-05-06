@@ -10,7 +10,7 @@ import com.egzosn.pay.common.http.HttpConfigStorage;
  * @author egan
  *         <pre>
  *         email egzosn@gmail.com
- *         date  2019/4/2 17:20.
+ *         date  2019/4/6 17:20.
  *         </pre>
  */
 public interface PaymentPlatform extends BasePayType {

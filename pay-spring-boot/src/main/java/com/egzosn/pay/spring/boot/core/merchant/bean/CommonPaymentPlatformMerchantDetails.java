@@ -2,6 +2,9 @@ package com.egzosn.pay.spring.boot.core.merchant.bean;
 
 import com.egzosn.pay.common.api.BasePayConfigStorage;
 import com.egzosn.pay.common.bean.CertStoreType;
+import com.egzosn.pay.spring.boot.core.PayConfigurerAdapter;
+import com.egzosn.pay.spring.boot.core.builders.InMemoryMerchantDetailsServiceBuilder;
+import com.egzosn.pay.spring.boot.core.builders.MerchantDetailsServiceBuilder;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.provider.merchant.platform.PaymentPlatforms;
@@ -17,7 +20,7 @@ import java.io.InputStream;
  *         date   2019/4/9 19:39.
  *         </pre>
  */
-public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage implements PaymentPlatformMerchantDetails {
+public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage implements PaymentPlatformMerchantDetails,PayConfigurerAdapter<MerchantDetailsServiceBuilder> {
 
     private String detailsId;
     private String appid;
@@ -48,6 +51,26 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      * 证书存储类型
      */
     private CertStoreType certStoreType;
+
+    private MerchantDetailsServiceBuilder builder;
+
+    /**
+     * 外部调用者使用，链式的做法
+     *
+     * @return 返回对应外部调用者
+     */
+    @Override
+    public MerchantDetailsServiceBuilder and() {
+        return builder;
+    }
+
+    public CommonPaymentPlatformMerchantDetails(MerchantDetailsServiceBuilder builder) {
+        this();
+        this.builder = builder;
+    }
+
+    public CommonPaymentPlatformMerchantDetails() {
+    }
 
     /**
      * 获取支付平台
