@@ -1,19 +1,21 @@
-package com.egzosn.pay.spring.boot.provider.merchant.platform;
+package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
+import com.egzosn.pay.ali.api.AliPayConfigStorage;
+import com.egzosn.pay.ali.api.AliPayService;
+import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
-import com.egzosn.pay.paypal.api.PayPalConfigStorage;
-import com.egzosn.pay.paypal.api.PayPalPayService;
-import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
+
 /**
- * 贝宝支付平台
+ * 支付宝支付平台
  *
  * @author egan
  *         <pre>
@@ -21,13 +23,12 @@ import org.springframework.context.annotation.Configuration;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
+@Configuration(AliPaymentPlatform.platformName)
+@ConditionalOnMissingBean(AliPaymentPlatform.class)
+@ConditionalOnClass(name = {"com.egzosn.pay.ali.api.AliPayConfigStorage"})
+public class AliPaymentPlatform implements PaymentPlatform {
 
-@Configuration(PaypalPaymentPlatform.platformName)
-@ConditionalOnMissingBean(PaypalPaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.paypal.api.PayPalConfigStorage"})
-public class PaypalPaymentPlatform implements PaymentPlatform {
-    public static final String platformName = "paypalPay";
-
+    public static final String platformName = "aliPay";
 
 
 
@@ -49,21 +50,24 @@ public class PaypalPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if (payConfigStorage instanceof PayPalConfigStorage) {
-            return new PayPalPayService((PayPalConfigStorage) payConfigStorage);
+        if (payConfigStorage instanceof AliPayConfigStorage) {
+            return new AliPayService((AliPayConfigStorage) payConfigStorage);
         }
-        PayPalConfigStorage configStorage = new PayPalConfigStorage();
-        configStorage.setClientID(payConfigStorage.getPid());
-        configStorage.setClientSecret(payConfigStorage.getKeyPrivate());
-        configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
-        //取消按钮转跳地址,这里用异步通知地址的兼容的做法
-        configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
-        configStorage.setSignType(payConfigStorage.getSignType());
-        configStorage.setPayType(payConfigStorage.getPayType());
-        configStorage.setMsgType(payConfigStorage.getMsgType());
+        AliPayConfigStorage configStorage = new AliPayConfigStorage();
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
+        configStorage.setAppid(payConfigStorage.getAppid());
+        configStorage.setPid(payConfigStorage.getPid());
+        configStorage.setAttach(payConfigStorage.getAttach());
+        configStorage.setSeller(payConfigStorage.getSeller());
+        configStorage.setKeyPrivate(payConfigStorage.getKeyPrivate());
+        configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
+        configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
+        configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
+        configStorage.setMsgType(payConfigStorage.getMsgType());
+        configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setTest(payConfigStorage.isTest());
-        return new PayPalPayService(configStorage);
+        configStorage.setSignType(payConfigStorage.getSignType());
+        return new AliPayService(configStorage);
     }
 
     /**
@@ -82,7 +86,7 @@ public class PaypalPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
-        return PayPalTransactionType.valueOf(name);
+        return AliTransactionType.valueOf(name);
     }
 
 

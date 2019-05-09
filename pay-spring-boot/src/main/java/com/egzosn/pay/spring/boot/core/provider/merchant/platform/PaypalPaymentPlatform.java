@@ -1,19 +1,19 @@
-package com.egzosn.pay.spring.boot.provider.merchant.platform;
+package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
-import com.egzosn.pay.fuiou.api.FuiouPayConfigStorage;
-import com.egzosn.pay.fuiou.api.FuiouPayService;
-import com.egzosn.pay.fuiou.bean.FuiouTransactionType;
+import com.egzosn.pay.paypal.api.PayPalConfigStorage;
+import com.egzosn.pay.paypal.api.PayPalPayService;
+import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 富友支付平台
+ * 贝宝支付平台
  *
  * @author egan
  *         <pre>
@@ -21,12 +21,12 @@ import org.springframework.context.annotation.Configuration;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
-@Configuration(FuiouPaymentPlatform.platformName)
-@ConditionalOnMissingBean(FuiouPaymentPlatform.class)
-@ConditionalOnClass(name={"com.egzosn.pay.fuiou.api.FuiouPayConfigStorage"})
-public class FuiouPaymentPlatform implements PaymentPlatform {
-    public static final String platformName = "fuiouPay";
 
+@Configuration(PaypalPaymentPlatform.platformName)
+@ConditionalOnMissingBean(PaypalPaymentPlatform.class)
+@ConditionalOnClass(name = {"com.egzosn.pay.paypal.api.PayPalConfigStorage"})
+public class PaypalPaymentPlatform implements PaymentPlatform {
+    public static final String platformName = "paypalPay";
 
 
 
@@ -49,19 +49,21 @@ public class FuiouPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if (payConfigStorage instanceof FuiouPayConfigStorage) {
-            return new FuiouPayService((FuiouPayConfigStorage) payConfigStorage);
+        if (payConfigStorage instanceof PayPalConfigStorage) {
+            return new PayPalPayService((PayPalConfigStorage) payConfigStorage);
         }
-        FuiouPayConfigStorage configStorage = new FuiouPayConfigStorage();
-        configStorage.setMchntCd(payConfigStorage.getPid());
-        configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
+        PayPalConfigStorage configStorage = new PayPalConfigStorage();
+        configStorage.setClientID(payConfigStorage.getPid());
+        configStorage.setClientSecret(payConfigStorage.getKeyPrivate());
         configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
+        //取消按钮转跳地址,这里用异步通知地址的兼容的做法
+        configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
         configStorage.setSignType(payConfigStorage.getSignType());
         configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setMsgType(payConfigStorage.getMsgType());
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
         configStorage.setTest(payConfigStorage.isTest());
-        return new FuiouPayService(configStorage);
+        return new PayPalPayService(configStorage);
     }
 
     /**
@@ -80,7 +82,7 @@ public class FuiouPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
-        return FuiouTransactionType.valueOf(name);
+        return PayPalTransactionType.valueOf(name);
     }
 
 

@@ -1,4 +1,4 @@
-package com.egzosn.pay.spring.boot.provider.merchant.platform;
+package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;

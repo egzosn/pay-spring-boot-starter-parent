@@ -13,7 +13,7 @@ import com.egzosn.pay.common.http.HttpConfigStorage;
  *         date  2019/4/6 17:20.
  *         </pre>
  */
-public interface PaymentPlatform extends BasePayType {
+public interface PaymentPlatform<S extends PayService> extends BasePayType {
 
     /**
      * 获取商户平台
@@ -26,13 +26,13 @@ public interface PaymentPlatform extends BasePayType {
      * @param payConfigStorage 支付配置
      * @return 支付服务
      */
-    PayService getPayService(PayConfigStorage payConfigStorage);
+    S getPayService(PayConfigStorage payConfigStorage);
     /**
      * 获取支付平台对应的支付服务
      * @param payConfigStorage 支付配置
      * @param httpConfigStorage 网络配置
      * @return 支付服务
      */
-    PayService getPayService(PayConfigStorage payConfigStorage, HttpConfigStorage httpConfigStorage);
+    S getPayService(PayConfigStorage payConfigStorage, HttpConfigStorage httpConfigStorage);
 
 }

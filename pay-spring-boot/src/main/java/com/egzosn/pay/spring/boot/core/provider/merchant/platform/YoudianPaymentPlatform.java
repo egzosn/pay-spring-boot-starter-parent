@@ -1,32 +1,34 @@
-package com.egzosn.pay.spring.boot.provider.merchant.platform;
+package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
-import com.egzosn.pay.payoneer.api.PayoneerConfigStorage;
-import com.egzosn.pay.payoneer.api.PayoneerPayService;
-import com.egzosn.pay.payoneer.bean.PayoneerTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
+import com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage;
+import com.egzosn.pay.wx.youdian.api.WxYouDianPayService;
+import com.egzosn.pay.wx.youdian.bean.YoudianTransactionType;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * P卡(派安盈)支付平台
- *
+ * 友店支付平台
  * @author egan
  *         <pre>
- *                 email egzosn@gmail.com
- *                 date  2019/4/4 14:35.
- *                 </pre>
+ *         email egzosn@gmail.com
+ *         date  2019/4/4 14:35.
+ *         </pre>
  */
-@Configuration(PayoneerPaymentPlatform.platformName)
-@ConditionalOnMissingBean(PayoneerPaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.payoneer.api.PayoneerConfigStorage"})
-public class PayoneerPaymentPlatform implements PaymentPlatform {
+@Configuration(YoudianPaymentPlatform.platformName)
+@ConditionalOnMissingBean(YoudianPaymentPlatform.class)
+@ConditionalOnClass(name = {"com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage"})
+public  class YoudianPaymentPlatform implements PaymentPlatform {
 
-    public static final String platformName = "payoneerPay";
+    public static final String platformName = "youdianPay";
+
+
+
 
     /**
      * 获取商户平台
@@ -46,21 +48,19 @@ public class PayoneerPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if (payConfigStorage instanceof PayoneerConfigStorage) {
-            return new PayoneerPayService((PayoneerConfigStorage) payConfigStorage);
+        if ( payConfigStorage instanceof WxYouDianPayConfigStorage ){
+            return new WxYouDianPayService((WxYouDianPayConfigStorage) payConfigStorage);
         }
-        PayoneerConfigStorage configStorage = new PayoneerConfigStorage();
-        configStorage.setProgramId(payConfigStorage.getPid());
-        configStorage.setUserName(payConfigStorage.getSeller());
-        configStorage.setApiPassword(payConfigStorage.getKeyPrivate());
-        configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
-        configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
+        WxYouDianPayConfigStorage configStorage = new WxYouDianPayConfigStorage();
+        configStorage.setKeyPrivate(payConfigStorage.getKeyPrivate());
+        configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
         configStorage.setSignType(payConfigStorage.getSignType());
-        configStorage.setPayType(payConfigStorage.getPayType());
+        configStorage.setPayType(payConfigStorage.getPayType().toString());
         configStorage.setMsgType(payConfigStorage.getMsgType());
+        configStorage.setSeller(payConfigStorage.getSeller());
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
         configStorage.setTest(payConfigStorage.isTest());
-        return new PayoneerPayService(configStorage);
+        return new WxYouDianPayService(configStorage);
     }
 
     /**
@@ -79,7 +79,7 @@ public class PayoneerPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
-        return PayoneerTransactionType.valueOf(name);
+        return YoudianTransactionType.valueOf(name);
     }
 
 
