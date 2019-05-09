@@ -3,7 +3,7 @@ package com.egzosn.pay.spring.boot.core.builders;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetails;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
 import com.egzosn.pay.spring.boot.core.merchant.bean.*;
-import com.egzosn.pay.spring.boot.provider.InMemoryMerchantDetailsManager;
+import com.egzosn.pay.spring.boot.core.provider.InMemoryMerchantDetailsManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class InMemoryMerchantDetailsServiceBuilder extends MerchantDetailsServic
 
     private Map<String, MerchantDetails> merchantDetails = new HashMap<String, MerchantDetails>();
 
-    protected void addMerchantDetails(MerchantDetails merchantDetail) {
+    public void addMerchantDetails(MerchantDetails merchantDetail) {
         this.merchantDetails.put(merchantDetail.getDetailsId(), merchantDetail);
     }
 
