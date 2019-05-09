@@ -3,6 +3,8 @@ package com.egzosn.pay.spring.boot.core.builders;
 import com.egzosn.pay.spring.boot.core.PayBuilder;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
 
+import javax.sql.DataSource;
+
 /**
  *
  * @author egan
@@ -11,10 +13,17 @@ import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
  *         date  2019/5/6 19:36.
  *         </pre>
  */
-public abstract class MerchantDetailsServiceBuilder implements PayBuilder<MerchantDetailsService> {
+public class MerchantDetailsServiceBuilder implements PayBuilder<MerchantDetailsService> {
 
     public static final InMemoryMerchantDetailsServiceBuilder inMemory(){
         return new InMemoryMerchantDetailsServiceBuilder();
+    }
+
+    public static final JdbcMerchantDetailsServiceBuilder jdbc(){
+        return new JdbcMerchantDetailsServiceBuilder();
+    }
+    public static final JdbcMerchantDetailsServiceBuilder jdbc(DataSource source){
+        return new JdbcMerchantDetailsServiceBuilder(source);
     }
 
     /**
@@ -32,5 +41,7 @@ public abstract class MerchantDetailsServiceBuilder implements PayBuilder<Mercha
      * 开始构建
      * @return 商户列表服务
      */
-    protected abstract MerchantDetailsService performBuild();
+    protected  MerchantDetailsService performBuild(){
+        throw new UnsupportedOperationException("无法构建商家服务(需要使用inMemory()或jdbc())");
+    }
 }

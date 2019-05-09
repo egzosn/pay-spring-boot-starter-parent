@@ -18,4 +18,10 @@ public interface PayConfigurerAdapter<B> {
      * @return 返回对应外部调用者
      */
     B and();
+
+    /**
+     * 获取构建器
+     * @return 构建器
+     */
+    B getBuilder();
 }
