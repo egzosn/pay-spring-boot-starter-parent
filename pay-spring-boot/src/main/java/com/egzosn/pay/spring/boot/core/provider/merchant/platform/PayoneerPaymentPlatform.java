@@ -1,21 +1,19 @@
-package com.egzosn.pay.spring.boot.provider.merchant.platform;
+package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
-import com.egzosn.pay.ali.api.AliPayConfigStorage;
-import com.egzosn.pay.ali.api.AliPayService;
-import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.payoneer.api.PayoneerConfigStorage;
+import com.egzosn.pay.payoneer.api.PayoneerPayService;
+import com.egzosn.pay.payoneer.bean.PayoneerTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-
 /**
- * 支付宝支付平台
+ * P卡(派安盈)支付平台
  *
  * @author egan
  *         <pre>
@@ -23,19 +21,12 @@ import javax.annotation.PostConstruct;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
-@Configuration(AliPaymentPlatform.platformName)
-@ConditionalOnMissingBean(AliPaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.ali.api.AliPayConfigStorage"})
-public class AliPaymentPlatform implements PaymentPlatform {
+@Configuration(PayoneerPaymentPlatform.platformName)
+@ConditionalOnMissingBean(PayoneerPaymentPlatform.class)
+@ConditionalOnClass(name = {"com.egzosn.pay.payoneer.api.PayoneerConfigStorage"})
+public class PayoneerPaymentPlatform implements PaymentPlatform {
 
-    public static final String platformName = "aliPay";
-
-
-    @PostConstruct
-    public void init(){
-        System.out.println("AliPaymentPlatform");
-    }
-
+    public static final String platformName = "payoneerPay";
 
     /**
      * 获取商户平台
@@ -55,24 +46,21 @@ public class AliPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if (payConfigStorage instanceof AliPayConfigStorage) {
-            return new AliPayService((AliPayConfigStorage) payConfigStorage);
+        if (payConfigStorage instanceof PayoneerConfigStorage) {
+            return new PayoneerPayService((PayoneerConfigStorage) payConfigStorage);
         }
-        AliPayConfigStorage configStorage = new AliPayConfigStorage();
-        configStorage.setInputCharset(payConfigStorage.getInputCharset());
-        configStorage.setAppid(payConfigStorage.getAppid());
-        configStorage.setPid(payConfigStorage.getPid());
-        configStorage.setAttach(payConfigStorage.getAttach());
-        configStorage.setSeller(payConfigStorage.getSeller());
-        configStorage.setKeyPrivate(payConfigStorage.getKeyPrivate());
-        configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
+        PayoneerConfigStorage configStorage = new PayoneerConfigStorage();
+        configStorage.setProgramId(payConfigStorage.getPid());
+        configStorage.setUserName(payConfigStorage.getSeller());
+        configStorage.setApiPassword(payConfigStorage.getKeyPrivate());
         configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
         configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
-        configStorage.setMsgType(payConfigStorage.getMsgType());
-        configStorage.setPayType(payConfigStorage.getPayType());
-        configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());
-        return new AliPayService(configStorage);
+        configStorage.setPayType(payConfigStorage.getPayType());
+        configStorage.setMsgType(payConfigStorage.getMsgType());
+        configStorage.setInputCharset(payConfigStorage.getInputCharset());
+        configStorage.setTest(payConfigStorage.isTest());
+        return new PayoneerPayService(configStorage);
     }
 
     /**
@@ -91,7 +79,7 @@ public class AliPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
-        return AliTransactionType.valueOf(name);
+        return PayoneerTransactionType.valueOf(name);
     }
 
 

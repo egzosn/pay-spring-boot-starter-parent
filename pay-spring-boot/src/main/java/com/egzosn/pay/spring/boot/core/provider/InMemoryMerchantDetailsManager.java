@@ -1,4 +1,4 @@
-package com.egzosn.pay.spring.boot.provider;
+package com.egzosn.pay.spring.boot.core.provider;
 
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetails;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantNotFoundException;

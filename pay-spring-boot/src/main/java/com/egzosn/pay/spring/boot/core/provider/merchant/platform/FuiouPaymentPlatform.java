@@ -1,31 +1,32 @@
-package com.egzosn.pay.spring.boot.provider.merchant.platform;
+package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.fuiou.api.FuiouPayConfigStorage;
+import com.egzosn.pay.fuiou.api.FuiouPayService;
+import com.egzosn.pay.fuiou.bean.FuiouTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
-import com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage;
-import com.egzosn.pay.wx.youdian.api.WxYouDianPayService;
-import com.egzosn.pay.wx.youdian.bean.YoudianTransactionType;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 友店支付平台
+ * 富友支付平台
+ *
  * @author egan
  *         <pre>
- *         email egzosn@gmail.com
- *         date  2019/4/4 14:35.
- *         </pre>
+ *                 email egzosn@gmail.com
+ *                 date  2019/4/4 14:35.
+ *                 </pre>
  */
-@Configuration(YoudianPaymentPlatform.platformName)
-@ConditionalOnMissingBean(YoudianPaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage"})
-public  class YoudianPaymentPlatform implements PaymentPlatform {
+@Configuration(FuiouPaymentPlatform.platformName)
+@ConditionalOnMissingBean(FuiouPaymentPlatform.class)
+@ConditionalOnClass(name={"com.egzosn.pay.fuiou.api.FuiouPayConfigStorage"})
+public class FuiouPaymentPlatform implements PaymentPlatform {
+    public static final String platformName = "fuiouPay";
 
-    public static final String platformName = "youdianPay";
 
 
 
@@ -48,19 +49,19 @@ public  class YoudianPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if ( payConfigStorage instanceof WxYouDianPayConfigStorage ){
-            return new WxYouDianPayService((WxYouDianPayConfigStorage) payConfigStorage);
+        if (payConfigStorage instanceof FuiouPayConfigStorage) {
+            return new FuiouPayService((FuiouPayConfigStorage) payConfigStorage);
         }
-        WxYouDianPayConfigStorage configStorage = new WxYouDianPayConfigStorage();
-        configStorage.setKeyPrivate(payConfigStorage.getKeyPrivate());
-        configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
+        FuiouPayConfigStorage configStorage = new FuiouPayConfigStorage();
+        configStorage.setMchntCd(payConfigStorage.getPid());
+        configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
+        configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
         configStorage.setSignType(payConfigStorage.getSignType());
-        configStorage.setPayType(payConfigStorage.getPayType().toString());
+        configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setMsgType(payConfigStorage.getMsgType());
-        configStorage.setSeller(payConfigStorage.getSeller());
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
         configStorage.setTest(payConfigStorage.isTest());
-        return new WxYouDianPayService(configStorage);
+        return new FuiouPayService(configStorage);
     }
 
     /**
@@ -79,7 +80,7 @@ public  class YoudianPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
-        return YoudianTransactionType.valueOf(name);
+        return FuiouTransactionType.valueOf(name);
     }
 
 

@@ -1,13 +1,15 @@
 package com.egzosn.pay.spring.boot.core.merchant.bean;
 
 import com.egzosn.pay.common.api.BasePayConfigStorage;
+import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.CertStoreType;
+import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.PayConfigurerAdapter;
-import com.egzosn.pay.spring.boot.core.builders.InMemoryMerchantDetailsServiceBuilder;
 import com.egzosn.pay.spring.boot.core.builders.MerchantDetailsServiceBuilder;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
-import com.egzosn.pay.spring.boot.provider.merchant.platform.PaymentPlatforms;
+import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformServiceAdapter;
+import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PaymentPlatforms;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +22,7 @@ import java.io.InputStream;
  *         date   2019/4/9 19:39.
  *         </pre>
  */
-public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage implements PaymentPlatformMerchantDetails,PayConfigurerAdapter<MerchantDetailsServiceBuilder> {
+public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage implements PaymentPlatformMerchantDetails, PaymentPlatformServiceAdapter,PayConfigurerAdapter<MerchantDetailsServiceBuilder> {
 
     private String detailsId;
     private String appid;
@@ -51,8 +53,21 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      * 证书存储类型
      */
     private CertStoreType certStoreType;
+    /**
+     * 商户对应的支付服务
+     */
+    private volatile PayService payService;
+    /**
+     * 商户平台
+     */
+    private PaymentPlatform platform ;
 
     private MerchantDetailsServiceBuilder builder;
+    /**
+     * HTTP请求配置
+     */
+    private HttpConfigStorage httpConfigStorage;
+
 
     /**
      * 外部调用者使用，链式的做法
@@ -61,15 +76,25 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      */
     @Override
     public MerchantDetailsServiceBuilder and() {
-        return builder;
+        return getBuilder();
     }
 
+    /**
+     * 获取构建器
+     *
+     * @return 构建器
+     */
+    @Override
+    public MerchantDetailsServiceBuilder getBuilder() {
+        return builder;
+    }
     public CommonPaymentPlatformMerchantDetails(MerchantDetailsServiceBuilder builder) {
         this();
         this.builder = builder;
     }
 
     public CommonPaymentPlatformMerchantDetails() {
+
     }
 
     /**
@@ -79,9 +104,44 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      */
     @Override
     public PaymentPlatform getPaymentPlatform() {
-        return PaymentPlatforms.getPaymentPlatform(this.getPayType());
+        return platform;
     }
 
+    /**
+     * 初始化服务
+     *
+     * @return 支付商户服务适配器
+     */
+    @Override
+    public PaymentPlatformServiceAdapter initService() {
+        platform = PaymentPlatforms.getPaymentPlatform(getPayType());
+        payService = platform.getPayService(this, getHttpConfigStorage());
+        return this;
+    }
+
+    /**
+     * 获取支付平台对应的支付服务
+     *
+     * @return 支付服务
+     */
+    @Override
+    public PayService getPayService() {
+        return payService;
+    }
+
+    /**
+     * 获取HTTP请求配置
+     *
+     * @return HTTP请求配置
+     */
+    @Override
+    public HttpConfigStorage getHttpConfigStorage() {
+        return httpConfigStorage;
+    }
+
+    public void setHttpConfigStorage(HttpConfigStorage httpConfigStorage) {
+        this.httpConfigStorage = httpConfigStorage;
+    }
 
     public void setDetailsId(String detailsId) {
         this.detailsId = detailsId;
@@ -241,5 +301,6 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     public void setCertStoreType(CertStoreType certStoreType) {
         this.certStoreType = certStoreType;
     }
+
 
 }
