@@ -5,7 +5,9 @@ import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
 import com.egzosn.pay.spring.boot.core.merchant.bean.*;
 import com.egzosn.pay.spring.boot.core.provider.InMemoryMerchantDetailsManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,10 +20,10 @@ import java.util.Map;
  */
 public class InMemoryMerchantDetailsServiceBuilder extends MerchantDetailsServiceBuilder {
 
-    private Map<String, MerchantDetails> merchantDetails = new HashMap<String, MerchantDetails>();
+    private List<MerchantDetails> merchantDetails = new ArrayList<MerchantDetails>();
 
     public void addMerchantDetails(MerchantDetails merchantDetail) {
-        this.merchantDetails.put(merchantDetail.getDetailsId(), merchantDetail);
+        this.merchantDetails.add(merchantDetail);
     }
 
     public AliMerchantDetails ali(){
