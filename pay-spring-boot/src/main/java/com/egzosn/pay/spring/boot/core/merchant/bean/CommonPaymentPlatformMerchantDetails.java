@@ -34,7 +34,10 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      * 证书（PKCS12）
      */
     private Object keystore;
-
+    /**
+     * 证书（PKCS12）对应密码
+     */
+    private String keystorePwd;
 
     /**
      * 公钥证书
@@ -203,11 +206,6 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
         this.subMchId = subMchId;
     }
 
-    @Override
-    public void setKeyPrivate(String keyPrivate) {
-        super.setKeyPrivate(keyPrivate);
-        this.keystore = keyPrivate;
-    }
 
     /**
      * 设置私钥证书
@@ -237,11 +235,15 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
         return keystore;
     }
 
-    @Override
-    public void setKeyPublic(String keyPublic) {
-        super.setKeyPublic(keyPublic);
-        this.keyPublicCert = keyPublic;
+    public String getKeystorePwd() {
+        return keystorePwd;
     }
+
+    public void setKeystorePwd(String keystorePwd) {
+        this.keystorePwd = keystorePwd;
+    }
+
+
 
     public String getKeyPublicCert() {
         return (String) keyPublicCert;
@@ -252,7 +254,6 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      * @param keyPublicCert 证书信息或者证书路径
      */
     public void setKeyPublicCert(String keyPublicCert) {
-        super.setKeyPublic(keyPublicCert);
         this.keyPublicCert = keyPublicCert;
     }
     /**

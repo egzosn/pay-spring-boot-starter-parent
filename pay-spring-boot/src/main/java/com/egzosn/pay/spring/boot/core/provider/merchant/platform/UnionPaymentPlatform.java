@@ -82,7 +82,7 @@ public class UnionPaymentPlatform implements PaymentPlatform {
                 LOG.error(e);
             }
             //私钥证书对应的密码
-            configStorage.setKeyPrivateCertPwd(merchantDetails.getKeyPrivateCertPwd());
+            configStorage.setKeyPrivateCertPwd(merchantDetails.getKeystorePwd());
             //设置证书对应的存储方式，这里默认为文件地址
             configStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
         }
