@@ -439,7 +439,7 @@ public class SqlTools {
 	}
 
 	/**
-	 *  将集合以分隔符的形式进行连接成对应字符串
+     *  将集合以分隔符的形式进行连接成对应字符串
 	 * @param list 集合
 	 * @param separated 分隔符
 	 * @return 连接字符串
