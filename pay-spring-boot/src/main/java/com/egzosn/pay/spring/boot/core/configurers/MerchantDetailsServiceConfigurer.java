@@ -5,6 +5,7 @@ import com.egzosn.pay.spring.boot.core.PayConfigurerAdapter;
 import com.egzosn.pay.spring.boot.core.builders.InMemoryMerchantDetailsServiceBuilder;
 import com.egzosn.pay.spring.boot.core.builders.JdbcMerchantDetailsServiceBuilder;
 import com.egzosn.pay.spring.boot.core.builders.MerchantDetailsServiceBuilder;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
@@ -41,6 +42,11 @@ public class MerchantDetailsServiceConfigurer implements PayConfigurerAdapter<Me
 
     public JdbcMerchantDetailsServiceBuilder jdbc(DataSource source) {
         JdbcMerchantDetailsServiceBuilder builder = MerchantDetailsServiceBuilder.jdbc(source);
+        setBuilder(builder);
+        return builder;
+    }
+    public JdbcMerchantDetailsServiceBuilder jdbc(JdbcTemplate jdbcTemplate) {
+        JdbcMerchantDetailsServiceBuilder builder = MerchantDetailsServiceBuilder.jdbc(jdbcTemplate);
         setBuilder(builder);
         return builder;
     }

@@ -1,0 +1,29 @@
+server:
+  port: 9091
+#  context-path: /dock
+
+logging:
+  level: debug
+  file: examples.log
+
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useOldAliasMetadataBehavior=true
+    username: root
+    password: root
+    max-active: 20
+    max-idle: 8
+    min-idle: 8
+    initial-size: 10
+    #指定连接多久没被使用时，被设置为空闲，默认为10ms
+    idle-timeout: 10
+    driver-class-name: com.mysql.jdbc.Driver
+    #验证连接的有效性
+    test-while-idle: true
+    validation-query: select 1 from dual
+    #空闲连接回收的时间间隔，与test-while-idle一起使用，设置5分钟
+    time-between-eviction-runs-millis: 300000
+    #连接池空闲连接的有效时间 ，设置30分钟
+    min-evictable-idle-time-millis: 1800000

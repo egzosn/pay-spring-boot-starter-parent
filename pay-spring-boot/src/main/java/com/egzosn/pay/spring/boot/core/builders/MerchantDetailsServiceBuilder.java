@@ -2,6 +2,7 @@ package com.egzosn.pay.spring.boot.core.builders;
 
 import com.egzosn.pay.spring.boot.core.PayBuilder;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
@@ -24,6 +25,9 @@ public class MerchantDetailsServiceBuilder implements PayBuilder<MerchantDetails
     }
     public static final JdbcMerchantDetailsServiceBuilder jdbc(DataSource source){
         return new JdbcMerchantDetailsServiceBuilder(source);
+    }
+    public static final JdbcMerchantDetailsServiceBuilder jdbc(JdbcTemplate jdbcTemplate){
+        return new JdbcMerchantDetailsServiceBuilder(jdbcTemplate);
     }
 
     /**

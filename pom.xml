@@ -12,11 +12,12 @@
         <module>pay-spring-boot</module>
         <module>pay-spring-boot-starter</module>
         <module>pay-spring-boot-autoconfigue</module>
+        <module>pay-spring-boot-starter-demo</module>
     </modules>
 
     <properties>
         <java.version>1.8</java.version>
-        <pay.version>2.12.8-SNAPSHOT</pay.version>
+        <pay.version>2.12.7</pay.version>
     </properties>
     <licenses>
         <license>
