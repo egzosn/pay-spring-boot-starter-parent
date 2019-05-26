@@ -31,7 +31,7 @@ public class MerchantPayServiceManager {
     private MerchantDetailsService<PaymentPlatformMerchantDetails> detailsService;
 
     @Autowired
-    public void configure(MerchantDetailsServiceConfigurer merchantDetails) {
+    private void configure(MerchantDetailsServiceConfigurer merchantDetails) {
         try {
             configurer.configure(merchantDetails);
             detailsService = merchantDetails.getBuilder().build();
