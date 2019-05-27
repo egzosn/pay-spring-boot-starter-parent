@@ -11,9 +11,9 @@ import java.util.Map;
  *
  * @author egan
  *         <pre>
- *                                 email egzosn@gmail.com
- *                                 date  2019/4/9 15:57.
- *                                 </pre>
+ * email egzosn@gmail.com
+ * date  2019/4/9 15:57.
+ * </pre>
  */
 public final class PaymentPlatforms {
 

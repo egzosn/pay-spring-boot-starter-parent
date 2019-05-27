@@ -6,9 +6,7 @@ import com.egzosn.pay.spring.boot.core.merchant.bean.*;
 import com.egzosn.pay.spring.boot.core.provider.InMemoryMerchantDetailsManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 内存型商户列表服务构建器

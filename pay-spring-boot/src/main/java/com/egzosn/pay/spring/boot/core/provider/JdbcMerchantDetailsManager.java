@@ -1,6 +1,8 @@
 package com.egzosn.pay.spring.boot.core.provider;
 
 import com.egzosn.pay.common.bean.CertStoreType;
+import com.egzosn.pay.common.util.str.StringUtils;
+import com.egzosn.pay.spring.boot.core.merchant.MerchantNotFoundException;
 import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.core.utils.SqlTools;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -22,9 +24,9 @@ import static com.egzosn.pay.spring.boot.core.utils.SqlTools.SEPARATED;
  *
  * @author egan
  *         <pre>
- *                                 email egzosn@gmail.com
- *                                 date 2018-11-22 17:18:03
- *                           </pre>
+ *         email egzosn@gmail.com
+ *         date 2018-11-22 17:18:03
+ *         </pre>
  */
 public class JdbcMerchantDetailsManager implements MerchantDetailsManager<CommonPaymentPlatformMerchantDetails> {
 
@@ -104,7 +106,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     @Override
     public boolean merchantExists(String merchantId) {
         List<String> ids = jdbcTemplate.queryForList(existsSql, String.class, merchantId);
-        if (ids.size() > 0){
+        if (ids.size() > 0) {
             throw new IncorrectResultSizeDataAccessException("出现重复的支付商户id", 1);
         }
 
@@ -119,7 +121,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
      */
     @Override
     public CommonPaymentPlatformMerchantDetails loadMerchantByMerchantId(String merchantId) {
-       return jdbcTemplate.queryForObject(findByIdSql, new RowMapper<CommonPaymentPlatformMerchantDetails>() {
+        List<CommonPaymentPlatformMerchantDetails> detailss = jdbcTemplate.query(findByIdSql, new RowMapper<CommonPaymentPlatformMerchantDetails>() {
             @Override
             public CommonPaymentPlatformMerchantDetails mapRow(ResultSet rs, int i) throws SQLException {
                 CommonPaymentPlatformMerchantDetails details = new CommonPaymentPlatformMerchantDetails();
@@ -131,7 +133,10 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
                 details.setKeyPrivateCertPwd(rs.getString(index++));
                 details.setKeyPublic(rs.getString(index++));
                 details.setKeyPublicCert1(rs.getString(index++));
-                details.setCertStoreType(CertStoreType.valueOf(rs.getString(index++)));
+                String certStoreType = rs.getString(index++);
+                if (StringUtils.isNotEmpty(certStoreType)) {
+                    details.setCertStoreType(CertStoreType.valueOf(certStoreType));
+                }
                 details.setNotifyUrl(rs.getString(index++));
                 details.setReturnUrl(rs.getString(index++));
                 details.setSignType(rs.getString(index++));
@@ -141,10 +146,18 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
                 details.setInputCharset(rs.getString(index++));
                 details.setPayType(rs.getString(index++));
                 details.setTest(rs.getBoolean(index++));
+                details.initService();
                 return details;
             }
         }, merchantId);
-
+        int size = detailss != null ? detailss.size() : 0;
+        if(size == 0) {
+            throw new MerchantNotFoundException(merchantId);
+        } else if(size > 1) {
+            throw new IncorrectResultSizeDataAccessException(1, size);
+        } else {
+            return detailss.get(0);
+        }
     }
 
     public String getFindByIdSql() {

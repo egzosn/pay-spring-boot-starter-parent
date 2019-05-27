@@ -112,52 +112,6 @@ public class SqlTools {
 
 
 
-	public static String handleClob(Clob clob) throws SQLException {
-		if (clob == null){
-			return null;
-		}
-
-		Reader reader = null;
-		try {
-			reader = clob.getCharacterStream();
-			char[] buffer = new char[(int) clob.length()];
-			reader.read(buffer);
-			return new String(buffer);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-
-	public static byte[] handleBlob(Blob blob) throws SQLException {
-		if (blob == null){
-			return null;
-		}
-
-		InputStream is = null;
-		try {
-			is = blob.getBinaryStream();
-			byte[] data = new byte[(int) blob.length()];
-			// byte[] data = new byte[is.available()];
-			is.read(data);
-			is.close();
-			return data;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-
 
 	/**
 	 * 拼接分页部分
@@ -293,7 +247,7 @@ public class SqlTools {
 			sql.append("").append(colName).append(" = ? ");
 			i++;
 		}
-		keyColumnNames.add(idColumn);
+//		keyColumnNames.add(idColumn);
 		sql.append(" where ").append(idColumn).append(" = ?");
 		return sql;
 	}
@@ -309,19 +263,19 @@ public class SqlTools {
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into ").append(table).append("(");
 		StringBuilder temp = new StringBuilder(") values(");
-		for (String colName : attrs.keySet()) {
-			if (null == attrs.get(colName)) {
+		for (Map.Entry<String, Object> entry : attrs.entrySet()) {
+			if (null == entry.getValue()) {
 				continue;
 			}
 			if (paras.size() > 0) {
 				sql.append(", ");
 				temp.append(", ");
 			}
-			sql.append("").append(colName).append("");
+			sql.append(' ').append(entry.getKey()).append(' ');
 			temp.append("?");
-			paras.add(attrs.get(colName));
+			paras.add(entry.getValue());
 		}
-		sql.append(temp.toString()).append(")");
+		sql.append(temp).append(")");
 		return sql;
 	}
 
@@ -341,12 +295,12 @@ public class SqlTools {
 
 		StringBuilder sql = new StringBuilder();
 		sql.append("update ").append(table).append(" set ");
-		for (String colName : attrs.keySet()) {
+		for (Map.Entry<String, Object> entry : attrs.entrySet()) {
 			if (!paras.isEmpty()){
 				sql.append(", ");
 			}
-			sql.append("").append(colName).append(" = ? ");
-			paras.add(attrs.get(colName));
+			sql.append(' ').append(entry.getKey()).append(" = ? ");
+			paras.add(entry.getValue());
 		}
 		
 		sql.append(where);
@@ -367,21 +321,21 @@ public class SqlTools {
 		boolean flag = false;
 		StringBuilder sql = new StringBuilder();
 		sql.append("update ").append(table).append(" set ");
-		for (String colName : attrs.keySet()) {
+		for (Map.Entry<String, Object> entry : attrs.entrySet()) {
 			if (flag){
 				sql.append(", ");
 			}
-			sql.append("").append(colName).append(" = ? ");
-			paras.add(attrs.get(colName));
+			sql.append(' ').append(entry.getKey()).append(" = ? ");
+			paras.add(entry.getValue());
 			flag = true;
 		}
 		sql.append(" where ");
-		for (String colName : where.keySet()) {
+		for (Map.Entry<String, Object> entry : where.entrySet()) {
 			if (!flag){
 				sql.append(" and ");
 			}
-			sql.append("").append(colName).append(" = ? ");
-			paras.add(where.get(colName));
+			sql.append(' ').append(entry.getKey()).append(" = ? ");
+			paras.add(entry.getValue());
 			flag = false;
 		}
 		return sql;
