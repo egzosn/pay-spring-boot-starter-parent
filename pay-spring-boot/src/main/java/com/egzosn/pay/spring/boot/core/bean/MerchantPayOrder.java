@@ -1,6 +1,9 @@
 package com.egzosn.pay.spring.boot.core.bean;
 
 import com.egzosn.pay.common.bean.PayOrder;
+import com.egzosn.pay.common.bean.TransactionType;
+
+import java.math.BigDecimal;
 
 /**
  * 商户支付订单
@@ -14,7 +17,7 @@ import com.egzosn.pay.common.bean.PayOrder;
 public class MerchantPayOrder extends PayOrder {
 
     /**
-     * 商户id
+     * 列表id
      */
     private String  detailsId;
     /**
@@ -25,8 +28,21 @@ public class MerchantPayOrder extends PayOrder {
      */
     private String wayTrade;
 
+    public MerchantPayOrder() {
+    }
+
+    public MerchantPayOrder(String detailsId, String wayTrade) {
+        this.detailsId = detailsId;
+        this.wayTrade = wayTrade;
+    }
 
 
+
+    public MerchantPayOrder(String detailsId, String wayTrade, String subject, String body, BigDecimal price, String outTradeNo) {
+        super(subject, body, price, outTradeNo);
+        this.detailsId = detailsId;
+        this.wayTrade = wayTrade;
+    }
 
     public String getDetailsId() {
         return detailsId;
