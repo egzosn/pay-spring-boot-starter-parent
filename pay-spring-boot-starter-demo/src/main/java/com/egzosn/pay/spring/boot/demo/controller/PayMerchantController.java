@@ -1,5 +1,7 @@
 package com.egzosn.pay.spring.boot.demo.controller;
 
+import com.egzosn.pay.ali.bean.AliTransactionType;
+import com.egzosn.pay.common.bean.PayOrder;
 import com.egzosn.pay.spring.boot.core.MerchantPayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
+import java.util.UUID;
+
 /**
- *
  * @author egan
  *         email egzosn@gmail.com
  *         date 2019/5/26.20:10
@@ -18,12 +22,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PayMerchantController {
 
     @Autowired
-    MerchantPayServiceManager manager;
+    private MerchantPayServiceManager manager;
 
 
+    /**
+     * 网页支付
+     * @param detailsId 列表id
+     * @param wayTrade 交易方式
+     * @return 网页
+     */
     @ResponseBody
-    @RequestMapping("toPay")
-    public String toPay(MerchantPayOrder payOrder){
+    @RequestMapping(value = "toPay.html", produces = "text/html;charset=UTF-8")
+    public String toPay(String detailsId, String wayTrade, BigDecimal price) {
+        MerchantPayOrder payOrder = new MerchantPayOrder(detailsId, wayTrade, "订单title", "摘要", null == price ? new BigDecimal(0.01) : price, UUID.randomUUID().toString().replace("-", ""));
         return manager.toPay(payOrder);
     }
 

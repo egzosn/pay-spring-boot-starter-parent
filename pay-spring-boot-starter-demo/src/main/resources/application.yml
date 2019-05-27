@@ -1,5 +1,5 @@
 server:
-  port: 9091
+  port: 8080
 #  context-path: /dock
 
 logging:
@@ -10,7 +10,8 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useOldAliasMetadataBehavior=true
+    #数据库文件存放 /doc/sql目录下
+    url: jdbc:mysql://localhost:3306/merchant_pay?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useOldAliasMetadataBehavior=true
     username: root
     password: root
     max-active: 20
