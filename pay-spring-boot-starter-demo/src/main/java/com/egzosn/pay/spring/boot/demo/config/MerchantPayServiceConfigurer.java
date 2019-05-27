@@ -25,6 +25,7 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
      */
     @Override
     public void configure(MerchantDetailsServiceConfigurer merchants) throws Exception {
+//        数据库文件存放 /doc/sql目录下
         merchants.jdbc(jdbcTemplate);
     }
 }
