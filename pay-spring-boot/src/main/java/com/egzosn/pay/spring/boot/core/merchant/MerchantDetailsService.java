@@ -1,5 +1,4 @@
 package com.egzosn.pay.spring.boot.core.merchant;
-import com.egzosn.pay.spring.boot.core.merchant.MerchantDetails;
 
 /**
  *  提供给客户端获取商户列表信息的服务

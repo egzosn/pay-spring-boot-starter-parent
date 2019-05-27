@@ -16,18 +16,19 @@ import java.io.InputStream;
 
 /**
  * 公共的支付商户信息列表
+ *
  * @author egan
- *         <pre>
- *         email egzosn@gmail.com
- *         date   2019/4/9 19:39.
- *         </pre>
+ * <pre>
+ * email egzosn@gmail.com
+ * date   2019/4/9 19:39.
+ * </pre>
  */
-public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage implements PaymentPlatformMerchantDetails, PaymentPlatformServiceAdapter,PayConfigurerAdapter<MerchantDetailsServiceBuilder> {
+public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage implements PaymentPlatformMerchantDetails, PaymentPlatformServiceAdapter, PayConfigurerAdapter<MerchantDetailsServiceBuilder> {
 
     private String detailsId;
     private String appid;
-    private  String mchId;
-    private  String seller;
+    private String mchId;
+    private String seller;
     private String subAppId;
     private String subMchId;
     /**
@@ -60,7 +61,7 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     /**
      * 商户平台
      */
-    private PaymentPlatform platform ;
+    private volatile PaymentPlatform platform;
 
     private MerchantDetailsServiceBuilder builder;
     /**
@@ -88,6 +89,7 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     public MerchantDetailsServiceBuilder getBuilder() {
         return builder;
     }
+
     public CommonPaymentPlatformMerchantDetails(MerchantDetailsServiceBuilder builder) {
         this();
         this.builder = builder;
@@ -158,7 +160,6 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     }
 
 
-
     public void setAppid(String appid) {
         this.appid = appid;
     }
@@ -211,17 +212,18 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      * 设置私钥证书
      *
      * @param keystore 私钥证书地址 或者证书内容字符串
-     *                        私钥证书密码 {@link #setKeyPrivateCertPwd(String)}
+     *                 私钥证书密码 {@link #setKeyPrivateCertPwd(String)}
      */
     public void setKeystore(String keystore) {
         super.setKeyPrivate(keystore);
         this.keystore = keystore;
     }
+
     /**
      * 设置私钥证书
      *
      * @param keystore 私钥证书信息流
-     * 私钥证书密码 {@link #setKeyPrivateCertPwd(String)}
+     *                 私钥证书密码 {@link #setKeyPrivateCertPwd(String)}
      */
     public void setKeystore(InputStream keystore) {
         this.keystore = keystore;
@@ -244,20 +246,22 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     }
 
 
-
     public String getKeyPublicCert() {
         return (String) keyPublicCert;
     }
 
     /**
-     *  设置公钥证书
+     * 设置公钥证书
+     *
      * @param keyPublicCert 证书信息或者证书路径
      */
     public void setKeyPublicCert(String keyPublicCert) {
         this.keyPublicCert = keyPublicCert;
     }
+
     /**
-     *  设置公钥证书
+     * 设置公钥证书
+     *
      * @param keyPublicCert 证书文件
      */
     public void setKeyPublicCert(InputStream keyPublicCert) {
@@ -267,8 +271,10 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     public String getKeyPublicCert1() {
         return (String) keyPublicCert1;
     }
+
     /**
-     *  公钥证书，这里针对双证书校验， 银联的根级证书
+     * 公钥证书，这里针对双证书校验， 银联的根级证书
+     *
      * @param keyPublicCert1 证书信息或者证书路径
      */
     public void setKeyPublicCert1(String keyPublicCert1) {
@@ -277,6 +283,7 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
 
     /**
      * 公钥证书，这里针对双证书校验， 银联的根级证书
+     *
      * @param keyPublicCert1 证书文件
      */
     public void setKeyPublicCert1(InputStream keyPublicCert1) {
@@ -290,8 +297,10 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     public InputStream getKeyPublicCert1InputStream() throws IOException {
         return certStoreType.getInputStream(keyPublicCert1);
     }
+
     /**
      * 证书存储类型
+     *
      * @return 证书存储类型
      */
     public CertStoreType getCertStoreType() {

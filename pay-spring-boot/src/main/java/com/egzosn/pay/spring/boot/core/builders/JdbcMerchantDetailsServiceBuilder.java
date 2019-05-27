@@ -1,7 +1,6 @@
 package com.egzosn.pay.spring.boot.core.builders;
 
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
-import com.egzosn.pay.spring.boot.core.provider.InMemoryMerchantDetailsManager;
 import com.egzosn.pay.spring.boot.core.provider.JdbcMerchantDetailsManager;
 import org.springframework.jdbc.core.JdbcTemplate;
 
