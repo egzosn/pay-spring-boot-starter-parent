@@ -11,6 +11,12 @@
 
     <groupId>com.egzosn</groupId>
     <artifactId>pay-spring-boot-starter-demo</artifactId>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <pay.version>2.12.7</pay.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.egzosn</groupId>
@@ -36,33 +42,67 @@
         <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-ali</artifactId>
+            <version>${pay.version}</version>
         </dependency>
         <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-wx</artifactId>
+            <version>${pay.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.egzosn</groupId>
-            <artifactId>pay-java-wx-youdian</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-union</artifactId>
+            <version>${pay.version}</version>
         </dependency>
         <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-payoneer</artifactId>
+            <version>${pay.version}</version>
         </dependency>
         <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-paypal</artifactId>
+            <version>${pay.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.egzosn</groupId>
+            <artifactId>pay-java-wx-youdian</artifactId>
+            <version>${pay.version}</version>
         </dependency>
         <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-fuiou</artifactId>
+            <version>${pay.version}</version>
         </dependency>
-
+        <!-- 热部署 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.egzosn.pay.spring.boot.demo.PayApplication</mainClass>
+                    <fork>false</fork>
+                </configuration>
+                <dependencies>
+                    <!-- 热部署 -->
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.6.RELEASE</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
