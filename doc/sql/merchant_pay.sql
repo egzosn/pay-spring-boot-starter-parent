@@ -2,7 +2,8 @@
 SQLyog Ultimate v12.09 (64 bit)
 MySQL - 5.0.27-community-log : Database - merchant_pay
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -26,7 +27,7 @@ CREATE TABLE `merchant_details` (
   `key_private` mediumtext COMMENT '私钥',
   `key_private_cert_pwd` varchar(32) default NULL COMMENT '私钥证书密码',
   `key_public` mediumtext COMMENT '公钥',
-  `key_public_cert1` varchar(20480) default NULL COMMENT '公钥证书1',
+  `key_cert` varchar(20480) default NULL COMMENT 'key证书,附加证书使用，如SSL证书，或者银联方面',
   `cert_store_type` varchar(16) default NULL COMMENT '当前面私钥公钥为证书类型的时候，这里必填，可选值:PATH,STR,INPUT_STREAM',
   `notify_url` varchar(256) default NULL COMMENT '异步回调',
   `return_url` varchar(256) default NULL COMMENT '同步回调地址，大部分用于付款成功后页面转跳',

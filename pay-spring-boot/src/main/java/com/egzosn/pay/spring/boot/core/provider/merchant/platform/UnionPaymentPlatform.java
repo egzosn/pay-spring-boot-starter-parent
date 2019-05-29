@@ -71,11 +71,13 @@ public class UnionPaymentPlatform implements PaymentPlatform {
         configStorage.setTest(payConfigStorage.isTest());
         if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails) {
             CommonPaymentPlatformMerchantDetails merchantDetails = (CommonPaymentPlatformMerchantDetails) payConfigStorage;
-            //中级证书路径
+            //设置证书对应的存储方式
+            configStorage.setCertStoreType(merchantDetails.getCertStoreType());
             try {
+                //中级证书路径
                 configStorage.setAcpMiddleCert(merchantDetails.getKeyPublicCertInputStream());
                 //根证书路径
-                configStorage.setAcpRootCert(merchantDetails.getKeyPublicCert1InputStream());
+                configStorage.setAcpRootCert(merchantDetails.getKeyCertInputStream());
                 // 私钥证书路径
                 configStorage.setKeyPrivateCert(merchantDetails.getKeystoreInputStream());
             } catch (IOException e) {
@@ -83,8 +85,10 @@ public class UnionPaymentPlatform implements PaymentPlatform {
             }
             //私钥证书对应的密码
             configStorage.setKeyPrivateCertPwd(merchantDetails.getKeystorePwd());
-            //设置证书对应的存储方式，这里默认为文件地址
-            configStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
+
+        }else {
+
+
         }
 
         return new UnionPayService(configStorage);
