@@ -32,7 +32,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
 
 
     private static final String TABLE = "merchant_details";
-    private static final List<String> FIELDS = Arrays.asList("appid", "mch_id", "key_private", "key_private_cert_pwd", "key_public", "key_public_cert1", "cert_store_type", "notify_url", "return_url", "sign_type", "seller", "sub_app_id", "sub_mch_id", "input_charset", "pay_type", "is_test");
+    private static final List<String> FIELDS = Arrays.asList("appid", "mch_id", "key_private", "key_private_cert_pwd", "key_public", "key_cert", "cert_store_type", "notify_url", "return_url", "sign_type", "seller", "sub_app_id", "sub_mch_id", "input_charset", "pay_type", "is_test");
     private static final String SELECT_FIELDS = SqlTools.join(FIELDS, SEPARATED);
     private static final String ID = "details_id";
 
@@ -69,7 +69,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     public void createMerchant(CommonPaymentPlatformMerchantDetails merchant) {
 
         Assert.isTrue(!merchantExists(merchant.getDetailsId()), "商户信息已存在");
-        Object[] args = new Object[]{merchant.getDetailsId(), merchant.getAppid(), merchant.getMchId(), merchant.getKeyPrivate(), merchant.getKeyPrivateCertPwd(), merchant.getKeyPublic(), merchant.getKeyPublicCert1(), merchant.getCertStoreType(), merchant.getNotifyUrl(), merchant.getReturnUrl(), merchant.getSignType(), merchant.getSeller(), merchant.getSubAppId(), merchant.getSubMchId(), merchant.getInputCharset(), merchant.getPayType(), merchant.isTest()};
+        Object[] args = new Object[]{merchant.getDetailsId(), merchant.getAppid(), merchant.getMchId(), merchant.getKeyPrivate(), merchant.getKeyPrivateCertPwd(), merchant.getKeyPublic(), merchant.getKeyCert(), merchant.getCertStoreType(), merchant.getNotifyUrl(), merchant.getReturnUrl(), merchant.getSignType(), merchant.getSeller(), merchant.getSubAppId(), merchant.getSubMchId(), merchant.getInputCharset(), merchant.getPayType(), merchant.isTest()};
         jdbcTemplate.update(insertSql, args);
 
 
@@ -83,7 +83,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     @Override
     public void updateMerchant(CommonPaymentPlatformMerchantDetails merchant) {
         Assert.isTrue(merchantExists(merchant.getDetailsId()), "商户信息不存在");
-        Object[] args = new Object[]{merchant.getAppid(), merchant.getMchId(), merchant.getKeyPrivate(), merchant.getKeyPrivateCertPwd(), merchant.getKeyPublic(), merchant.getKeyPublicCert1(), merchant.getCertStoreType(), merchant.getNotifyUrl(), merchant.getReturnUrl(), merchant.getSignType(), merchant.getSeller(), merchant.getSubAppId(), merchant.getSubMchId(), merchant.getInputCharset(), merchant.getPayType(), merchant.isTest(), merchant.getDetailsId()};
+        Object[] args = new Object[]{merchant.getAppid(), merchant.getMchId(), merchant.getKeyPrivate(), merchant.getKeyPrivateCertPwd(), merchant.getKeyPublic(), merchant.getKeyCert(), merchant.getCertStoreType(), merchant.getNotifyUrl(), merchant.getReturnUrl(), merchant.getSignType(), merchant.getSeller(), merchant.getSubAppId(), merchant.getSubMchId(), merchant.getInputCharset(), merchant.getPayType(), merchant.isTest(), merchant.getDetailsId()};
         jdbcTemplate.update(updateSql, args);
     }
 
@@ -129,14 +129,23 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
                 details.setDetailsId(rs.getString(index++));
                 details.setAppid(rs.getString(index++));
                 details.setMchId(rs.getString(index++));
-                details.setKeyPrivate(rs.getString(index++));
+                index++;
                 details.setKeyPrivateCertPwd(rs.getString(index++));
-                details.setKeyPublic(rs.getString(index++));
-                details.setKeyPublicCert1(rs.getString(index++));
-                String certStoreType = rs.getString(index++);
+
+                String certStoreType = rs.getString(8);
                 if (StringUtils.isNotEmpty(certStoreType)) {
                     details.setCertStoreType(CertStoreType.valueOf(certStoreType));
                 }
+                if (details.getCertStoreType() == CertStoreType.INPUT_STREAM){
+                    details.setKeystore(rs.getAsciiStream(4));
+                    details.setKeyPublicCert(rs.getAsciiStream(index++));
+                    details.setKeyCert(rs.getAsciiStream(index++));
+                }else {
+                    details.setKeystore(rs.getString(4));
+                    details.setKeyPublicCert(rs.getString(index++));
+                    details.setKeyCert(rs.getString(index++));
+                }
+                index++;
                 details.setNotifyUrl(rs.getString(index++));
                 details.setReturnUrl(rs.getString(index++));
                 details.setSignType(rs.getString(index++));

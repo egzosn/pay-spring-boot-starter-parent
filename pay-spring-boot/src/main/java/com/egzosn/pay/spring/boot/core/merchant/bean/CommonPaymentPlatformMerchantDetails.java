@@ -45,9 +45,9 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      */
     private Object keyPublicCert;
     /**
-     * 公钥证书，这里针对双证书校验， 银联的根级证书
+     * 证书，这里针对双证书校验， 银联的根级证书
      */
-    private Object keyPublicCert1;
+    private Object keyCert;
 
 
     /**
@@ -256,6 +256,7 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      * @param keyPublicCert 证书信息或者证书路径
      */
     public void setKeyPublicCert(String keyPublicCert) {
+        setKeyPublic(keyPublicCert);
         this.keyPublicCert = keyPublicCert;
     }
 
@@ -268,34 +269,35 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
         this.keyPublicCert = keyPublicCert;
     }
 
-    public String getKeyPublicCert1() {
-        return (String) keyPublicCert1;
+    public Object getKeyCert() {
+        return keyCert;
+    }
+
+
+    /**
+     * 公钥证书，这里针对双证书校验， 银联的根级证书
+     *
+     * @param keyCert 证书信息或者证书路径
+     */
+    public void setKeyCert(String keyCert) {
+        this.keyCert = keyCert;
     }
 
     /**
      * 公钥证书，这里针对双证书校验， 银联的根级证书
      *
-     * @param keyPublicCert1 证书信息或者证书路径
+     * @param keyCert 证书文件
      */
-    public void setKeyPublicCert1(String keyPublicCert1) {
-        this.keyPublicCert1 = keyPublicCert1;
-    }
-
-    /**
-     * 公钥证书，这里针对双证书校验， 银联的根级证书
-     *
-     * @param keyPublicCert1 证书文件
-     */
-    public void setKeyPublicCert1(InputStream keyPublicCert1) {
-        this.keyPublicCert1 = keyPublicCert1;
+    public void setKeyCert(InputStream keyCert) {
+        this.keyCert = keyCert;
     }
 
     public InputStream getKeyPublicCertInputStream() throws IOException {
         return certStoreType.getInputStream(keyPublicCert);
     }
 
-    public InputStream getKeyPublicCert1InputStream() throws IOException {
-        return certStoreType.getInputStream(keyPublicCert1);
+    public InputStream getKeyCertInputStream() throws IOException {
+        return certStoreType.getInputStream(keyCert);
     }
 
     /**
