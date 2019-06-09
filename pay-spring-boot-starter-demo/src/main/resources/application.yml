@@ -2,9 +2,15 @@ server:
   port: 8080
 #  context-path: /dock
 
+
+
 logging:
-  level: debug
+  level:
+#    root: debug
+      com:
+        egzosn: debug
   file: examples.log
+
 
 
 

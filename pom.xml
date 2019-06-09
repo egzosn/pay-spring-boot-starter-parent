@@ -94,6 +94,7 @@
             <artifactId>spring-jdbc</artifactId>
             <optional>true</optional>
         </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>

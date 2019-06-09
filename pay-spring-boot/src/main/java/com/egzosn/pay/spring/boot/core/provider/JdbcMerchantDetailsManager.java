@@ -4,6 +4,7 @@ import com.egzosn.pay.common.bean.CertStoreType;
 import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantNotFoundException;
 import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
+import com.egzosn.pay.spring.boot.core.provider.merchant.platform.UnionPaymentPlatform;
 import com.egzosn.pay.spring.boot.core.utils.SqlTools;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -24,15 +26,15 @@ import static com.egzosn.pay.spring.boot.core.utils.SqlTools.SEPARATED;
  *
  * @author egan
  *         <pre>
- *         email egzosn@gmail.com
- *         date 2018-11-22 17:18:03
- *         </pre>
+ *                 email egzosn@gmail.com
+ *                 date 2018-11-22 17:18:03
+ *                 </pre>
  */
 public class JdbcMerchantDetailsManager implements MerchantDetailsManager<CommonPaymentPlatformMerchantDetails> {
 
 
     private static final String TABLE = "merchant_details";
-    private static final List<String> FIELDS = Arrays.asList("appid", "mch_id", "key_private", "key_private_cert_pwd", "key_public", "key_cert", "cert_store_type", "notify_url", "return_url", "sign_type", "seller", "sub_app_id", "sub_mch_id", "input_charset", "pay_type", "is_test");
+    private static final List<String> FIELDS = Arrays.asList("pay_type", "appid", "mch_id", "cert_store_type", "key_private", "key_public", "key_cert", "key_cert_pwd", "notify_url", "return_url", "sign_type", "seller", "sub_app_id", "sub_mch_id", "input_charset", "is_test");
     private static final String SELECT_FIELDS = SqlTools.join(FIELDS, SEPARATED);
     private static final String ID = "details_id";
 
@@ -127,25 +129,23 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
                 CommonPaymentPlatformMerchantDetails details = new CommonPaymentPlatformMerchantDetails();
                 int index = 1;
                 details.setDetailsId(rs.getString(index++));
+                details.setPayType(rs.getString(index++));
                 details.setAppid(rs.getString(index++));
                 details.setMchId(rs.getString(index++));
-                index++;
-                details.setKeyPrivateCertPwd(rs.getString(index++));
-
-                String certStoreType = rs.getString(8);
+                String certStoreType = rs.getString(index++);
                 if (StringUtils.isNotEmpty(certStoreType)) {
                     details.setCertStoreType(CertStoreType.valueOf(certStoreType));
                 }
-                if (details.getCertStoreType() == CertStoreType.INPUT_STREAM){
-                    details.setKeystore(rs.getAsciiStream(4));
-                    details.setKeyPublicCert(rs.getAsciiStream(index++));
+                if (details.getCertStoreType() == CertStoreType.INPUT_STREAM) {
+                    index = setKeyPrivate(details, rs, index);
                     details.setKeyCert(rs.getAsciiStream(index++));
-                }else {
-                    details.setKeystore(rs.getString(4));
+                }
+                else {
+                    details.setKeystore(rs.getString(index++));
                     details.setKeyPublicCert(rs.getString(index++));
                     details.setKeyCert(rs.getString(index++));
                 }
-                index++;
+                details.setKeystorePwd(rs.getString(index++));
                 details.setNotifyUrl(rs.getString(index++));
                 details.setReturnUrl(rs.getString(index++));
                 details.setSignType(rs.getString(index++));
@@ -153,20 +153,36 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
                 details.setSubAppId(rs.getString(index++));
                 details.setSubMchId(rs.getString(index++));
                 details.setInputCharset(rs.getString(index++));
-                details.setPayType(rs.getString(index++));
+
                 details.setTest(rs.getBoolean(index++));
                 details.initService();
                 return details;
             }
         }, merchantId);
         int size = detailss != null ? detailss.size() : 0;
-        if(size == 0) {
+        if (size == 0) {
             throw new MerchantNotFoundException(merchantId);
-        } else if(size > 1) {
+        }
+        else if (size > 1) {
             throw new IncorrectResultSizeDataAccessException(1, size);
-        } else {
+        }
+        else {
             return detailss.get(0);
         }
+    }
+
+
+    public int setKeyPrivate(CommonPaymentPlatformMerchantDetails details, ResultSet rs, int index) throws SQLException {
+        if (UnionPaymentPlatform.platformName.equals(details.getPayType())) {
+            details.setKeystore(rs.getAsciiStream(index++));
+            details.setKeyPublicCert(rs.getAsciiStream(index++));
+        }
+        else {
+            details.setKeyPrivate(rs.getString(index++));
+            details.setKeyPublic(rs.getString(index++));
+        }
+        return index;
+
     }
 
     public String getFindByIdSql() {

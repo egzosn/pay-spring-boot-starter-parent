@@ -1,6 +1,9 @@
 package com.egzosn.pay.spring.boot.core.merchant.bean;
 
+import java.io.InputStream;
+
 import com.egzosn.pay.common.api.PayService;
+import com.egzosn.pay.common.bean.CertStoreType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.PayConfigurerAdapter;
 import com.egzosn.pay.spring.boot.core.builders.InMemoryMerchantDetailsServiceBuilder;
@@ -16,9 +19,9 @@ import com.egzosn.pay.union.api.UnionPayConfigStorage;
  *
  * @author egan
  *         <pre>
- *                 email egzosn@gmail.com
- *                 date   2019/4/6 14:30.
- *                 </pre>
+ *                         email egzosn@gmail.com
+ *                         date   2019/4/6 14:30.
+ *                         </pre>
  */
 public class UnionMerchantDetails extends UnionPayConfigStorage implements PaymentPlatformMerchantDetails, PaymentPlatformServiceAdapter, PayConfigurerAdapter<InMemoryMerchantDetailsServiceBuilder> {
 
@@ -30,7 +33,7 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements Payme
     /**
      * 商户平台
      */
-    private PaymentPlatform platform ;
+    private PaymentPlatform platform;
 
     private InMemoryMerchantDetailsServiceBuilder builder;
     /**
@@ -58,6 +61,7 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements Payme
     public InMemoryMerchantDetailsServiceBuilder getBuilder() {
         return builder;
     }
+
     public UnionMerchantDetails(InMemoryMerchantDetailsServiceBuilder builder) {
         this();
         this.builder = builder;
@@ -78,6 +82,7 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements Payme
     public PaymentPlatform getPaymentPlatform() {
         return platform;
     }
+
     /**
      * 初始化服务
      *
@@ -98,6 +103,7 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements Payme
     public PayService getPayService() {
         return payService;
     }
+
     /**
      * 获取HTTP请求配置
      *
@@ -108,9 +114,11 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements Payme
         return httpConfigStorage;
     }
 
-    public void setHttpConfigStorage(HttpConfigStorage httpConfigStorage) {
+    public UnionMerchantDetails httpConfigStorage(HttpConfigStorage httpConfigStorage) {
         this.httpConfigStorage = httpConfigStorage;
+        return this;
     }
+
     /**
      * 获取支付商户id
      *
@@ -121,5 +129,75 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements Payme
         return detailsId;
     }
 
+
+    public UnionMerchantDetails detailsId(String detailsId) {
+        this.detailsId = detailsId;
+        return this;
+    }
+
+    public UnionMerchantDetails notifyUrl(String notifyUrl) {
+        setNotifyUrl(notifyUrl);
+        return this;
+    }
+
+    public UnionMerchantDetails returnUrl(String returnUrl) {
+        setReturnUrl(returnUrl);
+        return this;
+    }
+
+    public UnionMerchantDetails signType(String signType) {
+        setSignType(signType);
+        return this;
+    }
+
+    public UnionMerchantDetails inputCharset(String inputCharset) {
+        setInputCharset(inputCharset);
+        return this;
+    }
+
+    public UnionMerchantDetails test(boolean test) {
+        setTest(test);
+        return this;
+    }
+
+    public UnionMerchantDetails acpMiddleCert(String acpMiddleCert) {
+        setAcpMiddleCert(acpMiddleCert);
+        return this;
+    }
+
+    public UnionMerchantDetails acpMiddleCert(InputStream acpMiddleCert) {
+        setAcpMiddleCert(acpMiddleCert);
+        return this;
+    }
+
+    public UnionMerchantDetails acpRootCert(String acpRootCert) {
+        setAcpRootCert(acpRootCert);
+        return this;
+    }
+
+    public UnionMerchantDetails acpRootCert(InputStream acpRootCert) {
+        setAcpRootCert(acpRootCert);
+        return this;
+    }
+
+    public UnionMerchantDetails keyPrivateCert(String keyPrivateCert) {
+        setKeyPrivateCert(keyPrivateCert);
+        return this;
+    }
+
+    public UnionMerchantDetails keyPrivateCert(InputStream keyPrivateCert) {
+        setKeyPrivateCert(keyPrivateCert);
+        return this;
+
+    }
+
+    public UnionMerchantDetails keyPrivateCertPwd(String keyPrivateCertPwd) {
+        setKeyPrivateCertPwd(keyPrivateCertPwd);
+        return this;
+    }
+    public UnionMerchantDetails certStoreType(CertStoreType certStoreType) {
+        setCertStoreType(certStoreType);
+        return this;
+    }
 
 }

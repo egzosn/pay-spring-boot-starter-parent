@@ -44,11 +44,12 @@
             <artifactId>pay-java-ali</artifactId>
             <version>${pay.version}</version>
         </dependency>
-        <dependency>
+        <!-- 这里测试不引入是否报错或者触发-->
+ <!--       <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-wx</artifactId>
             <version>${pay.version}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.egzosn</groupId>
@@ -81,6 +82,8 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+
+
     </dependencies>
 
 

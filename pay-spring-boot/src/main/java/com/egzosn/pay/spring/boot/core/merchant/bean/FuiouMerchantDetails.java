@@ -112,8 +112,9 @@ public class FuiouMerchantDetails extends FuiouPayConfigStorage implements Payme
         return httpConfigStorage;
     }
 
-    public void setHttpConfigStorage(HttpConfigStorage httpConfigStorage) {
+    public FuiouMerchantDetails httpConfigStorage(HttpConfigStorage httpConfigStorage) {
         this.httpConfigStorage = httpConfigStorage;
+        return this;
     }
 
     public void setDetailsId(String detailsId) {
@@ -152,7 +153,7 @@ public class FuiouMerchantDetails extends FuiouPayConfigStorage implements Payme
     }
 
     public FuiouMerchantDetails inputCharset(String inputCharset) {
-        setInputCharset("utf-8");
+        setInputCharset(inputCharset);
         return this;
     }
 
