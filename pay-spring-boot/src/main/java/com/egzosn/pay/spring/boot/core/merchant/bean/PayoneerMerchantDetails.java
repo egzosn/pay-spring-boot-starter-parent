@@ -111,10 +111,10 @@ public class PayoneerMerchantDetails extends PayoneerConfigStorage implements Pa
     public HttpConfigStorage getHttpConfigStorage() {
         return httpConfigStorage;
     }
-    public void setHttpConfigStorage(HttpConfigStorage httpConfigStorage) {
+    public PayoneerMerchantDetails httpConfigStorage(HttpConfigStorage httpConfigStorage) {
         this.httpConfigStorage = httpConfigStorage;
+        return this;
     }
-
     /**
      * 获取支付商户id
      *
@@ -125,4 +125,36 @@ public class PayoneerMerchantDetails extends PayoneerConfigStorage implements Pa
         return detailsId;
     }
 
+    public PayoneerMerchantDetails detailsId(String detailsId) {
+        this.detailsId = detailsId;
+        return this;
+    }
+
+    public PayoneerMerchantDetails programId(String programId) {
+        setProgramId(programId);
+        return this;
+    }
+    public PayoneerMerchantDetails userName(String userName) {
+        setUserName(userName);
+        return this;
+    }
+    public PayoneerMerchantDetails apiPassword(String apiPassword) {
+        setApiPassword(apiPassword);
+        return this;
+    }
+
+    public PayoneerMerchantDetails signType(String signType) {
+        setSignType(signType);
+        return this;
+    }
+
+    public PayoneerMerchantDetails inputCharset(String inputCharset) {
+        setInputCharset(inputCharset);
+        return this;
+    }
+
+    public PayoneerMerchantDetails test(boolean test) {
+        setTest(test);
+        return this;
+    }
 }

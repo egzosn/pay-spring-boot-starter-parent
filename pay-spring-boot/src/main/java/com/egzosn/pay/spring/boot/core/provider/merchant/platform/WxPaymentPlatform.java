@@ -101,6 +101,8 @@ public class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlat
                 } catch (IOException e) {
                     LOG.error(e);
                 }
+
+                httpConfigStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
                 httpConfigStorage.setStorePassword(merchantDetails.getKeystorePwd());
 
             }

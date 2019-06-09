@@ -8,20 +8,19 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformServiceAdapter;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PaymentPlatforms;
-import com.egzosn.pay.spring.boot.core.provider.merchant.platform.WxPaymentPlatform;
-import com.egzosn.pay.wx.api.WxPayConfigStorage;
+import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PayoneerPaymentPlatform;
+import com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage;
 
 /**
- * 支付宝商户信息列表
+ * P卡(派安盈)商户信息列表
  *
  * @author egan
  *         <pre>
- *                 email egzosn@gmail.com
- *                 date   2019/4/6 20:10.
- *                 </pre>
+ *                         email egzosn@gmail.com
+ *                         date   2019/4/6 14:30.
+ *                         </pre>
  */
-public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlatformMerchantDetails, PaymentPlatformServiceAdapter, PayConfigurerAdapter<InMemoryMerchantDetailsServiceBuilder> {
-
+public class WxYouDianMerchantDetails extends WxYouDianPayConfigStorage implements PaymentPlatformMerchantDetails, PaymentPlatformServiceAdapter, PayConfigurerAdapter<InMemoryMerchantDetailsServiceBuilder> {
 
     private String detailsId;
 
@@ -39,6 +38,7 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
      * HTTP请求配置
      */
     private HttpConfigStorage httpConfigStorage;
+
 
     /**
      * 外部调用者使用，链式的做法
@@ -60,18 +60,16 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
     public InMemoryMerchantDetailsServiceBuilder getBuilder() {
         return builder;
     }
-
-    public WxMerchantDetails(InMemoryMerchantDetailsServiceBuilder builder) {
+    public WxYouDianMerchantDetails(InMemoryMerchantDetailsServiceBuilder builder) {
         this();
         this.builder = builder;
     }
 
-    public WxMerchantDetails() {
-        String platformName = WxPaymentPlatform.platformName;
+    public WxYouDianMerchantDetails() {
+        String platformName = PayoneerPaymentPlatform.platformName;
         setPayType(platformName);
         platform = PaymentPlatforms.getPaymentPlatform(platformName);
     }
-
     /**
      * 获取支付平台
      *
@@ -81,6 +79,7 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
     public PaymentPlatform getPaymentPlatform() {
         return platform;
     }
+
 
     /**
      * 初始化服务
@@ -102,6 +101,7 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
     public PayService getPayService() {
         return payService;
     }
+
     /**
      * 获取HTTP请求配置
      *
@@ -111,12 +111,10 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
     public HttpConfigStorage getHttpConfigStorage() {
         return httpConfigStorage;
     }
-
-    public WxMerchantDetails httpConfigStorage(HttpConfigStorage httpConfigStorage) {
+    public WxYouDianMerchantDetails httpConfigStorage(HttpConfigStorage httpConfigStorage) {
         this.httpConfigStorage = httpConfigStorage;
         return this;
     }
-
     /**
      * 获取支付商户id
      *
@@ -127,65 +125,35 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
         return detailsId;
     }
 
-    public WxMerchantDetails detailsId(String detailsId) {
+    public WxYouDianMerchantDetails detailsId(String detailsId) {
         this.detailsId = detailsId;
         return this;
     }
 
-    public WxMerchantDetails notifyUrl(String notifyUrl) {
-        setNotifyUrl(notifyUrl);
+
+    public WxYouDianMerchantDetails keyPrivate(String keyPrivate) {
+        setKeyPrivate(keyPrivate);
         return this;
     }
 
-    public WxMerchantDetails returnUrl(String returnUrl) {
-        setReturnUrl(returnUrl);
-        return this;
-    }
-
-    public WxMerchantDetails signType(String signType) {
-        setSignType(signType);
-        return this;
-    }
-
-    public WxMerchantDetails inputCharset(String inputCharset) {
-        setInputCharset(inputCharset);
-        return this;
-    }
-
-    public WxMerchantDetails test(boolean test) {
-        setTest(test);
-        return this;
-    }
-
-
-
-    public WxMerchantDetails appid(String appid) {
-        setAppid(appid);
-        return this;
-    }
-
-    public WxMerchantDetails secretKey(String secretKey) {
-        setSecretKey(secretKey);
-        return this;
-    }
-
-    public WxMerchantDetails keyPublic(String keyPublic) {
+    public WxYouDianMerchantDetails keyPublic(String keyPublic) {
         setKeyPublic(keyPublic);
         return this;
     }
 
-    public WxMerchantDetails mchId(String mchId) {
-        setMchId(mchId);
+    public WxYouDianMerchantDetails seller(String seller) {
+        setSeller(seller);
         return this;
     }
 
-    public WxMerchantDetails subAppid(String subAppid) {
-        setSubAppid(subAppid);
+
+    public WxYouDianMerchantDetails signType(String signType) {
+        setSignType(signType);
         return this;
     }
 
-    public WxMerchantDetails subMchId(String subMchId) {
-        setSubMchId(subMchId);
+    public WxYouDianMerchantDetails inputCharset(String inputCharset) {
+        setInputCharset(inputCharset);
         return this;
     }
 

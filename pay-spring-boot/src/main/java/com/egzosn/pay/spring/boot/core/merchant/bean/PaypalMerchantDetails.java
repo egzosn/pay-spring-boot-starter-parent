@@ -110,8 +110,9 @@ public class PaypalMerchantDetails extends PayPalConfigStorage implements Paymen
     public HttpConfigStorage getHttpConfigStorage() {
         return httpConfigStorage;
     }
-    public void setHttpConfigStorage(HttpConfigStorage httpConfigStorage) {
+    public PaypalMerchantDetails httpConfigStorage(HttpConfigStorage httpConfigStorage) {
         this.httpConfigStorage = httpConfigStorage;
+        return this;
     }
     /**
      * 获取支付商户id
@@ -123,5 +124,40 @@ public class PaypalMerchantDetails extends PayPalConfigStorage implements Paymen
         return detailsId;
     }
 
+    public PaypalMerchantDetails detailsId(String detailsId) {
+        this.detailsId = detailsId;
+        return this;
+    }
+    public PaypalMerchantDetails signType(String signType) {
+        setSignType(signType);
+        return this;
+    }
 
+    public PaypalMerchantDetails inputCharset(String inputCharset) {
+        setInputCharset(inputCharset);
+        return this;
+    }
+
+    public PaypalMerchantDetails test(boolean test) {
+        setTest(test);
+        return this;
+    }
+    public PaypalMerchantDetails clientID(String clientID) {
+        setClientID(clientID);
+        return this;
+    }
+    public PaypalMerchantDetails clientSecret(String clientSecret) {
+        setClientSecret(clientSecret);
+        return this;
+    }
+
+    public PaypalMerchantDetails cancelUrl(String cancelUrl) {
+        setNotifyUrl(cancelUrl);
+        return this;
+    }
+
+    public PaypalMerchantDetails returnUrl(String returnUrl) {
+        setReturnUrl(returnUrl);
+        return this;
+    }
 }

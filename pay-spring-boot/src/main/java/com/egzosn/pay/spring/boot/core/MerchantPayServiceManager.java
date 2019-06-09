@@ -42,6 +42,7 @@ public class MerchantPayServiceManager {
     @Autowired
     protected void configure(MerchantDetailsServiceConfigurer merchantDetails) {
         try {
+
             configurer.configure(merchantDetails);
             detailsService = merchantDetails.getBuilder().build();
             spring.autowireBean(detailsService);
@@ -102,7 +103,7 @@ public class MerchantPayServiceManager {
      * @return 二维码图像
      * @throws IOException IOException
      */
-    public byte[] toWxQrPay(MerchantPayOrder payOrder) throws IOException {
+    public byte[] toQrPay(MerchantPayOrder payOrder) throws IOException {
         //获取对应的支付账户操作工具（可根据账户id）
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(payOrder.getDetailsId());
         payOrder.setTransactionType(details.getPaymentPlatform().getTransactionType(payOrder.getWayTrade()));

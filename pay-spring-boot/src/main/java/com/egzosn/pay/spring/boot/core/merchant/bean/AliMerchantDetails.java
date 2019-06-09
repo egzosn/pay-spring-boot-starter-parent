@@ -115,8 +115,9 @@ public class AliMerchantDetails extends AliPayConfigStorage implements PaymentPl
         return httpConfigStorage;
     }
 
-    public void setHttpConfigStorage(HttpConfigStorage httpConfigStorage) {
+    public AliMerchantDetails httpConfigStorage(HttpConfigStorage httpConfigStorage) {
         this.httpConfigStorage = httpConfigStorage;
+        return this;
     }
 
     public void setDetailsId(String detailsId) {
@@ -154,7 +155,7 @@ public class AliMerchantDetails extends AliPayConfigStorage implements PaymentPl
     }
 
     public AliMerchantDetails inputCharset(String inputCharset) {
-        setInputCharset("utf-8");
+        setInputCharset(inputCharset);
         return this;
     }
 

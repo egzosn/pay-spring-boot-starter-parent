@@ -35,10 +35,7 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      * 证书（PKCS12）
      */
     private Object keystore;
-    /**
-     * 证书（PKCS12）对应密码
-     */
-    private String keystorePwd;
+
 
     /**
      * 公钥证书
@@ -238,11 +235,11 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     }
 
     public String getKeystorePwd() {
-        return keystorePwd;
+        return getKeyPrivateCertPwd();
     }
 
     public void setKeystorePwd(String keystorePwd) {
-        this.keystorePwd = keystorePwd;
+       setKeyPrivateCertPwd(keystorePwd);
     }
 
 

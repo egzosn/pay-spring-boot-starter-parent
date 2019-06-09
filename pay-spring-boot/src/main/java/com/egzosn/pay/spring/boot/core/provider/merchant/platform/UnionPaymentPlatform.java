@@ -80,6 +80,8 @@ public class UnionPaymentPlatform implements PaymentPlatform {
                 configStorage.setAcpRootCert(merchantDetails.getKeyCertInputStream());
                 // 私钥证书路径
                 configStorage.setKeyPrivateCert(merchantDetails.getKeystoreInputStream());
+                //这里转变为流的方式
+                configStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
             } catch (IOException e) {
                 LOG.error(e);
             }

@@ -1,14 +1,15 @@
 package com.egzosn.pay.spring.boot.demo.controller;
 
-import com.egzosn.pay.ali.bean.AliTransactionType;
-import com.egzosn.pay.common.bean.PayOrder;
 import com.egzosn.pay.spring.boot.core.MerchantPayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
+
+import org.apache.commons.logging.impl.SLF4JLocationAwareLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -36,6 +37,18 @@ public class PayMerchantController {
     public String toPay(String detailsId, String wayTrade, BigDecimal price) {
         MerchantPayOrder payOrder = new MerchantPayOrder(detailsId, wayTrade, "订单title", "摘要", null == price ? new BigDecimal(0.01) : price, UUID.randomUUID().toString().replace("-", ""));
         return manager.toPay(payOrder);
+    }
+    /**
+     * 网页支付
+     * @param detailsId 列表id
+     * @param wayTrade 交易方式
+     * @return 网页
+     */
+    @ResponseBody
+    @RequestMapping(value = "toQrPay.jpg")
+    public byte[] toQrPay(String detailsId, String wayTrade, BigDecimal price) throws IOException {
+        MerchantPayOrder payOrder = new MerchantPayOrder(detailsId, wayTrade, "订单title", "摘要", null == price ? new BigDecimal(0.01) : price, UUID.randomUUID().toString().replace("-", ""));
+        return manager.toQrPay(payOrder);
     }
 
 }
