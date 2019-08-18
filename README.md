@@ -12,8 +12,8 @@ spring-boot-starter-pay 是一个基于spring-boot实现自动化配置的支付
 spring-boot  pay-java-parent
 
 #### 本项目基础实现 pay-java-parent 全能第三方支付对接Java开发工具包.优雅的轻量级支付模块集成支付对接支付整合（微信,支付宝,银联,友店,富友,跨境支付paypal,payoneer(P卡派安盈)易极付）app,扫码,网页支付刷卡付条码付刷脸付转账服务商模式、支持多种支付类型多支付账户，支付与业务完全剥离，简单几行代码即可实现支付，简单快速完成支付模块的开发，可轻松嵌入到任何系统里 目前仅是一个开发工具包（即SDK）
-* 码云：https://gitee.com/egzosn/pay-spring-boot-starter-parent
-* GitHub：https://github.com/egzosn/pay-spring-boot-starter-parent
+* 码云：https://gitee.com/egzosn/pay-java-parent
+* GitHub：https://github.com/egzosn/pay-java-parent
 
 
 #### 安装教程
