@@ -14,7 +14,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <pay.version>2.12.7</pay.version>
+        <pay.version>2.12.8</pay.version>
     </properties>
 
     <dependencies>
@@ -45,11 +45,11 @@
             <version>${pay.version}</version>
         </dependency>
         <!-- 这里测试不引入是否报错或者触发-->
- <!--       <dependency>
+        <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-wx</artifactId>
             <version>${pay.version}</version>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>com.egzosn</groupId>

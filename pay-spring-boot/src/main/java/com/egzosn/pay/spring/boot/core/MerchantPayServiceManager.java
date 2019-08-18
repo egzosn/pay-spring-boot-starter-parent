@@ -112,6 +112,18 @@ public class MerchantPayServiceManager {
         ImageIO.write(details.getPayService().genQrPay(payOrder), "JPEG", baos);
         return baos.toByteArray();
     }
+    /**
+     * 获取二维码信息
+     * 二维码支付
+     *
+     * @param payOrder 商户支付订单信息
+     * @return 二维码信息
+     */
+    public String getQrPay(MerchantPayOrder payOrder) {
+        PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(payOrder.getDetailsId());
+        payOrder.setTransactionType(details.getPaymentPlatform().getTransactionType(payOrder.getWayTrade()));
+        return  details.getPayService().getQrPay(payOrder);
+    }
 
     /**
      * 支付回调地址
