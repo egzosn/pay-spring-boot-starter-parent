@@ -1,17 +1,19 @@
 package com.egzosn.pay.spring.boot.demo.controller;
 
+import com.egzosn.pay.common.api.PayMessageInterceptor;
 import com.egzosn.pay.spring.boot.core.MerchantPayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
-
-import org.apache.commons.logging.impl.SLF4JLocationAwareLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author egan
@@ -39,16 +41,47 @@ public class PayMerchantController {
         return manager.toPay(payOrder);
     }
     /**
-     * 网页支付
+     * 二维码
      * @param detailsId 列表id
      * @param wayTrade 交易方式
-     * @return 网页
+     * @return 二维码
      */
     @ResponseBody
-    @RequestMapping(value = "toQrPay.jpg")
+    @RequestMapping(value = "toQrPay.jpg", produces = "image/jpeg;charset=UTF-8")
     public byte[] toQrPay(String detailsId, String wayTrade, BigDecimal price) throws IOException {
         MerchantPayOrder payOrder = new MerchantPayOrder(detailsId, wayTrade, "订单title", "摘要", null == price ? new BigDecimal(0.01) : price, UUID.randomUUID().toString().replace("-", ""));
         return manager.toQrPay(payOrder);
+    }
+    /**
+     * 二维码信息
+     * @param detailsId 列表id
+     * @param wayTrade 交易方式
+     * @return 二维码信息
+     */
+    @ResponseBody
+    @RequestMapping(value = "getQrPay.json")
+    public String getQrPay(String detailsId, String wayTrade, BigDecimal price) throws IOException {
+        MerchantPayOrder payOrder = new MerchantPayOrder(detailsId, wayTrade, "订单title", "摘要", null == price ? new BigDecimal(0.01) : price, UUID.randomUUID().toString().replace("-", ""));
+        return manager.getQrPay(payOrder);
+    }
+
+
+    /**
+     * 支付回调地址
+     * @param request 请求
+     * @param detailsId 列表id
+     * @return 支付是否成功
+     * @throws IOException IOException
+     * 拦截器相关增加， 详情查看{@link com.egzosn.pay.common.api.PayService#addPayMessageInterceptor(PayMessageInterceptor)}
+     * <p>
+     * 业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link com.egzosn.pay.common.api.PayService#setPayMessageHandler(com.egzosn.pay.common.api.PayMessageHandler)}
+     * </p>
+     * 如果未设置 {@link com.egzosn.pay.common.api.PayMessageHandler} 那么会使用默认的 {@link com.egzosn.pay.common.api.DefaultPayMessageHandler}
+     */
+    @RequestMapping(value = "payBack{detailsId}.json")
+    public String payBack(HttpServletRequest request, @PathVariable String detailsId) throws IOException {
+        //业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看com.egzosn.pay.common.api.PayService.setPayMessageHandler()
+        return manager.payBack(detailsId, request.getParameterMap(), request.getInputStream());
     }
 
 }
