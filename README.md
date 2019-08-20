@@ -17,7 +17,7 @@ spring-boot  pay-java-parent
 * GitHub：https://github.com/egzosn/pay-java-parent
 
 
-#### 安装教程
+#### 使用教程
 
 1. 引入 pay-spring-boot-starter
 ```xml
