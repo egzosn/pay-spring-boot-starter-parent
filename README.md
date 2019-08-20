@@ -38,8 +38,12 @@ spring-boot  pay-java-parent
 
 ```
 3. 编写一个基于com.egzosn.pay.spring.boot.core.PayServiceConfigurer的子类 
-    3.1. 并将其加入spring容器中
-    3.2. 对PayServiceConfigurer的子类所实现的方法进行配置数据来源，目前提供两种方式`jdbc`与`inMemory`
+```
+    3.1.  并将其加入spring容器中
+    3.2.  对PayServiceConfigurer的子类所实现的方法进行配置数据来源，目前提供两种方式`jdbc`与`inMemory`
+
+```
+
     
 4. 使用： 在你需要用到的类中注入 `com.egzosn.pay.spring.boot.core.MerchantPayServiceManager`  这个类是一个支付相关的操作类，拿到该类的引用即可对任意支付进行操作
 
