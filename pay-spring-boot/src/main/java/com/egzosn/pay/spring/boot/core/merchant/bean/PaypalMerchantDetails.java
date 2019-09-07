@@ -87,7 +87,9 @@ public class PaypalMerchantDetails extends PayPalConfigStorage implements Paymen
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
-        payService = platform.getPayService(this, getHttpConfigStorage());
+        if (null == payService){
+            payService = platform.getPayService(this, getHttpConfigStorage());
+        }
         return this;
     }
 
