@@ -114,7 +114,9 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     @Override
     public PaymentPlatformServiceAdapter initService() {
         platform = PaymentPlatforms.getPaymentPlatform(getPayType());
-        payService = platform.getPayService(this, getHttpConfigStorage());
+        if (null == payService){
+            payService = platform.getPayService(this, getHttpConfigStorage());
+        }
         return this;
     }
 

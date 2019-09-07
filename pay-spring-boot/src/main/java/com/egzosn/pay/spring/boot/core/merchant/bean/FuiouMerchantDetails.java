@@ -88,7 +88,9 @@ public class FuiouMerchantDetails extends FuiouPayConfigStorage implements Payme
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
-        payService = platform.getPayService(this, getHttpConfigStorage());
+        if (null == payService){
+            payService = platform.getPayService(this, getHttpConfigStorage());
+        }
         return this;
     }
 

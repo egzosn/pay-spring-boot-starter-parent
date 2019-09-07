@@ -91,7 +91,10 @@ public class AliMerchantDetails extends AliPayConfigStorage implements PaymentPl
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
-        payService = platform.getPayService(this, getHttpConfigStorage());
+        if (null == payService){
+            payService = platform.getPayService(this, getHttpConfigStorage());
+        }
+
         return this;
     }
 
