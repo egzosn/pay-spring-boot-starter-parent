@@ -1,5 +1,5 @@
 #### 项目介绍
-spring-boot-starter-pay 是一个基于spring-boot实现自动化配置的支付对接，让你可以不用理解支付怎么对接，只需要专注你的业务 **让你真正做到一行代码实现支付聚合** 
+spring-boot-starter-pay 是一个基于spring-boot实现自动化配置的支付对接， **让你真正做到一行代码实现支付聚合**， 让你可以不用理解支付怎么对接，只需要专注你的业务 
  
 全能第三方支付对接spring-boot-starter-pay开发工具包.优雅的轻量级支付模块集成支付对接支付整合（微信,支付宝,银联,友店,富友,跨境支付paypal,payoneer(P卡派安盈)易极付）app,扫码,网页支付刷卡付条码付刷脸付转账服务商模式、支持多种支付类型多支付账户，支付与业务完全剥离，简单几行代码即可实现支付，简单快速完成支付模块的开发
  
@@ -17,7 +17,7 @@ spring-boot  pay-java-parent
 * GitHub：https://github.com/egzosn/pay-java-parent
 
 
-#### 安装教程
+#### 使用教程
 
 1. 引入 pay-spring-boot-starter
 ```xml
@@ -38,8 +38,12 @@ spring-boot  pay-java-parent
 
 ```
 3. 编写一个基于com.egzosn.pay.spring.boot.core.PayServiceConfigurer的子类 
-    3.1. 并将其加入spring容器中
-    3.2. 对PayServiceConfigurer的子类所实现的方法进行配置数据来源，目前提供两种方式`jdbc`与`inMemory`
+```
+    3.1.  并将其加入spring容器中
+    3.2.  对PayServiceConfigurer的子类所实现的方法进行配置数据来源，目前提供两种方式`jdbc`与`inMemory`
+
+```
+
     
 4. 使用： 在你需要用到的类中注入 `com.egzosn.pay.spring.boot.core.MerchantPayServiceManager`  这个类是一个支付相关的操作类，拿到该类的引用即可对任意支付进行操作
 
