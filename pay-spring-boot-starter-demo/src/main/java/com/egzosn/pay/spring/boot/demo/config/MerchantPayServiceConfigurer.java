@@ -19,6 +19,7 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
     /**
      * 商户配置
      *
@@ -29,7 +30,9 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
     public void configure(MerchantDetailsServiceConfigurer merchants) throws Exception {
 //        数据库文件存放 /doc/sql目录下
         merchants.jdbc(jdbcTemplate);
-/*        merchants.inMemory()
+
+        //内存Builder方式
+    /*    merchants.inMemory()
                 .ali()
                 .detailsId("1")
                 .appid("2016080400165436")
@@ -42,8 +45,43 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
                 .seller("2088102169916436")
                 .signType("RSA")
                 .test(true)
-                .initService()
-        ;*/
+                .and()
+                .wx()
+                .detailsId("2")
+                .appid("wx3344f4aed352deae")
+                .mchId("1469188802")
+                .secretKey("991ded080***************f7fc61095")
+                .notifyUrl("http://pay.egzosn.com/payBack2.json")
+                .returnUrl("http://pay.egzosn.com/payBack2.json")
+                .inputCharset("utf-8")
+                .signType("MD5")
+                .test(true)
+                .and()
+        ;
 
+        //------------内存手动方式------------------
+        UnionMerchantDetails unionMerchantDetails = new UnionMerchantDetails();
+        unionMerchantDetails.detailsId("3");
+        //内存方式的时候这个必须设置
+        unionMerchantDetails.setCertSign(true);
+        unionMerchantDetails.setMerId("700000000000001");
+        //公钥，验签证书链格式： 中级证书路径;
+        unionMerchantDetails.setAcpMiddleCert("D:/certs/acp_test_middle.cer");
+        //公钥，根证书路径
+        unionMerchantDetails.setAcpRootCert("D:/certs/acp_test_root.cer");
+        //私钥, 私钥证书格式： 私钥证书路径
+        unionMerchantDetails.setKeyPrivateCert("D:/certs/acp_test_sign.pfx");
+        //私钥证书对应的密码
+        unionMerchantDetails.setKeyPrivateCertPwd("000000");
+        //证书的存储方式
+        unionMerchantDetails.setCertStoreType(CertStoreType.PATH);
+        unionMerchantDetails.setNotifyUrl("http://127.0.0.1/payBack4.json");
+        // 无需同步回调可不填  app填这个就可以
+        unionMerchantDetails.setReturnUrl("http://127.0.0.1/payBack4.json");
+        unionMerchantDetails.setInputCharset("UTF-8");
+        unionMerchantDetails.setSignType("RSA2");
+        unionMerchantDetails.setTest(true);
+        //手动加入商户容器中
+        merchants.inMemory().addMerchantDetails(unionMerchantDetails);*/
     }
 }
