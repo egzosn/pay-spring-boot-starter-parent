@@ -1,5 +1,6 @@
 package com.egzosn.pay.spring.boot.core.provider;
 
+import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.CertStoreType;
 import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantNotFoundException;
@@ -10,14 +11,11 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.util.Assert;
-
 import javax.sql.DataSource;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-
 import static com.egzosn.pay.spring.boot.core.utils.SqlTools.SEPARATED;
 
 
@@ -153,9 +151,9 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
                 details.setSubAppId(rs.getString(index++));
                 details.setSubMchId(rs.getString(index++));
                 details.setInputCharset(rs.getString(index++));
-
                 details.setTest(rs.getBoolean(index++));
-                details.initService();
+                PayService payService = details.initService().getPayService();
+                InMemoryMerchantDetailsManager.setPayMessageConfigurer(payService, details);
                 return details;
             }
         }, merchantId);

@@ -1,7 +1,13 @@
 package com.egzosn.pay.spring.boot.core.provider;
 
-import com.egzosn.pay.spring.boot.core.merchant.MerchantDetails;
+import com.egzosn.pay.common.api.PayMessageHandler;
+import com.egzosn.pay.common.api.PayMessageInterceptor;
+import com.egzosn.pay.common.api.PayService;
+import com.egzosn.pay.common.bean.PayMessage;
+import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantNotFoundException;
+import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
+import com.egzosn.pay.spring.boot.core.utils.SpringContextUtil;
 import org.springframework.util.Assert;
 
 import java.util.*;
@@ -16,21 +22,21 @@ import java.util.*;
  *                 date 2018-11-22 17:18:03
  *           </pre>
  */
-public class InMemoryMerchantDetailsManager<T extends MerchantDetails> implements MerchantDetailsManager<T> {
+public class InMemoryMerchantDetailsManager implements MerchantDetailsManager<PaymentPlatformMerchantDetails> {
 
-    private Map<String, T> merchantDetails = new HashMap<String, T>();
+    private Map<String, PaymentPlatformMerchantDetails> merchantDetails = new HashMap<String, PaymentPlatformMerchantDetails>();
 
 
     public InMemoryMerchantDetailsManager() {
     }
 
-    public InMemoryMerchantDetailsManager(Collection<T> merchantDetails) {
-        for (T merchant : merchantDetails) {
+    public InMemoryMerchantDetailsManager(Collection<PaymentPlatformMerchantDetails> merchantDetails) {
+        for (PaymentPlatformMerchantDetails merchant : merchantDetails) {
             createMerchant(merchant);
         }
     }
 
-    public InMemoryMerchantDetailsManager(Map<String, T> merchantDetails) {
+    public InMemoryMerchantDetailsManager(Map<String, PaymentPlatformMerchantDetails> merchantDetails) {
         this.merchantDetails = merchantDetails;
     }
 
@@ -49,21 +55,35 @@ public class InMemoryMerchantDetailsManager<T extends MerchantDetails> implement
      * @param merchant 商户信息
      */
     @Override
-    public void createMerchant(T merchant) {
+    public void createMerchant(PaymentPlatformMerchantDetails merchant) {
 
         Assert.isTrue(!merchantExists(merchant.getDetailsId()), "商户信息已存在");
-
+        InMemoryMerchantDetailsManager.setPayMessageConfigurer(merchant.getPayService(), merchant);
         merchantDetails.put(merchant.getDetailsId(), merchant);
 
     }
+    protected static void setPayMessageConfigurer(PayService payService, PaymentPlatformMerchantDetails details){
+        PayMessageConfigurer configurer = SpringContextUtil.getBean(PayMessageConfigurer.class);
+        PayMessageHandler<PayMessage, PayService> handler = configurer.getHandler(details.getPaymentPlatform());
+        if (null != handler){
+            payService.setPayMessageHandler(handler);
+        }
 
+        List<PayMessageInterceptor<PayMessage, PayService>> interceptors = configurer.getInterceptor(details.getPaymentPlatform());
+        if (null == interceptors || interceptors.isEmpty()){
+            return;
+        }
+        for (PayMessageInterceptor<PayMessage, PayService> interceptor : interceptors){
+            payService.addPayMessageInterceptor(interceptor);
+        }
+    }
     /**
      * 更新商户
      *
      * @param merchant 商户信息
      */
     @Override
-    public void updateMerchant(T merchant) {
+    public void updateMerchant(PaymentPlatformMerchantDetails merchant) {
         Assert.isTrue(merchantExists(merchant.getDetailsId()), "商户信息不存在");
         merchantDetails.put(merchant.getDetailsId(), merchant);
     }
@@ -96,9 +116,9 @@ public class InMemoryMerchantDetailsManager<T extends MerchantDetails> implement
      * @return 商户信息列表
      */
     @Override
-    public T loadMerchantByMerchantId(String merchantId) {
+    public PaymentPlatformMerchantDetails loadMerchantByMerchantId(String merchantId) {
 
-        T details = merchantDetails.get(merchantId);
+        PaymentPlatformMerchantDetails details = merchantDetails.get(merchantId);
         if (null == details) {
             throw new MerchantNotFoundException(merchantId);
         }

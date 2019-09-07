@@ -1,6 +1,7 @@
 package com.egzosn.pay.spring.boot.core;
 
 import com.egzosn.pay.spring.boot.core.configurers.MerchantDetailsServiceConfigurer;
+import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 
 /**
  * 支付服务配置，用于支付服务相关的配置，暂时主要为商户相关的配置，后期在进行添加别的配置
@@ -15,8 +16,18 @@ public interface PayServiceConfigurer {
 
     /**
      * 商户配置
-     * @param merchants 商户配置
+     * @param configurer 商户配置
      * @throws Exception 异常
      */
-    void configure(MerchantDetailsServiceConfigurer merchants) throws Exception;
+    void configure(MerchantDetailsServiceConfigurer configurer) throws Exception;
+    /**
+     * 商户配置
+     * @param configurer 支付消息配置
+     * @throws Exception 异常
+     */
+    void configure(PayMessageConfigurer configurer) throws Exception;
+
+
+
+
 }

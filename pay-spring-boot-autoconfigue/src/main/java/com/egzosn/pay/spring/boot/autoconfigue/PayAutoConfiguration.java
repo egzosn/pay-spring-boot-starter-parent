@@ -1,7 +1,9 @@
 package com.egzosn.pay.spring.boot.autoconfigue;
 
 import com.egzosn.pay.spring.boot.core.MerchantPayServiceManager;
+import com.egzosn.pay.spring.boot.core.configurers.DefalutPayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.configurers.MerchantDetailsServiceConfigurer;
+import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +40,7 @@ public class PayAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(MerchantDetailsServiceConfigurer.class)
-    public MerchantDetailsServiceConfigurer merchantDetails(){
+    public MerchantDetailsServiceConfigurer detailsServiceConfigurer(){
         return new MerchantDetailsServiceConfigurer();
     }
 
@@ -48,5 +50,13 @@ public class PayAutoConfiguration {
     public MerchantPayServiceManager payServiceManager(){
         return new MerchantPayServiceManager();
     }
+
+
+    @Bean
+    @ConditionalOnMissingBean(PayMessageConfigurer.class)
+    public PayMessageConfigurer messageHandlerConfigurer(){
+        return new DefalutPayMessageConfigurer();
+    }
+
 
 }

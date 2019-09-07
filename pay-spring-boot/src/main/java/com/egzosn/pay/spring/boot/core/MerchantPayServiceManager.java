@@ -9,6 +9,7 @@ import com.egzosn.pay.common.bean.TransferOrder;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
 import com.egzosn.pay.spring.boot.core.bean.MerchantQueryOrder;
 import com.egzosn.pay.spring.boot.core.configurers.MerchantDetailsServiceConfigurer;
+import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +41,11 @@ public class MerchantPayServiceManager {
     private MerchantDetailsService<PaymentPlatformMerchantDetails> detailsService;
 
     @Autowired
-    protected void configure(MerchantDetailsServiceConfigurer merchantDetails) {
+    protected void configure(MerchantDetailsServiceConfigurer merchantDetails, PayMessageConfigurer payMessageConfigurer) {
         try {
 
             configurer.configure(merchantDetails);
+            configurer.configure(payMessageConfigurer);
             detailsService = merchantDetails.getBuilder().build();
             spring.autowireBean(detailsService);
         } catch (Exception e) {
