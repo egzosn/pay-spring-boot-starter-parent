@@ -7,7 +7,6 @@ import com.egzosn.pay.common.bean.PayMessage;
 import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantNotFoundException;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
-import com.egzosn.pay.spring.boot.core.utils.SpringContextUtil;
 import org.springframework.util.Assert;
 
 import java.util.*;
@@ -25,7 +24,7 @@ import java.util.*;
 public class InMemoryMerchantDetailsManager implements MerchantDetailsManager<PaymentPlatformMerchantDetails> {
 
     private Map<String, PaymentPlatformMerchantDetails> merchantDetails = new HashMap<String, PaymentPlatformMerchantDetails>();
-
+    private PayMessageConfigurer configurer;
 
     public InMemoryMerchantDetailsManager() {
     }
@@ -58,12 +57,11 @@ public class InMemoryMerchantDetailsManager implements MerchantDetailsManager<Pa
     public void createMerchant(PaymentPlatformMerchantDetails merchant) {
 
         Assert.isTrue(!merchantExists(merchant.getDetailsId()), "商户信息已存在");
-        InMemoryMerchantDetailsManager.setPayMessageConfigurer(merchant.getPayService(), merchant);
+        InMemoryMerchantDetailsManager.setPayMessageConfigurer(merchant.getPayService(), merchant, configurer);
         merchantDetails.put(merchant.getDetailsId(), merchant);
 
     }
-    protected static void setPayMessageConfigurer(PayService payService, PaymentPlatformMerchantDetails details){
-        PayMessageConfigurer configurer = SpringContextUtil.getBean(PayMessageConfigurer.class);
+    protected static void setPayMessageConfigurer(PayService payService, PaymentPlatformMerchantDetails details, PayMessageConfigurer configurer){
         PayMessageHandler<PayMessage, PayService> handler = configurer.getHandler(details.getPaymentPlatform());
         if (null != handler){
             payService.setPayMessageHandler(handler);
@@ -107,6 +105,16 @@ public class InMemoryMerchantDetailsManager implements MerchantDetailsManager<Pa
     @Override
     public boolean merchantExists(String id) {
         return merchantDetails.containsKey(id);
+    }
+
+    /**
+     * 设置支付消息配置中心
+     *
+     * @param configurer 配置
+     */
+    @Override
+    public void setPayMessageConfigurer(PayMessageConfigurer configurer) {
+        this.configurer = configurer;
     }
 
     /**

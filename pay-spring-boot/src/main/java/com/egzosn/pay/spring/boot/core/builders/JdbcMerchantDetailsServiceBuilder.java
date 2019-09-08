@@ -1,5 +1,6 @@
 package com.egzosn.pay.spring.boot.core.builders;
 
+import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
 import com.egzosn.pay.spring.boot.core.provider.JdbcMerchantDetailsManager;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,6 +18,8 @@ import javax.sql.DataSource;
 public class JdbcMerchantDetailsServiceBuilder extends MerchantDetailsServiceBuilder {
 
     private JdbcTemplate jdbcTemplate;
+
+
     public JdbcMerchantDetailsServiceBuilder(DataSource source) {
         jdbcTemplate = new JdbcTemplate(source);
     }
@@ -47,6 +50,8 @@ public class JdbcMerchantDetailsServiceBuilder extends MerchantDetailsServiceBui
     @Override
     protected MerchantDetailsService performBuild() {
 
-        return new JdbcMerchantDetailsManager(jdbcTemplate);
+        JdbcMerchantDetailsManager manager = new JdbcMerchantDetailsManager(jdbcTemplate);
+        manager.setPayMessageConfigurer(configurer);
+        return manager;
     }
 }

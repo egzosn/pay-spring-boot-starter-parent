@@ -1,5 +1,6 @@
 package com.egzosn.pay.spring.boot.core.builders;
 
+import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.core.merchant.bean.*;
@@ -19,6 +20,8 @@ import java.util.List;
 public class InMemoryMerchantDetailsServiceBuilder extends MerchantDetailsServiceBuilder {
 
     private List<PaymentPlatformMerchantDetails> merchantDetails = new ArrayList<PaymentPlatformMerchantDetails>();
+
+
 
     public void addMerchantDetails(PaymentPlatformMerchantDetails merchantDetail) {
         this.merchantDetails.add(merchantDetail);
@@ -65,6 +68,7 @@ public class InMemoryMerchantDetailsServiceBuilder extends MerchantDetailsServic
     @Override
     protected MerchantDetailsService performBuild() {
         InMemoryMerchantDetailsManager merchantDetailsManager = new InMemoryMerchantDetailsManager(merchantDetails);
+        merchantDetailsManager.setPayMessageConfigurer(configurer);
         return merchantDetailsManager;
     }
 }

@@ -1,6 +1,7 @@
 package com.egzosn.pay.spring.boot.core.builders;
 
 import com.egzosn.pay.spring.boot.core.PayBuilder;
+import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -15,6 +16,7 @@ import javax.sql.DataSource;
  *         </pre>
  */
 public class MerchantDetailsServiceBuilder implements PayBuilder<MerchantDetailsService> {
+    protected PayMessageConfigurer configurer;
 
     public static final InMemoryMerchantDetailsServiceBuilder inMemory(){
         return new InMemoryMerchantDetailsServiceBuilder();
@@ -47,5 +49,9 @@ public class MerchantDetailsServiceBuilder implements PayBuilder<MerchantDetails
      */
     protected  MerchantDetailsService performBuild(){
         throw new UnsupportedOperationException("无法构建商家服务(需要使用inMemory()或jdbc())");
+    }
+
+    public void setConfigurer(PayMessageConfigurer configurer) {
+        this.configurer = configurer;
     }
 }
