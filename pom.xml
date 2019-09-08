@@ -134,7 +134,7 @@
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-            <plugin>
+          <!--  <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.1</version>
@@ -144,7 +144,7 @@
                     <releaseProfiles>release</releaseProfiles>
                     <goals>deploy</goals>
                 </configuration>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -170,20 +170,20 @@
                     </execution>
                 </executions>
             </plugin>
-             <!--<plugin>
+             <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>1.6</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
-                            <phase>verify</phase>
-                            <goals>
+                            <phase>none</phase>
+                          <!--  <goals>
                                 <goal>sign</goal>
-                            </goals>
+                            </goals>-->
                         </execution>
                     </executions>
-                </plugin>-->
+                </plugin>
         </plugins>
     </build>
 </project>

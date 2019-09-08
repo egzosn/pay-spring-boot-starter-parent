@@ -3,6 +3,7 @@ package com.egzosn.pay.spring.boot.core.provider;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.CertStoreType;
 import com.egzosn.pay.common.util.str.StringUtils;
+import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantNotFoundException;
 import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.UnionPaymentPlatform;
@@ -51,6 +52,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     private String deleteSql = DEFAULT_DELETE_SQL;
     private String existsSql = DEFAULT_EXISTS_SQL;
 
+    private PayMessageConfigurer configurer;
 
     public JdbcMerchantDetailsManager(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -153,7 +155,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
                 details.setInputCharset(rs.getString(index++));
                 details.setTest(rs.getBoolean(index++));
                 PayService payService = details.initService().getPayService();
-                InMemoryMerchantDetailsManager.setPayMessageConfigurer(payService, details);
+                InMemoryMerchantDetailsManager.setPayMessageConfigurer(payService, details, configurer);
                 return details;
             }
         }, merchantId);
@@ -221,5 +223,16 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
 
     public void setExistsSql(String existsSql) {
         this.existsSql = existsSql;
+    }
+
+
+    /**
+     * 设置支付消息配置中心
+     *
+     * @param configurer 配置
+     */
+    @Override
+    public void setPayMessageConfigurer(PayMessageConfigurer configurer) {
+        this.configurer = configurer;
     }
 }
