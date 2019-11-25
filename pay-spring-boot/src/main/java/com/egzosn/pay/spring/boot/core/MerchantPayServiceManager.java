@@ -247,8 +247,8 @@ public class MerchantPayServiceManager {
      * @param message 支付平台返回的消息
      * @return 支付消息对象
      */
-    public PayMessage createMessage(String detailsId, Map<String, Object> message){
-        PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
-        return details.getPayService().createMessage(message);
+   public PayMessage createMessage(String detailsId, Map<String, Object> message){
+       PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
+       return details.getPayService().createMessage(message);
     }
 }

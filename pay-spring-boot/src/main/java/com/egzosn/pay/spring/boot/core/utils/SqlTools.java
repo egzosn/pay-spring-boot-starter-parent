@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 /**
  *  jdbc sql生成语句生产
  * @author ZaoSheng
- *Wed Nov 162 17:31:32 CST 2015
+ * Wed Nov 162 17:31:32 CST 2015
  */
 public class SqlTools {
 	public static final String SEPARATED = ", ";
@@ -142,7 +142,7 @@ public class SqlTools {
 	 * 设置 参数
 	 * @param ps 代替对象
 	 * @param params 参数
-	 * @throws SQLException
+	 * @throws SQLException 设置参数异常
 	 */
 	public static void fillStatement(PreparedStatement ps, List<Object> params)throws SQLException {
 		if (null == params || params.isEmpty()){
@@ -177,7 +177,7 @@ public class SqlTools {
 	 * 设置 参数
 	 * @param ps 代替对象
 	 * @param params 参数
-	 * @throws SQLException
+	 * @throws SQLException 设置参数异常
 	 */
 	public static void fillStatement(PreparedStatement ps, Object... params)throws SQLException {
 
