@@ -1,6 +1,7 @@
 package com.egzosn.pay.spring.boot.demo.config;
 
 import com.egzosn.pay.common.bean.CertStoreType;
+import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.PayServiceConfigurer;
 import com.egzosn.pay.spring.boot.core.configurers.MerchantDetailsServiceConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.bean.UnionMerchantDetails;
@@ -51,7 +52,10 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
     public void configure(MerchantDetailsServiceConfigurer merchants) throws Exception {
 //        数据库文件存放 /doc/sql目录下
 //        merchants.jdbc(jdbcTemplate);
-
+        HttpConfigStorage wxHttpConfigStorage = new HttpConfigStorage();
+        wxHttpConfigStorage.setKeystore("http://www.egzosn.com/certs/ssl 退款证书.cer");
+        wxHttpConfigStorage.setCertStoreType(CertStoreType.URL);
+        wxHttpConfigStorage.setStorePassword("ssl 证书对应的密码， 默认为商户号");
         //内存Builder方式
         merchants.inMemory()
                 .ali()
@@ -76,6 +80,8 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
                 .returnUrl("http://pay.egzosn.com/payBack2.json")
                 .inputCharset("utf-8")
                 .signType("MD5")
+                //设置请求相关的配置
+                .httpConfigStorage(wxHttpConfigStorage)
                 .test(true)
                 .and()
         ;
