@@ -4,6 +4,9 @@ import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetails;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 商户列表管理器
  * @author egan
@@ -19,6 +22,11 @@ public interface MerchantDetailsManager<T extends MerchantDetails> extends Merch
      * @param merchant 商户信息
      */
     void createMerchant(T merchant);
+    /**
+     *  创建商户
+     * @param merchants 商户信息
+     */
+    void createMerchant(Collection<T> merchants);
 
     /**
      *  更新商户
