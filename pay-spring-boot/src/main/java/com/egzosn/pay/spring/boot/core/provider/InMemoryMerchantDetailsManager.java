@@ -30,9 +30,7 @@ public class InMemoryMerchantDetailsManager implements MerchantDetailsManager<Pa
     }
 
     public InMemoryMerchantDetailsManager(Collection<PaymentPlatformMerchantDetails> merchantDetails) {
-        for (PaymentPlatformMerchantDetails merchant : merchantDetails) {
-            createMerchant(merchant);
-        }
+        createMerchant(merchantDetails);
     }
 
     public InMemoryMerchantDetailsManager(Map<String, PaymentPlatformMerchantDetails> merchantDetails) {
@@ -48,6 +46,17 @@ public class InMemoryMerchantDetailsManager implements MerchantDetailsManager<Pa
     }
 
 
+    /**
+     * 创建商户
+     *
+     * @param merchants 商户信息
+     */
+    @Override
+    public void createMerchant(Collection<PaymentPlatformMerchantDetails> merchants) {
+        for (PaymentPlatformMerchantDetails merchant : merchants) {
+            this.createMerchant(merchant);
+        }
+    }
     /**
      * 创建商户
      *

@@ -12,7 +12,7 @@
     <groupId>com.egzosn</groupId>
     <artifactId>pay-spring-boot-starter-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <modules>
         <module>pay-spring-boot</module>
         <module>pay-spring-boot-starter</module>
@@ -134,7 +134,7 @@
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-          <!--  <plugin>
+   <!--         <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.1</version>
@@ -178,7 +178,7 @@
                         <execution>
                             <id>sign-artifacts</id>
                             <phase>none</phase>
-                          <!--  <goals>
+                            <!--<goals>
                                 <goal>sign</goal>
                             </goals>-->
                         </execution>

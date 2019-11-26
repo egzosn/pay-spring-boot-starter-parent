@@ -35,8 +35,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+//    @Autowired
+//    private JdbcTemplate jdbcTemplate;
     @Autowired
     private AutowireCapableBeanFactory spring;
     @Autowired
@@ -50,10 +50,10 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
     @Override
     public void configure(MerchantDetailsServiceConfigurer merchants) throws Exception {
 //        数据库文件存放 /doc/sql目录下
-        merchants.jdbc(jdbcTemplate);
+//        merchants.jdbc(jdbcTemplate);
 
         //内存Builder方式
-    /*    merchants.inMemory()
+        merchants.inMemory()
                 .ali()
                 .detailsId("1")
                 .appid("2016080400165436")
@@ -80,7 +80,7 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
                 .and()
         ;
 
-        //------------内存手动方式------------------
+      /*  //------------内存手动方式------------------
         UnionMerchantDetails unionMerchantDetails = new UnionMerchantDetails();
         unionMerchantDetails.detailsId("3");
         //内存方式的时候这个必须设置

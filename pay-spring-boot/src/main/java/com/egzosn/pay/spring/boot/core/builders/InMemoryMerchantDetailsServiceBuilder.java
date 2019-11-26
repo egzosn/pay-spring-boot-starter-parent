@@ -67,8 +67,9 @@ public class InMemoryMerchantDetailsServiceBuilder extends MerchantDetailsServic
      */
     @Override
     protected MerchantDetailsService performBuild() {
-        InMemoryMerchantDetailsManager merchantDetailsManager = new InMemoryMerchantDetailsManager(merchantDetails);
+        InMemoryMerchantDetailsManager merchantDetailsManager = new InMemoryMerchantDetailsManager();
         merchantDetailsManager.setPayMessageConfigurer(configurer);
+        merchantDetailsManager.createMerchant(merchantDetails);
         return merchantDetailsManager;
     }
 }
