@@ -53,7 +53,7 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
 //        数据库文件存放 /doc/sql目录下
 //        merchants.jdbc(jdbcTemplate);
         HttpConfigStorage wxHttpConfigStorage = new HttpConfigStorage();
-        wxHttpConfigStorage.setKeystore("http://www.egzosn.com/certs/ssl 退款证书.cer");
+        wxHttpConfigStorage.setKeystore("http://www.egzosn.com/certs/ssl 退款证书");
         wxHttpConfigStorage.setCertStoreType(CertStoreType.URL);
         wxHttpConfigStorage.setStorePassword("ssl 证书对应的密码， 默认为商户号");
         //内存Builder方式
