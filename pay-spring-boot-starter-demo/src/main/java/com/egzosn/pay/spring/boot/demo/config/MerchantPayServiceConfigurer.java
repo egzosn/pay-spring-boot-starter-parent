@@ -1,6 +1,7 @@
 package com.egzosn.pay.spring.boot.demo.config;
 
 import com.egzosn.pay.common.bean.CertStoreType;
+import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.PayServiceConfigurer;
 import com.egzosn.pay.spring.boot.core.configurers.MerchantDetailsServiceConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.bean.UnionMerchantDetails;
@@ -35,7 +36,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
 
-//    @Autowired
+    //    @Autowired
 //    private JdbcTemplate jdbcTemplate;
     @Autowired
     private AutowireCapableBeanFactory spring;
@@ -51,7 +52,11 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
     public void configure(MerchantDetailsServiceConfigurer merchants) throws Exception {
 //        数据库文件存放 /doc/sql目录下
 //        merchants.jdbc(jdbcTemplate);
-
+        //微信请求配置，详情参考https://gitee.com/egzosn/pay-java-parent项目中的使用
+        HttpConfigStorage wxHttpConfigStorage = new HttpConfigStorage();
+        wxHttpConfigStorage.setKeystore("http://www.egzosn.com/certs/ssl 退款证书");
+        wxHttpConfigStorage.setCertStoreType(CertStoreType.URL);
+        wxHttpConfigStorage.setStorePassword("ssl 证书对应的密码， 默认为商户号");
         //内存Builder方式
         merchants.inMemory()
                 .ali()
@@ -76,6 +81,8 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
                 .returnUrl("http://pay.egzosn.com/payBack2.json")
                 .inputCharset("utf-8")
                 .signType("MD5")
+                //设置请求相关的配置
+                .httpConfigStorage(wxHttpConfigStorage)
                 .test(true)
                 .and()
         ;
@@ -111,11 +118,11 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
      * @param configurer 支付消息配置
      * @throws Exception 异常
      */
-        @Override
-        public void configure(PayMessageConfigurer configurer) throws Exception {
-            PaymentPlatform aliPaymentPlatform = PaymentPlatforms.getPaymentPlatform(AliPaymentPlatform.platformName);
-            configurer.addHandler(aliPaymentPlatform, aliPayMessageHandler);
-            configurer.addInterceptor(aliPaymentPlatform, spring.getBean(AliPayMessageInterceptor.class));
-            configurer.addHandler(PaymentPlatforms.getPaymentPlatform(WxPaymentPlatform.platformName), new WxPayMessageHandler());
-        }
+    @Override
+    public void configure(PayMessageConfigurer configurer) throws Exception {
+        PaymentPlatform aliPaymentPlatform = PaymentPlatforms.getPaymentPlatform(AliPaymentPlatform.platformName);
+        configurer.addHandler(aliPaymentPlatform, aliPayMessageHandler);
+        configurer.addInterceptor(aliPaymentPlatform, spring.getBean(AliPayMessageInterceptor.class));
+        configurer.addHandler(PaymentPlatforms.getPaymentPlatform(WxPaymentPlatform.platformName), new WxPayMessageHandler());
+    }
 }
