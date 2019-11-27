@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import static com.egzosn.pay.spring.boot.core.utils.SqlTools.SEPARATED;
 
@@ -62,6 +63,17 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * 创建商户
+     *
+     * @param merchants 商户信息
+     */
+    @Override
+    public void createMerchant(Collection<CommonPaymentPlatformMerchantDetails> merchants) {
+        for (CommonPaymentPlatformMerchantDetails merchant : merchants) {
+            this.createMerchant(merchant);
+        }
+    }
     /**
      * 创建商户
      *

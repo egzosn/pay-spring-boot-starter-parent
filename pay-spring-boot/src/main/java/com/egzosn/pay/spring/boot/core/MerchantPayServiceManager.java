@@ -2,10 +2,7 @@ package com.egzosn.pay.spring.boot.core;
 
 import com.egzosn.pay.common.api.PayMessageInterceptor;
 import com.egzosn.pay.common.api.PayService;
-import com.egzosn.pay.common.bean.MethodType;
-import com.egzosn.pay.common.bean.RefundOrder;
-import com.egzosn.pay.common.bean.TransactionType;
-import com.egzosn.pay.common.bean.TransferOrder;
+import com.egzosn.pay.common.bean.*;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
 import com.egzosn.pay.spring.boot.core.bean.MerchantQueryOrder;
 import com.egzosn.pay.spring.boot.core.configurers.MerchantDetailsServiceConfigurer;
@@ -85,7 +82,7 @@ public class MerchantPayServiceManager {
 
     /**
      * 刷卡付,pos主动扫码付款(条码付)
-     *
+     * 刷脸付
      * @param payOrder 商户支付订单信息
      * @return 支付结果
      */
@@ -245,4 +242,13 @@ public class MerchantPayServiceManager {
         return details.getPayService().transferQuery(outNo, tradeNo);
     }
 
+    /**
+     * 创建消息
+     * @param message 支付平台返回的消息
+     * @return 支付消息对象
+     */
+   public PayMessage createMessage(String detailsId, Map<String, Object> message){
+       PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
+       return details.getPayService().createMessage(message);
+    }
 }

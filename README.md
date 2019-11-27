@@ -24,7 +24,7 @@ spring-boot  pay-java-parent
     <dependency>
         <groupId>com.egzosn</groupId>
         <artifactId>pay-spring-boot-starter</artifactId>
-        <version>0.0.1</version>
+        <version>0.0.3</version>
     </dependency>
 ```
 2. 引入 你需要对接的基于`pay-java-parent`支付开发包,具体支付模块 "{module-name}" 为具体的支付渠道的模块名 pay-java-ali，pay-java-wx等
@@ -33,7 +33,7 @@ spring-boot  pay-java-parent
     <dependency>
         <groupId>com.egzosn</groupId>
         <artifactId>{module-name}</artifactId>
-        <version>2.12.8</version>
+        <version>2.12.9</version>
     </dependency>
 
 ```
