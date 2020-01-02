@@ -17,15 +17,13 @@ public interface PayServiceConfigurer {
     /**
      * 商户配置
      * @param configurer 商户配置
-     * @throws Exception 异常
      */
-    void configure(MerchantDetailsServiceConfigurer configurer) throws Exception;
+    void configure(MerchantDetailsServiceConfigurer configurer);
     /**
      * 商户配置
      * @param configurer 支付消息配置
-     * @throws Exception 异常
      */
-    void configure(PayMessageConfigurer configurer) throws Exception;
+    void configure(PayMessageConfigurer configurer) ;
 
 
 

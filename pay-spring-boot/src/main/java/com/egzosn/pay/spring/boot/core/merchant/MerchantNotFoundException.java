@@ -8,6 +8,7 @@ package com.egzosn.pay.spring.boot.core.merchant;
  *         date  2019/4/6 16:43.
  *         </pre>
  */
+
 public class MerchantNotFoundException extends RuntimeException {
 
     /**
@@ -26,6 +27,7 @@ public class MerchantNotFoundException extends RuntimeException {
 
     /**
      * @param detailsId 商户列表id
+     * @param cause 异常
      */
     public MerchantNotFoundException(String detailsId, Throwable cause) {
         super(MESSAGE + detailsId, cause);

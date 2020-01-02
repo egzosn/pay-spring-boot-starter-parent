@@ -46,10 +46,9 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
      * 商户配置
      *
      * @param merchants 商户配置
-     * @throws Exception 异常
      */
     @Override
-    public void configure(MerchantDetailsServiceConfigurer merchants) throws Exception {
+    public void configure(MerchantDetailsServiceConfigurer merchants)  {
 //        数据库文件存放 /doc/sql目录下
 //        merchants.jdbc(jdbcTemplate);
         //微信请求配置，详情参考https://gitee.com/egzosn/pay-java-parent项目中的使用
@@ -116,13 +115,12 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
      * 商户配置
      *
      * @param configurer 支付消息配置
-     * @throws Exception 异常
      */
-        @Override
-        public void configure(PayMessageConfigurer configurer) throws Exception {
-            PaymentPlatform aliPaymentPlatform = PaymentPlatforms.getPaymentPlatform(AliPaymentPlatform.platformName);
-            configurer.addHandler(aliPaymentPlatform, aliPayMessageHandler);
-            configurer.addInterceptor(aliPaymentPlatform, spring.getBean(AliPayMessageInterceptor.class));
-            configurer.addHandler(PaymentPlatforms.getPaymentPlatform(WxPaymentPlatform.platformName), new WxPayMessageHandler());
-        }
+    @Override
+    public void configure(PayMessageConfigurer configurer) {
+        PaymentPlatform aliPaymentPlatform = PaymentPlatforms.getPaymentPlatform(AliPaymentPlatform.platformName);
+        configurer.addHandler(aliPaymentPlatform, aliPayMessageHandler);
+        configurer.addInterceptor(aliPaymentPlatform, spring.getBean(AliPayMessageInterceptor.class));
+        configurer.addHandler(PaymentPlatforms.getPaymentPlatform(WxPaymentPlatform.platformName), new WxPayMessageHandler());
+    }
 }
