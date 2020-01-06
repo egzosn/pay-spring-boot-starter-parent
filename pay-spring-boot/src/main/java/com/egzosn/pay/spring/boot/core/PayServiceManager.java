@@ -124,7 +124,7 @@ public interface PayServiceManager {
      * @param order 订单的请求体
      * @return 返回支付方下载对账单的结果
      */
-    Object downloadbill(MerchantQueryOrder order);
+    Map<String, Object> downloadbill(MerchantQueryOrder order);
 
     /**
      * 通用查询接口，根据 TransactionType 类型进行实现,此接口不包括退款

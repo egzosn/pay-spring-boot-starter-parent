@@ -44,7 +44,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(payOrder.getDetailsId());
         payOrder.setTransactionType(details.getPaymentPlatform().getTransactionType(payOrder.getWayTrade()));
         PayService payService = details.getPayService();
-        Map orderInfo = payService.orderInfo(payOrder);
+        Map<String, Object> orderInfo = payService.orderInfo(payOrder);
         return payService.buildRequest(orderInfo, MethodType.POST);
     }
 
@@ -59,7 +59,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(payOrder.getDetailsId());
         payOrder.setTransactionType(details.getPaymentPlatform().getTransactionType(payOrder.getWayTrade()));
         PayService payService = details.getPayService();
-        Map orderInfo = payService.orderInfo(payOrder);
+        Map<String, Object> orderInfo = payService.orderInfo(payOrder);
         return orderInfo;
     }
 
@@ -191,7 +191,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
      * @return 返回支付方下载对账单的结果
      */
     @Override
-    public Object downloadbill(MerchantQueryOrder order) {
+    public Map<String, Object> downloadbill(MerchantQueryOrder order) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(order.getDetailsId());
 
         return details.getPayService().downloadbill(order.getBillDate(), order.getBillType());
