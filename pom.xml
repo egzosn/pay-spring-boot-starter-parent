@@ -177,10 +177,10 @@
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
-                            <phase>install</phase>
-                            <goals>
+                            <phase>none</phase>
+                           <!-- <goals>
                                 <goal>sign</goal>
-                            </goals>
+                            </goals>-->
                         </execution>
                     </executions>
                 </plugin>
