@@ -17,7 +17,7 @@
         <module>pay-spring-boot</module>
         <module>pay-spring-boot-starter</module>
         <module>pay-spring-boot-autoconfigue</module>
-        <!--<module>pay-spring-boot-starter-demo</module>-->
+        <module>pay-spring-boot-starter-demo</module>
     </modules>
 
     <properties>
