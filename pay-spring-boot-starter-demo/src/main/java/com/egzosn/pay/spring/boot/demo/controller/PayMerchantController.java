@@ -1,18 +1,12 @@
 package com.egzosn.pay.spring.boot.demo.controller;
 
 import com.egzosn.pay.common.api.PayMessageInterceptor;
-import com.egzosn.pay.spring.boot.core.MerchantPayServiceManager;
+import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
-import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
-import com.egzosn.pay.spring.boot.core.merchant.bean.AliMerchantDetails;
-import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
-import com.egzosn.pay.spring.boot.core.provider.InMemoryMerchantDetailsManager;
 import com.egzosn.pay.spring.boot.core.provider.MerchantDetailsManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.UUID;
-
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -30,12 +22,13 @@ import javax.servlet.http.HttpServletRequest;
  *         email egzosn@gmail.com
  *         date 2019/5/26.20:10
  */
+
 @RequestMapping("pay")
 @Controller
 public class PayMerchantController {
 
     @Autowired
-    private MerchantPayServiceManager manager;
+    private PayServiceManager manager;
 
 
     @Autowired
