@@ -54,6 +54,19 @@ public class MerchantDetailsServiceConfigurer implements PayConfigurerAdapter<Me
         initBuilder(builder);
         return builder;
     }
+
+    /**
+     *
+     * 将在未来可能进行移除，避免项目不用JdbcTemplate最为数据源操作并且不需要引入JdbcTemplate包时导致的不必要报错
+     *
+     *  替代方式{@link #jdbc()}与{@link #jdbc(DataSource)}进行替代
+     *  <code>
+     *      jdbc().template(JdbcTemplate);
+     *  </code>
+     * @param jdbcTemplate jdbc模版
+     * @return jdbc商户列表服务构建器
+     */
+    @Deprecated
     public JdbcMerchantDetailsServiceBuilder jdbc(JdbcTemplate jdbcTemplate) {
         JdbcMerchantDetailsServiceBuilder builder = MerchantDetailsServiceBuilder.jdbc(jdbcTemplate);
         initBuilder(builder);

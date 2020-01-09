@@ -21,7 +21,7 @@ public class JdbcMerchantDetailsServiceBuilder extends MerchantDetailsServiceBui
 
 
     public JdbcMerchantDetailsServiceBuilder(DataSource source) {
-        jdbcTemplate = new JdbcTemplate(source);
+        setJdbcTemplate(new JdbcTemplate(source));
     }
 
     public JdbcMerchantDetailsServiceBuilder(JdbcTemplate jdbcTemplate) {
@@ -31,11 +31,33 @@ public class JdbcMerchantDetailsServiceBuilder extends MerchantDetailsServiceBui
     public JdbcMerchantDetailsServiceBuilder() {
     }
 
+
+    /**
+     *  设置jdbc 模版
+     * @param jdbcTemplate jdbcTemplate
+     * @return 当前
+     */
+    public JdbcMerchantDetailsServiceBuilder template(JdbcTemplate jdbcTemplate){
+        setJdbcTemplate(jdbcTemplate);
+        return this;
+    }
+
+
+    /**
+     *  设置数据源
+     * @param source 数据源
+     * @return 当前
+     */
+    public JdbcMerchantDetailsServiceBuilder dataSource(DataSource source){
+        setJdbcTemplate(new JdbcTemplate(source));
+        return this;
+    }
+
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
     }
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    private void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         if (null != this.jdbcTemplate){
             return;
         }

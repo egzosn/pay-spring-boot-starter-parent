@@ -44,14 +44,25 @@ public class PayAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(MerchantDetailsServiceConfigurer.class)
+    @ConditionalOnBean(PayServiceConfigurer.class)
     public MerchantDetailsServiceConfigurer detailsServiceConfigurer(){
         return new MerchantDetailsServiceConfigurer();
     }
-
+    @Bean
+    @ConditionalOnMissingBean(MerchantDetailsService.class)
+    @ConditionalOnBean(PayServiceConfigurer.class)
+    protected MerchantDetailsService configure(PayServiceConfigurer configurer, MerchantDetailsServiceConfigurer merchantDetails, PayMessageConfigurer payMessageConfigurer) {
+        configurer.configure(merchantDetails);
+        configurer.configure(payMessageConfigurer);
+        MerchantDetailsService detailsService = merchantDetails.getBuilder().build();
+        return detailsService;
+    }
 
     @Bean
+    @Order
+    @ConditionalOnBean(MerchantDetailsService.class)
     @ConditionalOnMissingBean(PayServiceManager.class)
-    public MerchantPayServiceManager payServiceManager(){
+    public PayServiceManager payServiceManager(){
         return new MerchantPayServiceManager();
     }
 
@@ -62,14 +73,6 @@ public class PayAutoConfiguration {
         return new DefalutPayMessageConfigurer();
     }
 
-    @Bean
-    @ConditionalOnMissingBean(MerchantDetailsService.class)
-    @ConditionalOnBean(PayServiceConfigurer.class)
-    protected MerchantDetailsService configure(PayServiceConfigurer configurer, MerchantDetailsServiceConfigurer merchantDetails, PayMessageConfigurer payMessageConfigurer) {
-        configurer.configure(merchantDetails);
-        configurer.configure(payMessageConfigurer);
-        MerchantDetailsService detailsService = merchantDetails.getBuilder().build();
-        return detailsService;
-    }
+
 
 }

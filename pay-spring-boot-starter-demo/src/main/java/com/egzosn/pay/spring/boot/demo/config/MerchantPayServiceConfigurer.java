@@ -50,7 +50,7 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
     @Override
     public void configure(MerchantDetailsServiceConfigurer merchants)  {
 //        数据库文件存放 /doc/sql目录下
-//        merchants.jdbc(jdbcTemplate);
+//        merchants.jdbc().template(jdbcTemplate);
         //微信请求配置，详情参考https://gitee.com/egzosn/pay-java-parent项目中的使用
         HttpConfigStorage wxHttpConfigStorage = new HttpConfigStorage();
         wxHttpConfigStorage.setKeystore("http://www.egzosn.com/certs/ssl 退款证书");
