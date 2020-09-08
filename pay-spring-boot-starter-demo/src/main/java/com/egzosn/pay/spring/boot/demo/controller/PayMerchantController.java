@@ -31,20 +31,7 @@ public class PayMerchantController {
     private PayServiceManager manager;
 
 
-    @Autowired
-    private MerchantDetailsManager<PaymentPlatformMerchantDetails> detailsService;
 
-    /**
-     * 删除对应的商户
-     * @param detailsId 列表id
-     * @return 网页
-     */
-    @ResponseBody
-    @RequestMapping(value = "delete.json")
-    public String delete(String detailsId) {
-        detailsService.deleteMerchant(detailsId);
-        return "ok";
-    }
 
     /**
      * 网页支付

@@ -15,7 +15,7 @@ import java.util.List;
  *         date  2019/4/2 14:44.
  *         </pre>
  */
-public interface MerchantDetailsManager<T extends MerchantDetails> extends MerchantDetailsService {
+public interface MerchantDetailsManager<T extends MerchantDetails> extends MerchantDetailsService<T> {
 
     /**
      *  创建商户
