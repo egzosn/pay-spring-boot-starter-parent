@@ -53,6 +53,20 @@ public class MerchantPayServiceManager implements PayServiceManager {
      * @return 支付预订单信息
      */
     @Override
+    public Map<String, Object> app(MerchantPayOrder payOrder) {
+        PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(payOrder.getDetailsId());
+        payOrder.setTransactionType(details.getPaymentPlatform().getTransactionType(payOrder.getWayTrade()));
+        PayService payService = details.getPayService();
+        return payService.app(payOrder);
+    }
+
+    /**
+     * 获取支付预订单信息
+     *
+     * @param payOrder 商户支付订单信息
+     * @return 支付预订单信息
+     */
+    @Override
     public Map<String, Object> getOrderInfo(MerchantPayOrder payOrder) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(payOrder.getDetailsId());
         payOrder.setTransactionType(details.getPaymentPlatform().getTransactionType(payOrder.getWayTrade()));
@@ -164,7 +178,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
      * @return 返回支付方申请退款后的结果
      */
     @Override
-    public Map<String, Object> refund(String detailsId, RefundOrder order) {
+    public RefundResult refund(String detailsId, RefundOrder order) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
         return details.getPayService().refund(order);
     }
@@ -177,7 +191,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
      * @return 返回支付方查询退款后的结果
      */
     @Override
-    public Map<String, Object> refundquery(String detailsId, RefundOrder order) {
+    public Map<String, Object> refundQuery(String detailsId, RefundOrder order) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
         return details.getPayService().refundquery(order);
     }
@@ -189,7 +203,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
      * @return 返回支付方下载对账单的结果
      */
     @Override
-    public Map<String, Object> downloadbill(MerchantQueryOrder order) {
+    public Map<String, Object> downloadBill(MerchantQueryOrder order) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(order.getDetailsId());
 
         return details.getPayService().downloadbill(order.getBillDate(), order.getBillType());

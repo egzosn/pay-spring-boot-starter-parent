@@ -45,7 +45,10 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      * 证书，这里针对双证书校验， 银联的根级证书
      */
     private Object keyCert;
-
+    /**
+     * 应用私钥证书，rsa_private pkcs8格式 生成签名时使用
+     */
+    private String keyPrivateCertPwd;
 
     /**
      * 证书存储类型
@@ -243,6 +246,19 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     public void setKeystorePwd(String keystorePwd) {
        setKeyPrivateCertPwd(keystorePwd);
     }
+
+    /**
+     * 获取私钥证书密码
+     * @return 私钥证书密码
+     */
+    public String getKeyPrivateCertPwd() {
+        return keyPrivateCertPwd;
+    }
+
+    public void setKeyPrivateCertPwd(String keyPrivateCertPwd) {
+        this.keyPrivateCertPwd = keyPrivateCertPwd;
+    }
+
 
 
     public String getKeyPublicCert() {
