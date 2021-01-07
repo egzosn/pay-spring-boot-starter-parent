@@ -1,16 +1,19 @@
 package com.egzosn.pay.spring.boot.core.builders;
 
-import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
-import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
-import com.egzosn.pay.spring.boot.core.provider.JdbcMerchantDetailsManager;
+import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.sql.DataSource;
+import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
+import com.egzosn.pay.spring.boot.core.provider.CacheMerchantDetailsManager;
+import com.egzosn.pay.spring.boot.core.provider.JdbcMerchantDetailsManager;
+import com.egzosn.pay.spring.boot.core.provider.MerchantDetailsManager;
 
 /**
  * 内存型商户列表服务构建器
+ *
  * @author egan
- *         <pre>
+ * <pre>
  *         email egzosn@gmail.com
  *         date  2019/5/6 19:36.
  *         </pre>
@@ -18,6 +21,8 @@ import javax.sql.DataSource;
 public class JdbcMerchantDetailsServiceBuilder extends MerchantDetailsServiceBuilder {
 
     private JdbcTemplate jdbcTemplate;
+
+    private boolean cache = false;
 
 
     public JdbcMerchantDetailsServiceBuilder(DataSource source) {
@@ -28,27 +33,44 @@ public class JdbcMerchantDetailsServiceBuilder extends MerchantDetailsServiceBui
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public JdbcMerchantDetailsServiceBuilder(boolean cache) {
+        this.cache = cache;
+    }
+
     public JdbcMerchantDetailsServiceBuilder() {
     }
 
 
     /**
-     *  设置jdbc 模版
+     * 设置缓存
+     *
+     * @param cache 缓存
+     * @return 当前
+     */
+    public JdbcMerchantDetailsServiceBuilder cache(boolean cache) {
+        setCache(cache);
+        return this;
+    }
+
+    /**
+     * 设置jdbc 模版
+     *
      * @param jdbcTemplate jdbcTemplate
      * @return 当前
      */
-    public JdbcMerchantDetailsServiceBuilder template(JdbcTemplate jdbcTemplate){
+    public JdbcMerchantDetailsServiceBuilder template(JdbcTemplate jdbcTemplate) {
         setJdbcTemplate(jdbcTemplate);
         return this;
     }
 
 
     /**
-     *  设置数据源
+     * 设置数据源
+     *
      * @param source 数据源
      * @return 当前
      */
-    public JdbcMerchantDetailsServiceBuilder dataSource(DataSource source){
+    public JdbcMerchantDetailsServiceBuilder dataSource(DataSource source) {
         setJdbcTemplate(new JdbcTemplate(source));
         return this;
     }
@@ -58,10 +80,18 @@ public class JdbcMerchantDetailsServiceBuilder extends MerchantDetailsServiceBui
     }
 
     private void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        if (null != this.jdbcTemplate){
+        if (null != this.jdbcTemplate) {
             return;
         }
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public boolean isCache() {
+        return cache;
+    }
+
+    public void setCache(boolean cache) {
+        this.cache = cache;
     }
 
     /**
@@ -72,8 +102,12 @@ public class JdbcMerchantDetailsServiceBuilder extends MerchantDetailsServiceBui
     @Override
     protected MerchantDetailsService performBuild() {
 
-        JdbcMerchantDetailsManager manager = new JdbcMerchantDetailsManager(jdbcTemplate);
+        MerchantDetailsManager manager = new JdbcMerchantDetailsManager(jdbcTemplate);
+        if (cache) {
+            manager = new CacheMerchantDetailsManager(manager);
+        }
         manager.setPayMessageConfigurer(configurer);
+
         return manager;
     }
 }

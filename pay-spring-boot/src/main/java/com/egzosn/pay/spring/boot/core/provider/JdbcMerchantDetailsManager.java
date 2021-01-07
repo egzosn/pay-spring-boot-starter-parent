@@ -34,7 +34,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
 
 
     private static final String TABLE = "merchant_details";
-    private static final List<String> FIELDS = Arrays.asList("pay_type", "appid", "mch_id", "cert_store_type", "key_private", "key_public", "key_cert", "key_cert_pwd", "notify_url", "return_url", "sign_type", "seller", "sub_app_id", "sub_mch_id", "input_charset", "is_test");
+    private static final List<String> FIELDS = Arrays.asList("appid", "mch_id", "key_private", "key_cert_pwd", "key_public", "key_cert", "cert_store_type", "notify_url", "return_url", "sign_type", "seller", "sub_app_id", "sub_mch_id", "input_charset", "pay_type", "is_test");
     private static final String SELECT_FIELDS = SqlTools.join(FIELDS, SEPARATED);
     private static final String ID = "details_id";
 
@@ -62,6 +62,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     public JdbcMerchantDetailsManager(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
 
     /**
      * 创建商户
@@ -135,9 +136,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
      */
     @Override
     public CommonPaymentPlatformMerchantDetails loadMerchantByMerchantId(String merchantId) {
-        List<CommonPaymentPlatformMerchantDetails> detailss = jdbcTemplate.query(findByIdSql, new RowMapper<CommonPaymentPlatformMerchantDetails>() {
-            @Override
-            public CommonPaymentPlatformMerchantDetails mapRow(ResultSet rs, int i) throws SQLException {
+        List<CommonPaymentPlatformMerchantDetails> detailss = jdbcTemplate.query(findByIdSql, (ResultSet rs, int i)->{
                 CommonPaymentPlatformMerchantDetails details = new CommonPaymentPlatformMerchantDetails();
                 int index = 1;
                 details.setDetailsId(rs.getString(index++));
@@ -169,7 +168,6 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
                 PayService payService = details.initService().getPayService();
                 InMemoryMerchantDetailsManager.setPayMessageConfigurer(payService, details, configurer);
                 return details;
-            }
         }, merchantId);
         int size = detailss != null ? detailss.size() : 0;
         if (size == 0) {
