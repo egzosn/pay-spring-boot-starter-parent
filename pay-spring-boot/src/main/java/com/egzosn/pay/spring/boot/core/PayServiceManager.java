@@ -7,6 +7,7 @@ import java.util.Map;
 import com.egzosn.pay.common.api.PayMessageInterceptor;
 import com.egzosn.pay.common.bean.PayMessage;
 import com.egzosn.pay.common.bean.RefundOrder;
+import com.egzosn.pay.common.bean.RefundResult;
 import com.egzosn.pay.common.bean.TransferOrder;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
 import com.egzosn.pay.spring.boot.core.bean.MerchantQueryOrder;
@@ -38,11 +39,19 @@ public interface PayServiceManager {
      * @param payOrder 商户支付订单信息
      * @return 支付预订单信息
      */
+    Map<String, Object> app(MerchantPayOrder payOrder);
+    /**
+     * 获取支付预订单信息
+     *
+     * @param payOrder 商户支付订单信息
+     * @return 支付预订单信息
+     */
     Map<String, Object> getOrderInfo(MerchantPayOrder payOrder);
 
     /**
      * 刷卡付,pos主动扫码付款(条码付)
      * 刷脸付
+     *
      * @param payOrder 商户支付订单信息
      * @return 支付结果
      */
@@ -100,6 +109,7 @@ public interface PayServiceManager {
      */
     Map<String, Object> close(MerchantQueryOrder order);
 
+
     /**
      * 申请退款接口
      *
@@ -107,16 +117,17 @@ public interface PayServiceManager {
      * @param order     订单的请求体
      * @return 返回支付方申请退款后的结果
      */
-    Map<String, Object> refund(String detailsId, RefundOrder order);
+
+    RefundResult refund(String detailsId, RefundOrder order);
 
     /**
      * 查询退款
      *
      * @param detailsId 列表id
-     * @param order 订单的请求体
+     * @param order     订单的请求体
      * @return 返回支付方查询退款后的结果
      */
-    Map<String, Object> refundquery(String detailsId, RefundOrder order);
+    Map<String, Object> refundQuery(String detailsId, RefundOrder order);
 
     /**
      * 下载对账单
@@ -124,7 +135,7 @@ public interface PayServiceManager {
      * @param order 订单的请求体
      * @return 返回支付方下载对账单的结果
      */
-    Map<String, Object> downloadbill(MerchantQueryOrder order);
+    Map<String, Object> downloadBill(MerchantQueryOrder order);
 
     /**
      * 通用查询接口，根据 TransactionType 类型进行实现,此接口不包括退款
@@ -132,6 +143,7 @@ public interface PayServiceManager {
      * @param order 订单的请求体
      * @return 返回支付方对应接口的结果
      */
+    @Deprecated
     Map<String, Object> secondaryInterface(MerchantQueryOrder order);
 
     /**
@@ -155,8 +167,9 @@ public interface PayServiceManager {
 
     /**
      * 创建消息
+     *
      * @param detailsId 列表id
-     * @param message 支付平台返回的消息
+     * @param message   支付平台返回的消息
      * @return 支付消息对象
      */
     PayMessage createMessage(String detailsId, Map<String, Object> message);

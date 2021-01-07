@@ -22,7 +22,7 @@ public class MerchantPayOrder extends PayOrder {
     private String  detailsId;
     /**
      * 交易类型，交易方式，
-     * 本字段与{@com.egzosn.pay.common.bean.PayOrder#transactionType}相同。
+     * 本字段与{@link com.egzosn.pay.common.bean.PayOrder#getTransactionType()}相同。
      *
      *  例如，网页支付，扫码付等等
      */
