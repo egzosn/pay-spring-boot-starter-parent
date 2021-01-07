@@ -25,6 +25,9 @@ public class MerchantDetailsServiceBuilder implements PayBuilder<MerchantDetails
     public static final JdbcMerchantDetailsServiceBuilder jdbc(){
         return new JdbcMerchantDetailsServiceBuilder();
     }
+    public static final JdbcMerchantDetailsServiceBuilder jdbc(boolean cache){
+        return new JdbcMerchantDetailsServiceBuilder();
+    }
     public static final JdbcMerchantDetailsServiceBuilder jdbc(DataSource source){
         return new JdbcMerchantDetailsServiceBuilder(source);
     }

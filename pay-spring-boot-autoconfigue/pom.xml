@@ -5,7 +5,7 @@
     <parent>
         <artifactId>pay-spring-boot-starter-parent</artifactId>
         <groupId>com.egzosn</groupId>
-        <version>0.0.5</version>
+      <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
