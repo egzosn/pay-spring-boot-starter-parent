@@ -36,8 +36,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
 
-//    @Autowired
-//    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     @Autowired
     private AutowireCapableBeanFactory spring;
     @Autowired
@@ -49,10 +49,14 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
      */
     @Override
     public void configure(MerchantDetailsServiceConfigurer merchants)  {
+
 //        数据库文件存放 /doc/sql目录下
-//        merchants.jdbc().template(jdbcTemplate);
+        merchants.jdbc()
+                //是否开启缓存，默认不开启,这里开启缓存
+                .cache(true)
+                .template(jdbcTemplate);
         //微信请求配置，详情参考https://gitee.com/egzosn/pay-java-parent项目中的使用
-        HttpConfigStorage wxHttpConfigStorage = new HttpConfigStorage();
+     /*   HttpConfigStorage wxHttpConfigStorage = new HttpConfigStorage();
         wxHttpConfigStorage.setKeystore("http://www.egzosn.com/certs/ssl 退款证书");
         wxHttpConfigStorage.setCertStoreType(CertStoreType.URL);
         wxHttpConfigStorage.setStorePassword("ssl 证书对应的密码， 默认为商户号");
@@ -84,7 +88,7 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
                 .httpConfigStorage(wxHttpConfigStorage)
                 .test(true)
                 .and()
-        ;
+        ;*/
 
       /*  //------------内存手动方式------------------
         UnionMerchantDetails unionMerchantDetails = new UnionMerchantDetails();

@@ -3,6 +3,8 @@ package com.egzosn.pay.spring.boot.core.bean;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.egzosn.pay.common.bean.BillType;
+
 /**
  * 订单辅助接口
  * @author: egan
@@ -36,9 +38,10 @@ public class MerchantQueryOrder {
      */
     private Date billDate;
     /**
-     *    账单时间：具体请查看对应支付平台
+     *  账单类型：具体请查看对应支付平台
+     *  详情实现查看各个平台组件对应实现类
      */
-    private String billType;
+    private BillType billType;
     /**
      *     支付平台订单号或者账单日期
      */
@@ -103,11 +106,11 @@ public class MerchantQueryOrder {
         this.billDate = billDate;
     }
 
-    public String getBillType() {
+    public BillType getBillType() {
         return billType;
     }
 
-    public void setBillType(String billType) {
+    public void setBillType(BillType billType) {
         this.billType = billType;
     }
 

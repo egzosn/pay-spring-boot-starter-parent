@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 import com.egzosn.pay.common.api.PayMessageInterceptor;
+import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.PayMessage;
 import com.egzosn.pay.common.bean.RefundOrder;
 import com.egzosn.pay.common.bean.RefundResult;
@@ -24,6 +25,27 @@ import com.egzosn.pay.spring.boot.core.bean.MerchantQueryOrder;
  * </pre>
  */
 public interface PayServiceManager {
+
+    /**
+     * 回调校验
+     *
+     * @param detailsId 商户列表id
+     * @param params    回调回来的参数集
+     * @return 签名校验 true通过
+     */
+
+    boolean verify(String detailsId, Map<String, Object> params);
+
+    /**
+     * 将请求参数或者请求流转化为 Map
+     *
+     * @param detailsId    商户列表id
+     * @param parameterMap 请求参数
+     * @param is           请求流
+     * @return 获得回调的请求参数
+     */
+    Map<String, Object> getParameter2Map(String detailsId, Map<String, String[]> parameterMap, InputStream is);
+
     /**
      * 跳到支付页面
      * 针对实时支付,即时付款
@@ -40,6 +62,7 @@ public interface PayServiceManager {
      * @return 支付预订单信息
      */
     Map<String, Object> app(MerchantPayOrder payOrder);
+
     /**
      * 获取支付预订单信息
      *
@@ -137,14 +160,6 @@ public interface PayServiceManager {
      */
     Map<String, Object> downloadBill(MerchantQueryOrder order);
 
-    /**
-     * 通用查询接口，根据 TransactionType 类型进行实现,此接口不包括退款
-     *
-     * @param order 订单的请求体
-     * @return 返回支付方对应接口的结果
-     */
-    @Deprecated
-    Map<String, Object> secondaryInterface(MerchantQueryOrder order);
 
     /**
      * 转账
@@ -174,5 +189,15 @@ public interface PayServiceManager {
      */
     PayMessage createMessage(String detailsId, Map<String, Object> message);
 
+
+    /**
+     * 获取payService具体调用类引用
+     *
+     * @param detailsId       列表id
+     * @param payServiceClass payService类
+     * @param <T>             支付服务类引用
+     * @return 具体调用类引用
+     */
+    <T extends PayService> T cast(String detailsId, Class<T> payServiceClass);
 
 }

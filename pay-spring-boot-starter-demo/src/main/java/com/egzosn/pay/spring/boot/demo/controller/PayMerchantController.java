@@ -65,7 +65,7 @@ public class PayMerchantController {
      */
     @ResponseBody
     @RequestMapping(value = "getQrPay.json")
-    public String getQrPay(String detailsId, String wayTrade, BigDecimal price) throws IOException {
+    public String getQrPay(String detailsId, String wayTrade, BigDecimal price) {
         MerchantPayOrder payOrder = new MerchantPayOrder(detailsId, wayTrade, "订单title", "摘要", null == price ? new BigDecimal(0.01) : price, UUID.randomUUID().toString().replace("-", ""));
         return manager.getQrPay(payOrder);
     }
