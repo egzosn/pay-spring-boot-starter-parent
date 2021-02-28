@@ -75,14 +75,13 @@ public class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlat
         }
         WxPayConfigStorage configStorage = new WxPayConfigStorage();
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
-        configStorage.setAppid(payConfigStorage.getAppid());
+        configStorage.setAppId(payConfigStorage.getAppId());
         configStorage.setMchId(payConfigStorage.getPid());
         configStorage.setAttach(payConfigStorage.getAttach());
         configStorage.setKeyPrivate(payConfigStorage.getKeyPrivate());
         configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
         configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
         configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
-        configStorage.setMsgType(payConfigStorage.getMsgType());
         configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());

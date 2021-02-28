@@ -66,7 +66,6 @@ public class UnionPaymentPlatform implements PaymentPlatform {
         configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
         configStorage.setSignType(payConfigStorage.getSignType());
         configStorage.setPayType(payConfigStorage.getPayType());
-        configStorage.setMsgType(payConfigStorage.getMsgType());
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
         configStorage.setTest(payConfigStorage.isTest());
         if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails) {

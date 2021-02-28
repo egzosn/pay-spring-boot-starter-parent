@@ -56,7 +56,6 @@ public  class YoudianPaymentPlatform implements PaymentPlatform {
         configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
         configStorage.setSignType(payConfigStorage.getSignType());
         configStorage.setPayType(payConfigStorage.getPayType().toString());
-        configStorage.setMsgType(payConfigStorage.getMsgType());
         configStorage.setSeller(payConfigStorage.getSeller());
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
         configStorage.setTest(payConfigStorage.isTest());

@@ -55,7 +55,7 @@ public class AliPaymentPlatform implements PaymentPlatform {
         }
         AliPayConfigStorage configStorage = new AliPayConfigStorage();
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
-        configStorage.setAppid(payConfigStorage.getAppid());
+        configStorage.setAppId(payConfigStorage.getAppId());
         configStorage.setPid(payConfigStorage.getPid());
         configStorage.setAttach(payConfigStorage.getAttach());
         configStorage.setSeller(payConfigStorage.getSeller());
@@ -63,7 +63,6 @@ public class AliPaymentPlatform implements PaymentPlatform {
         configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
         configStorage.setNotifyUrl(payConfigStorage.getNotifyUrl());
         configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
-        configStorage.setMsgType(payConfigStorage.getMsgType());
         configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());

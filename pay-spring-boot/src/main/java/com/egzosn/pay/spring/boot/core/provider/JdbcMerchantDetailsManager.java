@@ -141,7 +141,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
                 int index = 1;
                 details.setDetailsId(rs.getString(index++));
                 details.setPayType(rs.getString(index++));
-                details.setAppid(rs.getString(index++));
+                details.setAppId(rs.getString(index++));
                 details.setMchId(rs.getString(index++));
                 String certStoreType = rs.getString(index++);
                 if (StringUtils.isNotEmpty(certStoreType)) {

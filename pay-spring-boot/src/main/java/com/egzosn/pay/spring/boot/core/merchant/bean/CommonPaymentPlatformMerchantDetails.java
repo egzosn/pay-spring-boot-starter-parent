@@ -26,7 +26,7 @@ import java.io.InputStream;
 public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage implements PaymentPlatformMerchantDetails, PaymentPlatformServiceAdapter, PayConfigurerAdapter<MerchantDetailsServiceBuilder> {
 
     private String detailsId;
-    private String appid;
+    private String appId;
     private String mchId;
     private String seller;
     private String subAppId;
@@ -162,8 +162,8 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     }
 
 
-    public void setAppid(String appid) {
-        this.appid = appid;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public String getMchId() {
@@ -176,7 +176,18 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
 
     @Override
     public String getAppid() {
-        return appid;
+        return appId;
+    }
+
+    /**
+     * 应用id
+     * 纠正名称
+     *
+     * @return 应用id
+     */
+    @Override
+    public String getAppId() {
+        return appId;
     }
 
     @Override

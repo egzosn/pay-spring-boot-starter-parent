@@ -57,7 +57,6 @@ public class PayoneerPaymentPlatform implements PaymentPlatform {
         configStorage.setReturnUrl(payConfigStorage.getReturnUrl());
         configStorage.setSignType(payConfigStorage.getSignType());
         configStorage.setPayType(payConfigStorage.getPayType());
-        configStorage.setMsgType(payConfigStorage.getMsgType());
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
         configStorage.setTest(payConfigStorage.isTest());
         return new PayoneerPayService(configStorage);
