@@ -41,7 +41,7 @@ spring-boot  pay-java-parent
     <dependency>
         <groupId>com.egzosn</groupId>
         <artifactId>{module-name}</artifactId>
-        <version>2.13.1</version>
+        <version>2.14.1</version>
     </dependency>
 
 ```
