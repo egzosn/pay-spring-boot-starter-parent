@@ -34,7 +34,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
 
 
     private static final String TABLE = "merchant_details";
-    private static final List<String> FIELDS = Arrays.asList("appid", "mch_id", "key_private", "key_cert_pwd", "key_public", "key_cert", "cert_store_type", "notify_url", "return_url", "sign_type", "seller", "sub_app_id", "sub_mch_id", "input_charset", "pay_type", "is_test");
+    private static final List<String> FIELDS = Arrays.asList("appid", "pay_type", "mch_id", "cert_store_type", "key_private", "key_cert_pwd", "key_public", "key_cert", "notify_url", "return_url", "sign_type", "seller", "sub_app_id", "sub_mch_id", "input_charset", "is_test");
     private static final String SELECT_FIELDS = SqlTools.join(FIELDS, SEPARATED);
     private static final String ID = "details_id";
 
@@ -138,33 +138,32 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     public CommonPaymentPlatformMerchantDetails loadMerchantByMerchantId(String merchantId) {
         List<CommonPaymentPlatformMerchantDetails> detailss = jdbcTemplate.query(findByIdSql, (ResultSet rs, int i)->{
                 CommonPaymentPlatformMerchantDetails details = new CommonPaymentPlatformMerchantDetails();
-                int index = 1;
-                details.setDetailsId(rs.getString(index++));
-                details.setPayType(rs.getString(index++));
-                details.setAppId(rs.getString(index++));
-                details.setMchId(rs.getString(index++));
-                String certStoreType = rs.getString(index++);
+                details.setDetailsId(rs.getString(1));
+                details.setAppId(rs.getString(3));
+                details.setPayType(rs.getString(2));
+                details.setMchId(rs.getString(4));
+                String certStoreType = rs.getString(5);
                 if (StringUtils.isNotEmpty(certStoreType)) {
                     details.setCertStoreType(CertStoreType.valueOf(certStoreType));
                 }
                 if (details.getCertStoreType() == CertStoreType.INPUT_STREAM) {
-                    index = setKeyPrivate(details, rs, index);
-                    details.setKeyCert(rs.getAsciiStream(index++));
+                    setKeyPrivate(details, rs);
+                    details.setKeyCert(rs.getAsciiStream(9));
                 }
                 else {
-                    details.setKeystore(rs.getString(index++));
-                    details.setKeyPublicCert(rs.getString(index++));
-                    details.setKeyCert(rs.getString(index++));
+                    details.setKeystore(rs.getString(6));
+                    details.setKeyPublicCert(rs.getString(8));
+                    details.setKeyCert(rs.getString(9));
                 }
-                details.setKeystorePwd(rs.getString(index++));
-                details.setNotifyUrl(rs.getString(index++));
-                details.setReturnUrl(rs.getString(index++));
-                details.setSignType(rs.getString(index++));
-                details.setSeller(rs.getString(index++));
-                details.setSubAppId(rs.getString(index++));
-                details.setSubMchId(rs.getString(index++));
-                details.setInputCharset(rs.getString(index++));
-                details.setTest(rs.getBoolean(index++));
+                details.setKeystorePwd(rs.getString(7));
+                details.setNotifyUrl(rs.getString(10));
+                details.setReturnUrl(rs.getString(11));
+                details.setSignType(rs.getString(12));
+                details.setSeller(rs.getString(13));
+                details.setSubAppId(rs.getString(14));
+                details.setSubMchId(rs.getString(15));
+                details.setInputCharset(rs.getString(16));
+                details.setTest(rs.getBoolean(17));
                 PayService payService = details.initService().getPayService();
                 InMemoryMerchantDetailsManager.setPayMessageConfigurer(payService, details, configurer);
                 return details;
@@ -182,16 +181,15 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     }
 
 
-    public int setKeyPrivate(CommonPaymentPlatformMerchantDetails details, ResultSet rs, int index) throws SQLException {
+    public void setKeyPrivate(CommonPaymentPlatformMerchantDetails details, ResultSet rs) throws SQLException {
         if (UnionPaymentPlatform.platformName.equals(details.getPayType())) {
-            details.setKeystore(rs.getAsciiStream(index++));
-            details.setKeyPublicCert(rs.getAsciiStream(index++));
+            details.setKeystore(rs.getAsciiStream(6));
+            details.setKeyPublicCert(rs.getAsciiStream(8));
         }
         else {
-            details.setKeyPrivate(rs.getString(index++));
-            details.setKeyPublic(rs.getString(index++));
+            details.setKeyPrivate(rs.getString(6));
+            details.setKeyPublic(rs.getString(8));
         }
-        return index;
 
     }
 
@@ -244,5 +242,11 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     @Override
     public void setPayMessageConfigurer(PayMessageConfigurer configurer) {
         this.configurer = configurer;
+    }
+
+
+    public static void main(String[] args) {
+        final JdbcMerchantDetailsManager jdbcMerchantDetailsManager = new JdbcMerchantDetailsManager(new JdbcTemplate());
+        System.out.println(jdbcMerchantDetailsManager.findByIdSql);
     }
 }
