@@ -8,6 +8,8 @@ import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
+import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
@@ -66,6 +68,10 @@ public class AliPaymentPlatform implements PaymentPlatform {
         configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());
+        if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails){
+            configStorage.setAppAuthToken(((CommonPaymentPlatformMerchantDetails)payConfigStorage).getSubAppId());
+        }
+
         return new AliPayService(configStorage);
     }
 
