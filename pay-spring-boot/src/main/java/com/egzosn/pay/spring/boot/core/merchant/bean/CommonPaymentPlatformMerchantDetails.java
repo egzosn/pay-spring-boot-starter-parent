@@ -175,6 +175,7 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
     }
 
     @Override
+    @Deprecated
     public String getAppid() {
         return appId;
     }

@@ -84,7 +84,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     public void createMerchant(CommonPaymentPlatformMerchantDetails merchant) {
 
         Assert.isTrue(!merchantExists(merchant.getDetailsId()), "商户信息已存在");
-        Object[] args = new Object[]{merchant.getDetailsId(), merchant.getAppid(), merchant.getMchId(), merchant.getKeyPrivate(), merchant.getKeyPrivateCertPwd(), merchant.getKeyPublic(), merchant.getKeyCert(), merchant.getCertStoreType(), merchant.getNotifyUrl(), merchant.getReturnUrl(), merchant.getSignType(), merchant.getSeller(), merchant.getSubAppId(), merchant.getSubMchId(), merchant.getInputCharset(), merchant.getPayType(), merchant.isTest()};
+        Object[] args = new Object[]{merchant.getDetailsId(), merchant.getAppId(), merchant.getPayType(), merchant.getMchId(), merchant.getCertStoreType(), merchant.getKeyPrivate(), merchant.getKeyPrivateCertPwd(), merchant.getKeyPublic(), merchant.getKeyCert(), merchant.getNotifyUrl(), merchant.getReturnUrl(), merchant.getSignType(), merchant.getSeller(), merchant.getSubAppId(), merchant.getSubMchId(), merchant.getInputCharset(), merchant.isTest()};
         jdbcTemplate.update(insertSql, args);
 
 
@@ -98,7 +98,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     @Override
     public void updateMerchant(CommonPaymentPlatformMerchantDetails merchant) {
         Assert.isTrue(merchantExists(merchant.getDetailsId()), "商户信息不存在");
-        Object[] args = new Object[]{merchant.getAppid(), merchant.getMchId(), merchant.getKeyPrivate(), merchant.getKeyPrivateCertPwd(), merchant.getKeyPublic(), merchant.getKeyCert(), merchant.getCertStoreType(), merchant.getNotifyUrl(), merchant.getReturnUrl(), merchant.getSignType(), merchant.getSeller(), merchant.getSubAppId(), merchant.getSubMchId(), merchant.getInputCharset(), merchant.getPayType(), merchant.isTest(), merchant.getDetailsId()};
+        Object[] args = new Object[]{merchant.getAppId(), merchant.getPayType(), merchant.getMchId(), merchant.getCertStoreType(), merchant.getKeyPrivate(), merchant.getKeyPrivateCertPwd(), merchant.getKeyPublic(), merchant.getKeyCert(), merchant.getNotifyUrl(), merchant.getReturnUrl(), merchant.getSignType(), merchant.getSeller(), merchant.getSubAppId(), merchant.getSubMchId(), merchant.getInputCharset(), merchant.isTest(), merchant.getDetailsId()};
         jdbcTemplate.update(updateSql, args);
     }
 
@@ -247,6 +247,6 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
 
     public static void main(String[] args) {
         final JdbcMerchantDetailsManager jdbcMerchantDetailsManager = new JdbcMerchantDetailsManager(new JdbcTemplate());
-        System.out.println(jdbcMerchantDetailsManager.findByIdSql);
+        System.out.println(jdbcMerchantDetailsManager.updateSql);
     }
 }
