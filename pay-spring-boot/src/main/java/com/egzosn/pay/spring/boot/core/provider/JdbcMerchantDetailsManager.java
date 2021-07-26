@@ -139,8 +139,8 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
         List<CommonPaymentPlatformMerchantDetails> detailss = jdbcTemplate.query(findByIdSql, (ResultSet rs, int i)->{
                 CommonPaymentPlatformMerchantDetails details = new CommonPaymentPlatformMerchantDetails();
                 details.setDetailsId(rs.getString(1));
-                details.setAppId(rs.getString(3));
-                details.setPayType(rs.getString(2));
+                details.setAppId(rs.getString(2));
+                details.setPayType(rs.getString(3));
                 details.setMchId(rs.getString(4));
                 String certStoreType = rs.getString(5);
                 if (StringUtils.isNotEmpty(certStoreType)) {
