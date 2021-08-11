@@ -5,13 +5,13 @@
     <parent>
         <artifactId>pay-spring-boot-starter-parent</artifactId>
         <groupId>com.egzosn</groupId>
-        <version>1.0.1-b</version>
+        <version>1.0.1-b2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.egzosn</groupId>
     <artifactId>pay-spring-boot-starter-demo</artifactId>
-
+    <packaging>jar</packaging>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -28,10 +28,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!--db-->
-<!--        <dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

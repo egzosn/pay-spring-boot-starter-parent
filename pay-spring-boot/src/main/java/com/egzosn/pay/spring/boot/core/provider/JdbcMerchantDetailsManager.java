@@ -125,7 +125,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
             throw new IncorrectResultSizeDataAccessException("出现重复的支付商户id", 1);
         }
 
-        return ids.size() == 1;
+        return !ids.isEmpty();
     }
 
     /**
@@ -245,8 +245,5 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     }
 
 
-    public static void main(String[] args) {
-        final JdbcMerchantDetailsManager jdbcMerchantDetailsManager = new JdbcMerchantDetailsManager(new JdbcTemplate());
-        System.out.println(jdbcMerchantDetailsManager.updateSql);
-    }
+
 }
