@@ -17,10 +17,10 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
  * 贝宝支付平台
  *
  * @author egan
- *         <pre>
- *                 email egzosn@gmail.com
- *                 date  2019/4/4 14:35.
- *                 </pre>
+ * <pre>
+ * email egan@egzosn.com
+ * date  2021/10/7.
+ * </pre>
  */
 
 @Configuration(PaypalV2PaymentPlatform.platformName)

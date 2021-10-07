@@ -20,13 +20,13 @@ import com.egzosn.pay.wx.v3.api.WxPayConfigStorage;
 import com.egzosn.pay.wx.v3.bean.WxTransactionType;
 
 /**
- * 微信V3支付平台
+ * 微信V3合单支付平台
  *
  * @author egan
- *         <pre>
- *                 email egzosn@gmail.com
- *                 date  2019/4/4 14:35.
- *                 </pre>
+ * <pre>
+ * email egan@egzosn.com
+ * date  2021/10/7.
+ * </pre>
  */
 @Configuration(WxV3CombinePaymentPlatform.platformName)
 @ConditionalOnMissingBean(WxV3CombinePaymentPlatform.class)

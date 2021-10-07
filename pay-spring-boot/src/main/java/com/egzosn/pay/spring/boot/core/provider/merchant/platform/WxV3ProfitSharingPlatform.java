@@ -20,13 +20,13 @@ import com.egzosn.pay.wx.v3.api.WxPayService;
 import com.egzosn.pay.wx.v3.bean.WxTransactionType;
 
 /**
- * 微信V3支付平台
+ * 微信V3分账平台
  *
  * @author egan
- *         <pre>
- *                 email egzosn@gmail.com
- *                 date  2019/4/4 14:35.
- *                 </pre>
+ * <pre>
+ * email egan@egzosn.com
+ * date  2021/10/7.
+ * </pre>
  */
 @Configuration(WxV3ProfitSharingPlatform.platformName)
 @ConditionalOnMissingBean(WxV3ProfitSharingPlatform.class)
@@ -92,13 +92,13 @@ public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements Pay
             configStorage.setSubAppId(merchantDetails.getSubAppId());
             configStorage.setSubMchId(merchantDetails.getSubMchId());
             if (null != merchantDetails.getKeyCert()) {
-                configStorage.setCertStoreType(merchantDetails.getCertStoreType());
-                try {
-                    configStorage.setApiClientKeyP12(merchantDetails.getKeyCertInputStream());
-                } catch (IOException e) {
-                    LOG.error(e);
-                }
-                configStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
+configStorage.setCertStoreType(merchantDetails.getCertStoreType());
+try {
+    configStorage.setApiClientKeyP12(merchantDetails.getKeyCertInputStream());
+} catch (IOException e) {
+    LOG.error(e);
+}
+configStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
 
             }
         }
