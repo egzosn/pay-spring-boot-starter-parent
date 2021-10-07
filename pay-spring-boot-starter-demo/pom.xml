@@ -5,7 +5,7 @@
     <parent>
         <artifactId>pay-spring-boot-starter-parent</artifactId>
         <groupId>com.egzosn</groupId>
-        <version>1.0.1-b2</version>
+        <version>1.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -41,7 +41,6 @@
         <dependency>
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-ali</artifactId>
-            <version>${pay.version}</version>
         </dependency>
         <!-- 这里测试不引入是否报错或者触发-->
         <dependency>
@@ -86,7 +85,7 @@
     </dependencies>
 
 
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -96,7 +95,7 @@
                     <fork>false</fork>
                 </configuration>
                 <dependencies>
-                    <!-- 热部署 -->
+                    &lt;!&ndash; 热部署 &ndash;&gt;
                     <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>springloaded</artifactId>
@@ -105,6 +104,6 @@
                 </dependencies>
             </plugin>
         </plugins>
-    </build>
+    </build>-->
 
 </project>

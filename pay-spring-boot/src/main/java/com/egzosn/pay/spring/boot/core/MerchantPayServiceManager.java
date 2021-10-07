@@ -9,9 +9,14 @@ import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.egzosn.pay.common.api.DefaultPayMessageHandler;
+import com.egzosn.pay.common.api.PayMessageHandler;
 import com.egzosn.pay.common.api.PayMessageInterceptor;
 import com.egzosn.pay.common.api.PayService;
+import com.egzosn.pay.common.bean.DefaultNoticeRequest;
 import com.egzosn.pay.common.bean.MethodType;
+import com.egzosn.pay.common.bean.NoticeParams;
+import com.egzosn.pay.common.bean.NoticeRequest;
 import com.egzosn.pay.common.bean.PayMessage;
 import com.egzosn.pay.common.bean.RefundOrder;
 import com.egzosn.pay.common.bean.RefundResult;
@@ -45,6 +50,19 @@ public class MerchantPayServiceManager implements PayServiceManager {
      */
     @Override
     public boolean verify(String detailsId, Map<String, Object> params) {
+
+        return this.verify(detailsId, new NoticeParams(params));
+    }
+
+    /**
+     * 回调校验
+     *
+     * @param detailsId 商户列表id
+     * @param params    回调回来的参数集
+     * @return 签名校验 true通过
+     */
+    @Override
+    public boolean verify(String detailsId, NoticeParams params) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
         return details.getPayService().verify(params);
     }
@@ -56,11 +74,25 @@ public class MerchantPayServiceManager implements PayServiceManager {
      * @param parameterMap 请求参数
      * @param is           请求流
      * @return 获得回调的请求参数
+     * @see #getNoticeParams(String, NoticeRequest)
      */
+    @Deprecated
     @Override
     public Map<String, Object> getParameter2Map(String detailsId, Map<String, String[]> parameterMap, InputStream is) {
+        return getNoticeParams(detailsId, new DefaultNoticeRequest( parameterMap, is)).getBody();
+    }
+
+    /**
+     * 将请求参数或者请求流转化为 Map
+     *
+     * @param detailsId
+     * @param request   通知请求
+     * @return 获得回调的请求参数
+     */
+    @Override
+    public NoticeParams getNoticeParams(String detailsId, NoticeRequest request) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
-        return details.getPayService().getParameter2Map(parameterMap, is);
+        return details.getPayService().getNoticeParams(request);
     }
 
     /**
@@ -104,8 +136,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(payOrder.getDetailsId());
         payOrder.setTransactionType(details.getPaymentPlatform().getTransactionType(payOrder.getWayTrade()));
         PayService payService = details.getPayService();
-        Map<String, Object> orderInfo = payService.orderInfo(payOrder);
-        return orderInfo;
+        return payService.orderInfo(payOrder);
     }
 
     /**
@@ -120,8 +151,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(payOrder.getDetailsId());
         payOrder.setTransactionType(details.getPaymentPlatform().getTransactionType(payOrder.getWayTrade()));
         //支付结果
-        Map<String, Object> params = details.getPayService().microPay(payOrder);
-        return params;
+        return details.getPayService().microPay(payOrder);
     }
 
     /**
@@ -171,13 +201,34 @@ public class MerchantPayServiceManager implements PayServiceManager {
      *                     业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link com.egzosn.pay.common.api.PayService#setPayMessageHandler(com.egzosn.pay.common.api.PayMessageHandler)}
      *                     </p>
      *                     如果未设置 {@link com.egzosn.pay.common.api.PayMessageHandler} 那么会使用默认的 {@link com.egzosn.pay.common.api.DefaultPayMessageHandler}
+     * 方法过时，替代方法{@link #payBack(String, NoticeRequest)}
      */
+    @Deprecated
     @Override
     public String payBack(String detailsId, Map<String, String[]> parameterMap, InputStream is) throws IOException {
+       return this.payBack(detailsId, new DefaultNoticeRequest(parameterMap, is));
+    }
+
+    /**
+     * 支付回调地址
+     * 方式二
+     *
+     * @param detailsId 商户列表id
+     * @param request   请求参数
+     * @return 支付是否成功
+     * @throws IOException IOException
+     *                     拦截器相关增加， 详情查看{@link PayService#addPayMessageInterceptor(PayMessageInterceptor)}
+     *                     <p>
+     *                     业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link PayService#setPayMessageHandler(PayMessageHandler)}
+     *                     </p>
+     *                     如果未设置 {@link PayMessageHandler} 那么会使用默认的 {@link DefaultPayMessageHandler}
+     */
+    @Override
+    public String payBack(String detailsId, NoticeRequest request) throws IOException {
         //业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看com.egzosn.pay.common.api.PayService.setPayMessageHandler()
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
         PayService payService = details.getPayService();
-        return payService.payBack(parameterMap, is).toMessage();
+        return payService.payBack(request).toMessage();
     }
 
 
@@ -190,7 +241,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
     @Override
     public Map<String, Object> query(MerchantQueryOrder order) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(order.getDetailsId());
-        return details.getPayService().query(order.getTradeNo(), order.getOutTradeNo());
+        return details.getPayService().query(order);
     }
 
     /**
@@ -202,8 +253,10 @@ public class MerchantPayServiceManager implements PayServiceManager {
     @Override
     public Map<String, Object> close(MerchantQueryOrder order) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(order.getDetailsId());
-        return details.getPayService().close(order.getTradeNo(), order.getOutTradeNo());
+        return details.getPayService().close(order);
     }
+
+
 
     /**
      * 申请退款接口

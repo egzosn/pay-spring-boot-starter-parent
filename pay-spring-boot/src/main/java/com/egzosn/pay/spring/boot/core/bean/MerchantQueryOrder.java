@@ -3,6 +3,7 @@ package com.egzosn.pay.spring.boot.core.bean;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.egzosn.pay.common.bean.AssistOrder;
 import com.egzosn.pay.common.bean.BillType;
 
 /**
@@ -11,20 +12,11 @@ import com.egzosn.pay.common.bean.BillType;
  * email egzosn@gmail.com
  * date 2017/3/12 14:50
  */
-public class MerchantQueryOrder {
+public class MerchantQueryOrder extends AssistOrder {
     /**
      * 列表id
      */
     private String  detailsId;
-    /**
-     * 支付平台订单号
-      */
-    private String tradeNo;
-
-    /**
-     * 商户单号
-     */
-    private String outTradeNo;
     /**
      *     退款金额
      */
@@ -64,22 +56,6 @@ public class MerchantQueryOrder {
 
     public void setDetailsId(String detailsId) {
         this.detailsId = detailsId;
-    }
-
-    public String getTradeNo() {
-        return tradeNo;
-    }
-
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
-    }
-
-    public String getOutTradeNo() {
-        return outTradeNo;
-    }
-
-    public void setOutTradeNo(String outTradeNo) {
-        this.outTradeNo = outTradeNo;
     }
 
     public BigDecimal getRefundAmount() {
