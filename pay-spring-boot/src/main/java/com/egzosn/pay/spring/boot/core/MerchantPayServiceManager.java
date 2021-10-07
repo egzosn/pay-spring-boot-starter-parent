@@ -85,7 +85,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
     /**
      * 将请求参数或者请求流转化为 Map
      *
-     * @param detailsId
+     * @param detailsId    商户列表id
      * @param request   通知请求
      * @return 获得回调的请求参数
      */
