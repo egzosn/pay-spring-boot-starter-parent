@@ -58,6 +58,36 @@ spring-boot  pay-java-parent
 #### 使用案例详情查看[pay-spring-boot-starter-demo](pay-spring-boot-starter-demo?dir=1&filepath=pay-spring-boot-starter-demo)
 
 
+###### 支付教程 
+
+ * [基础模块支付宝微信讲解](https://gitee.com/egzosn/pay-java-parent/wikis/Home)
+ * [微信V3，查看demo/WxV3PayController](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-demo/)
+ * [微信合并支付，查看demo/WxV3CombinePayController](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-demo/)
+ * [微信分账，查看demo/WxV3ProfitSharingController](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-demo/)
+ * [银联](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-union?dir=1&filepath=pay-java-union)
+ * [payoneer](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-payoneer?dir=1&filepath=pay-java-payoneer)
+ * [paypal,查看demo/PayPalV2PayController](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-demo/)
+ * [友店微信](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-wx-youdian?dir=1&filepath=pay-java-youdian)
+ * [富友](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-fuiou?dir=1&filepath=pay-java-fuiou)
+
+
+作者公众号
+![公众号](https://egzosn.gitee.io/pay-java-parent/gzh.png "gzh.png")
+
+E-Mail：egan@egzosn.com
+
+ **QQ群：** 
+
+
+1. pay-java(1群): 542193977(已满)
+2. pay-java(2群)：766275051
+
+
+微信群: 
+![微信群](https://egzosn.gitee.io/pay-java-parent/wx.jpg "wx.jpg")
+
+
+
 
 #### 参与贡献
 
@@ -66,4 +96,8 @@ spring-boot  pay-java-parent
 3. 提交代码
 4. 新建 Pull Request
 
+
+也感谢各大友友同学帮忙进行接口测试
+
+非常欢迎和感谢对本项目发起Pull Request的同学，不过本项目基于git flow开发流程，因此在发起Pull Request的时候请选择develop分支。
 
