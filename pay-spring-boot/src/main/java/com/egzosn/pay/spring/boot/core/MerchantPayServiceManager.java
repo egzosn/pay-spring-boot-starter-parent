@@ -216,7 +216,6 @@ public class MerchantPayServiceManager implements PayServiceManager {
      * @param detailsId 商户列表id
      * @param request   请求参数
      * @return 支付是否成功
-     * @throws IOException IOException
      *                     拦截器相关增加， 详情查看{@link PayService#addPayMessageInterceptor(PayMessageInterceptor)}
      *                     <p>
      *                     业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link PayService#setPayMessageHandler(PayMessageHandler)}
@@ -224,7 +223,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
      *                     如果未设置 {@link PayMessageHandler} 那么会使用默认的 {@link DefaultPayMessageHandler}
      */
     @Override
-    public String payBack(String detailsId, NoticeRequest request) throws IOException {
+    public String payBack(String detailsId, NoticeRequest request)  {
         //业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看com.egzosn.pay.common.api.PayService.setPayMessageHandler()
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
         PayService payService = details.getPayService();

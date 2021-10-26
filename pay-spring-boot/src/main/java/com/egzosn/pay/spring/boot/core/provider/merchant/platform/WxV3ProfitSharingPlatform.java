@@ -38,7 +38,6 @@ public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements Pay
     public static final String platformName = "wxV3ProfitSharing";
 
 
-
     /**
      * 获取商户平台
      *
@@ -86,19 +85,21 @@ public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements Pay
         configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());
-
+        //是否为证书签名
+        configStorage.setCertSign(true);
         if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails) {
             CommonPaymentPlatformMerchantDetails merchantDetails = (CommonPaymentPlatformMerchantDetails) payConfigStorage;
             configStorage.setSubAppId(merchantDetails.getSubAppId());
             configStorage.setSubMchId(merchantDetails.getSubMchId());
             if (null != merchantDetails.getKeyCert()) {
-configStorage.setCertStoreType(merchantDetails.getCertStoreType());
-try {
-    configStorage.setApiClientKeyP12(merchantDetails.getKeyCertInputStream());
-} catch (IOException e) {
-    LOG.error(e);
-}
-configStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
+                configStorage.setCertStoreType(merchantDetails.getCertStoreType());
+                try {
+                    configStorage.setApiClientKeyP12(merchantDetails.getKeyCertInputStream());
+                }
+                catch (IOException e) {
+                    LOG.error(e);
+                }
+                configStorage.setCertStoreType(CertStoreType.INPUT_STREAM);
 
             }
         }

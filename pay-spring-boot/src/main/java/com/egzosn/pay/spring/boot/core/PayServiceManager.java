@@ -38,10 +38,12 @@ public interface PayServiceManager {
 
     @Deprecated
     boolean verify(String detailsId, Map<String, Object> params);
+
     /**
      * 回调校验
+     *
      * @param detailsId 商户列表id
-     * @param params 回调回来的参数集
+     * @param params    回调回来的参数集
      * @return 签名校验 true通过
      */
     boolean verify(String detailsId, NoticeParams params);
@@ -57,13 +59,16 @@ public interface PayServiceManager {
      */
     @Deprecated
     Map<String, Object> getParameter2Map(String detailsId, Map<String, String[]> parameterMap, InputStream is);
+
     /**
      * 将请求参数或者请求流转化为 Map
-     * @param detailsId    商户列表id
-     * @param request 通知请求
+     *
+     * @param detailsId 商户列表id
+     * @param request   通知请求
      * @return 获得回调的请求参数
      */
     NoticeParams getNoticeParams(String detailsId, NoticeRequest request);
+
     /**
      * 跳到支付页面
      * 针对实时支付,即时付款
@@ -134,21 +139,21 @@ public interface PayServiceManager {
      */
     @Deprecated
     String payBack(String detailsId, Map<String, String[]> parameterMap, InputStream is) throws IOException;
+
     /**
      * 支付回调地址
      * 方式二
      *
-     * @param detailsId    商户列表id
-     * @param request 请求参数
+     * @param detailsId 商户列表id
+     * @param request   请求参数
      * @return 支付是否成功
-     * @throws IOException IOException
      *                     拦截器相关增加， 详情查看{@link com.egzosn.pay.common.api.PayService#addPayMessageInterceptor(PayMessageInterceptor)}
      *                     <p>
      *                     业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link com.egzosn.pay.common.api.PayService#setPayMessageHandler(com.egzosn.pay.common.api.PayMessageHandler)}
      *                     </p>
      *                     如果未设置 {@link com.egzosn.pay.common.api.PayMessageHandler} 那么会使用默认的 {@link com.egzosn.pay.common.api.DefaultPayMessageHandler}
      */
-    String payBack(String detailsId, NoticeRequest request) throws IOException;
+    String payBack(String detailsId, NoticeRequest request);
 
     /**
      * 查询

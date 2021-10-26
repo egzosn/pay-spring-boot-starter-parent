@@ -31,7 +31,7 @@ import com.egzosn.pay.wx.v3.bean.WxTransactionType;
 @Configuration(WxV3CombinePaymentPlatform.platformName)
 @ConditionalOnMissingBean(WxV3CombinePaymentPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.wx.v3.api.WxPayConfigStorage"})
-public class WxV3CombinePaymentPlatform extends WxPayConfigStorage implements PaymentPlatform {
+public class WxV3CombinePaymentPlatform extends WxV3PaymentPlatform implements PaymentPlatform {
 
     private final Log LOG = LogFactory.getLog(WxV3CombinePaymentPlatform.class);
 
@@ -49,16 +49,6 @@ public class WxV3CombinePaymentPlatform extends WxPayConfigStorage implements Pa
         return platformName;
     }
 
-    /**
-     * 获取支付平台对应的支付服务
-     *
-     * @param payConfigStorage 支付配置
-     * @return 支付服务
-     */
-    @Override
-    public PayService getPayService(PayConfigStorage payConfigStorage) {
-        return getPayService(payConfigStorage, null);
-    }
 
     /**
      * 获取支付平台对应的支付服务
@@ -86,7 +76,8 @@ public class WxV3CombinePaymentPlatform extends WxPayConfigStorage implements Pa
         configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());
-
+        //是否为证书签名
+        configStorage.setCertSign(true);
         if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails) {
             CommonPaymentPlatformMerchantDetails merchantDetails = (CommonPaymentPlatformMerchantDetails) payConfigStorage;
             configStorage.setSubAppId(merchantDetails.getSubAppId());
