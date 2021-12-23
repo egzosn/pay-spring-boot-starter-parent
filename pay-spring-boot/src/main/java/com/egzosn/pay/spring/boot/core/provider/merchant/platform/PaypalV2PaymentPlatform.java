@@ -10,7 +10,7 @@ import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.paypal.api.PayPalConfigStorage;
 import com.egzosn.pay.paypal.v2.api.PayPalPayService;
-import com.egzosn.pay.paypal.bean.PayPalTransactionType;
+import com.egzosn.pay.paypal.v2.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 
 /**
