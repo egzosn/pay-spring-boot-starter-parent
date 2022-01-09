@@ -12,7 +12,7 @@
     <groupId>com.egzosn</groupId>
     <artifactId>pay-spring-boot-starter-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.2-b</version>
+    <version>1.0.2-b1</version>
     <modules>
         <module>pay-spring-boot</module>
         <module>pay-spring-boot-starter</module>

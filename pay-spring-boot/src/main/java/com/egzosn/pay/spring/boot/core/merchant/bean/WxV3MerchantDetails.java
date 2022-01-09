@@ -10,6 +10,7 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformServiceAdapter;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PaymentPlatforms;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.WxPaymentPlatform;
+import com.egzosn.pay.spring.boot.core.provider.merchant.platform.WxV3PaymentPlatform;
 import com.egzosn.pay.wx.v3.api.WxPayConfigStorage;
 
 /**
@@ -68,7 +69,7 @@ public class WxV3MerchantDetails extends WxPayConfigStorage implements PaymentPl
     }
 
     public WxV3MerchantDetails() {
-        String platformName = WxPaymentPlatform.platformName;
+        String platformName = WxV3PaymentPlatform.platformName;
         initPaymentPlatforms(platformName);
     }
 

@@ -17,9 +17,9 @@ logging:
 spring:
   datasource:
     #数据库文件存放 /doc/sql目录下
-    url: jdbc:mysql://localhost:3306/merchant_pay?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useOldAliasMetadataBehavior=true
+    url: jdbc:mysql://localhost:3306/merchant_pay?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false&useOldAliasMetadataBehavior=true&serverTimezone=UTC
     username: root
-    password: 1234
+    password: root
     max-active: 20
     max-idle: 8
     min-idle: 8

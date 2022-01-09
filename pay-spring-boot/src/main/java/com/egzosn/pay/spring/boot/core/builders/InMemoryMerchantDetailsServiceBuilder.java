@@ -59,6 +59,12 @@ public class InMemoryMerchantDetailsServiceBuilder extends MerchantDetailsServic
         return details;
     }
 
+    public WxV3MerchantDetails wxV3(){
+        WxV3MerchantDetails details = new WxV3MerchantDetails(this);
+        addMerchantDetails(details);
+        return details;
+    }
+
 
     /**
      * 开始构建

@@ -2,7 +2,6 @@ package com.egzosn.pay.spring.boot.demo.controller;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,23 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayMessageInterceptor;
-import com.egzosn.pay.common.api.PayService;
-import com.egzosn.pay.common.bean.AssistOrder;
-import com.egzosn.pay.common.bean.PayMessage;
-import com.egzosn.pay.common.bean.PayOrder;
 import com.egzosn.pay.common.bean.RefundOrder;
 import com.egzosn.pay.common.bean.RefundResult;
+import com.egzosn.pay.common.util.MapGen;
 import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
 import com.egzosn.pay.spring.boot.core.bean.MerchantQueryOrder;
+import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
+import com.egzosn.pay.spring.boot.core.provider.MerchantDetailsManager;
 import com.egzosn.pay.web.support.HttpRequestNoticeParams;
-import com.egzosn.pay.wx.v3.bean.WxTransactionType;
 
 /**
  * @author egan
@@ -40,7 +37,14 @@ public class PayMerchantController {
 
     @Autowired
     private PayServiceManager manager;
+    @Autowired
+    private MerchantDetailsManager<PaymentPlatformMerchantDetails> merchantDetailsManager;
 
+
+    @GetMapping("merchantExists")
+    public Map<String, Object> merchantExists() {
+        return new MapGen<String, Object>("exist", merchantDetailsManager.merchantExists("1")).getAttr();
+    }
 
     /**
      * 网页支付
@@ -76,8 +80,8 @@ public class PayMerchantController {
     /**
      * 获取支付预订单信息
      *
-     * @param detailsId           支付账户id
-     * @param price           金额
+     * @param detailsId 支付账户id
+     * @param price     金额
      * @return 支付预订单信息
      */
     @RequestMapping("app")
@@ -120,7 +124,7 @@ public class PayMerchantController {
     /**
      * 刷卡付,pos主动扫码付款(条码付)
      *
-     * @param detailsId           账户id
+     * @param detailsId       账户id
      * @param transactionType 交易类型， 这个针对于每一个 支付类型的对应的几种交易方式
      * @param authCode        授权码，条码等
      * @param price           金额
@@ -134,17 +138,18 @@ public class PayMerchantController {
         payOrder.setAuthCode(authCode);
         return manager.microPay(payOrder);
     }
+
     /**
      * 支付回调地址
      *
      * @param request   请求
      * @param detailsId 列表id
      * @return 支付是否成功
-     *                     拦截器相关增加， 详情查看{@link com.egzosn.pay.common.api.PayService#addPayMessageInterceptor(PayMessageInterceptor)}
-     *                     <p>
-     *                     业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link com.egzosn.pay.common.api.PayService#setPayMessageHandler(com.egzosn.pay.common.api.PayMessageHandler)}
-     *                     </p>
-     *                     如果未设置 {@link com.egzosn.pay.common.api.PayMessageHandler} 那么会使用默认的 {@link com.egzosn.pay.common.api.DefaultPayMessageHandler}
+     * 拦截器相关增加， 详情查看{@link com.egzosn.pay.common.api.PayService#addPayMessageInterceptor(PayMessageInterceptor)}
+     * <p>
+     * 业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link com.egzosn.pay.common.api.PayService#setPayMessageHandler(com.egzosn.pay.common.api.PayMessageHandler)}
+     * </p>
+     * 如果未设置 {@link com.egzosn.pay.common.api.PayMessageHandler} 那么会使用默认的 {@link com.egzosn.pay.common.api.DefaultPayMessageHandler}
      */
     @RequestMapping(value = "payBack{detailsId}.json")
     public String payBack(HttpServletRequest request, @PathVariable String detailsId) {
@@ -174,10 +179,11 @@ public class PayMerchantController {
 
     /**
      * 查询
-     *  入参根据实际情况来填写，
-     *  必填参数 detailsId
-     *  普通查询 tradeNo,outTradeNo
-     *  <b>具体详情查看pay-java-demo内对应demo</b>
+     * 入参根据实际情况来填写，
+     * 必填参数 detailsId
+     * 普通查询 tradeNo,outTradeNo
+     * <b>具体详情查看pay-java-demo内对应demo</b>
+     *
      * @param order 订单的请求体
      * @return 返回查询回来的结果集，支付方原值返回
      */
@@ -188,12 +194,11 @@ public class PayMerchantController {
     }
 
 
-
     /**
      * 交易关闭接口
      *
-     * @param detailsId id
-     * @param tradeNo tradeNo
+     * @param detailsId  id
+     * @param tradeNo    tradeNo
      * @param outTradeNo outTradeNo
      * @return 返回支付方交易关闭后的结果
      */
@@ -210,7 +215,7 @@ public class PayMerchantController {
      * 申请退款接口
      *
      * @param detailsId 账户id
-     * @param order 订单的请求体
+     * @param order     订单的请求体
      * @return 返回支付方申请退款后的结果
      */
     @RequestMapping("refund")
@@ -232,9 +237,10 @@ public class PayMerchantController {
 
     /**
      * 下载对账单
-     *  必填参数 detailsId
-     *  普通查询 billDate, billType
-     *  <b>具体详情查看pay-java-demo内对应demo</b>
+     * 必填参数 detailsId
+     * 普通查询 billDate, billType
+     * <b>具体详情查看pay-java-demo内对应demo</b>
+     *
      * @param order 订单的请求体
      * @return 返回支付方下载对账单的结果
      */

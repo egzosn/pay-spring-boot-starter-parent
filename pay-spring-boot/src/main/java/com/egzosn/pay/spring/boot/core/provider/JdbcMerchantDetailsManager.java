@@ -121,7 +121,7 @@ public class JdbcMerchantDetailsManager implements MerchantDetailsManager<Common
     @Override
     public boolean merchantExists(String merchantId) {
         List<String> ids = jdbcTemplate.queryForList(existsSql, String.class, merchantId);
-        if (ids.size() > 0) {
+        if (ids.size() > 1) {
             throw new IncorrectResultSizeDataAccessException("出现重复的支付商户id", 1);
         }
 
