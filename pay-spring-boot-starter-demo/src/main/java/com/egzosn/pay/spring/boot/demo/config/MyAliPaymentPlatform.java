@@ -14,14 +14,14 @@ import com.egzosn.pay.spring.boot.core.provider.merchant.platform.AliPaymentPlat
 
 /**
  * 支付宝支付平台,自定义支付宝平台支持证书方式
- *
+ * 使用案例
  * @author egan
  * <pre>
  *                 email egzosn@gmail.com
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
-@Component(AliPaymentPlatform.platformName)
+//@Component(AliPaymentPlatform.platformName)
 public class MyAliPaymentPlatform extends AliPaymentPlatform {
 
 

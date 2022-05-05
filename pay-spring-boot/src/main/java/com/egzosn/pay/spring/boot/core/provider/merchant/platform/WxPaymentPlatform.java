@@ -88,7 +88,7 @@ public class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlat
 
         if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails) {
             CommonPaymentPlatformMerchantDetails merchantDetails = (CommonPaymentPlatformMerchantDetails) payConfigStorage;
-            configStorage.setSubAppid(merchantDetails.getSubAppId());
+            configStorage.setSubAppId(merchantDetails.getSubAppId());
             configStorage.setSubMchId(merchantDetails.getSubMchId());
             if (null != merchantDetails.getKeyCert()) {
                 if (null == httpConfigStorage) {

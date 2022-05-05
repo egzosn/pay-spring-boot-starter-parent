@@ -32,7 +32,7 @@ spring-boot  pay-java-parent
     <dependency>
         <groupId>com.egzosn</groupId>
         <artifactId>pay-spring-boot-starter</artifactId>
-        <version>1.0.2-b1</version>
+        <version>1.0.2-fix</version>
     </dependency>
 ```
 2. 引入 你需要对接的基于`pay-java-parent`支付开发包,具体支付模块 "{module-name}" 为具体的支付渠道的模块名 pay-java-ali，pay-java-wx等
@@ -41,7 +41,7 @@ spring-boot  pay-java-parent
     <dependency>
         <groupId>com.egzosn</groupId>
         <artifactId>{module-name}</artifactId>
-        <version>2.14.3-b4</version>
+        <version>2.14.4-fix</version>
     </dependency>
 
 ```
@@ -69,7 +69,8 @@ spring-boot  pay-java-parent
  * [paypal,查看demo/PayPalV2PayController](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-demo/)
  * [友店微信](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-wx-youdian?dir=1&filepath=pay-java-youdian)
  * [富友](https://gitee.com/egzosn/pay-java-parent/blob/develop/pay-java-fuiou?dir=1&filepath=pay-java-fuiou)
-
+ * [自定义支付宝商户/MyAliPaymentPlatform](pay-spring-boot-starter-demo?dir=1&filepath=pay-spring-boot-starter-demo)
+ 
 
 作者公众号
 ![公众号](https://egzosn.gitee.io/pay-java-parent/gzh.png "gzh.png")

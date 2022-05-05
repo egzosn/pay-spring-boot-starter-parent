@@ -86,7 +86,6 @@ public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements Pay
         configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());
         //是否为证书签名
-        configStorage.setCertSign(true);
         if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails) {
             CommonPaymentPlatformMerchantDetails merchantDetails = (CommonPaymentPlatformMerchantDetails) payConfigStorage;
             configStorage.setSubAppId(merchantDetails.getSubAppId());

@@ -68,13 +68,29 @@ public class AliPaymentPlatform implements PaymentPlatform {
         configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setTest(payConfigStorage.isTest());
         configStorage.setSignType(payConfigStorage.getSignType());
-        if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails){
-            configStorage.setAppAuthToken(((CommonPaymentPlatformMerchantDetails)payConfigStorage).getSubAppId());
+        if (payConfigStorage instanceof CommonPaymentPlatformMerchantDetails) {
+            final CommonPaymentPlatformMerchantDetails commonPaymentPlatformMerchantDetails = (CommonPaymentPlatformMerchantDetails) payConfigStorage;
+            configStorage.setAppAuthToken(commonPaymentPlatformMerchantDetails.getSubAppId());
+            certKeyPublic(configStorage, commonPaymentPlatformMerchantDetails);
         }
 
         return new AliPayService(configStorage);
     }
-
+    private static void certKeyPublic(AliPayConfigStorage aliPayConfigStorage, CommonPaymentPlatformMerchantDetails payConfigStorage) {
+        final String keyPublicCert = payConfigStorage.getKeyPublicCert();
+        //这里通过兼容的方式去处理，匹配尾缀如果为证书文件的话就当证书处理
+        if (!keyPublicCert.endsWith(".crt")) {
+            return;
+        }
+        //设置为证书方式
+        aliPayConfigStorage.setCertSign(true);
+        //设置证书存储方式，这里为路径
+        aliPayConfigStorage.setCertStoreType(payConfigStorage.getCertStoreType());
+        String[] keyCert = payConfigStorage.getKeyCert().toString().split(",");
+        aliPayConfigStorage.setMerchantCert(keyCert[0]);
+        aliPayConfigStorage.setAliPayRootCert(keyCert[1]);
+        aliPayConfigStorage.setAliPayCert(payConfigStorage.getKeyPublicCert());
+    }
     /**
      * 获取支付平台对应的支付服务
      *
