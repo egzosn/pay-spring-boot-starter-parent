@@ -9,7 +9,6 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformMerchantDetails;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatformServiceAdapter;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PaymentPlatforms;
-import com.egzosn.pay.spring.boot.core.provider.merchant.platform.WxPaymentPlatform;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.WxV3PaymentPlatform;
 import com.egzosn.pay.wx.v3.api.WxPayConfigStorage;
 

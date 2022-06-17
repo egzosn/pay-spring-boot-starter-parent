@@ -9,12 +9,9 @@ import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
-
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
 
 /**
  * 支付宝支付平台
@@ -77,7 +74,7 @@ public class AliPaymentPlatform implements PaymentPlatform {
         return new AliPayService(configStorage);
     }
     private static void certKeyPublic(AliPayConfigStorage aliPayConfigStorage, CommonPaymentPlatformMerchantDetails payConfigStorage) {
-        final String keyPublicCert = payConfigStorage.getKeyPublicCert();
+        final String keyPublicCert = payConfigStorage.getKeyPublic();
         //这里通过兼容的方式去处理，匹配尾缀如果为证书文件的话就当证书处理
         if (!keyPublicCert.endsWith(".crt")) {
             return;
