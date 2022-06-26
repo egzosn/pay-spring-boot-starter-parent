@@ -77,7 +77,7 @@ public class MyAliPaymentPlatform extends AliPaymentPlatform {
         String[] keyCert = payConfigStorage.getKeyCert().toString().split(",");
         aliPayConfigStorage.setMerchantCert(keyCert[0]);
         aliPayConfigStorage.setAliPayRootCert(keyCert[1]);
-        aliPayConfigStorage.setAliPayCert(payConfigStorage.getKeyPublicCert());
+        aliPayConfigStorage.setAliPayCert(payConfigStorage.getKeyPublic());
     }
 
     /**

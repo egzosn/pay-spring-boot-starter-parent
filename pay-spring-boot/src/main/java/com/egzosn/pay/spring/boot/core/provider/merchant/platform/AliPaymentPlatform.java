@@ -93,7 +93,7 @@ public class AliPaymentPlatform implements PaymentPlatform {
         String[] keyCert = payConfigStorage.getKeyCert().toString().split(",");
         aliPayConfigStorage.setMerchantCert(keyCert[0]);
         aliPayConfigStorage.setAliPayRootCert(keyCert[1]);
-        aliPayConfigStorage.setAliPayCert(payConfigStorage.getKeyPublicCert());
+        aliPayConfigStorage.setAliPayCert(payConfigStorage.getKeyPublic());
     }
     /**
      * 获取支付平台对应的支付服务
