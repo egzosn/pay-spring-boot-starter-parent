@@ -1,7 +1,5 @@
 package com.egzosn.pay.spring.boot.demo.config;
 
-import org.springframework.stereotype.Component;
-
 import com.egzosn.pay.ali.api.AliPayConfigStorage;
 import com.egzosn.pay.ali.api.AliPayService;
 import com.egzosn.pay.ali.bean.AliTransactionType;
@@ -67,7 +65,7 @@ public class MyAliPaymentPlatform extends AliPaymentPlatform {
      * @param payConfigStorage    配置信息
      */
     private static void certKeyPublic(AliPayConfigStorage aliPayConfigStorage, CommonPaymentPlatformMerchantDetails payConfigStorage) {
-        final String keyPublicCert = payConfigStorage.getKeyPublicCert();
+        final String keyPublicCert = payConfigStorage.getKeyPublic();
         //这里通过兼容的方式去处理，匹配尾缀如果为证书文件的话就当证书处理
         if (!keyPublicCert.endsWith(".crt")) {
             return;
