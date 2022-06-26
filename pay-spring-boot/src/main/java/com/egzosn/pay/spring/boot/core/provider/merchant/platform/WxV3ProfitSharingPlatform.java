@@ -16,7 +16,7 @@ import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
 import com.egzosn.pay.wx.v3.api.WxPayConfigStorage;
-import com.egzosn.pay.wx.v3.api.WxPayService;
+import com.egzosn.pay.wx.v3.api.WxProfitSharingService;
 import com.egzosn.pay.wx.v3.bean.WxTransactionType;
 
 /**
@@ -28,15 +28,16 @@ import com.egzosn.pay.wx.v3.bean.WxTransactionType;
  * date  2021/10/7.
  * </pre>
  */
-@Configuration(WxV3ProfitSharingPlatform.platformName)
+@Configuration(WxV3ProfitSharingPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(WxV3ProfitSharingPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.wx.v3.api.WxPayConfigStorage"})
 public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements PaymentPlatform {
 
     private final Log LOG = LogFactory.getLog(WxV3ProfitSharingPlatform.class);
 
-    public static final String platformName = "wxV3ProfitSharing";
-
+    public static final String PLATFORM_NAME = "wxV3ProfitSharing";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
     /**
      * 获取商户平台
@@ -45,7 +46,7 @@ public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements Pay
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**
@@ -69,7 +70,7 @@ public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements Pay
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage, HttpConfigStorage httpConfigStorage) {
         if (payConfigStorage instanceof WxPayConfigStorage) {
-            WxPayService wxPayService = new WxPayService((WxPayConfigStorage) payConfigStorage);
+            WxProfitSharingService wxPayService = new WxProfitSharingService((WxPayConfigStorage) payConfigStorage);
             wxPayService.setRequestTemplateConfigStorage(httpConfigStorage);
             return wxPayService;
         }
@@ -104,7 +105,7 @@ public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements Pay
         }
 
 
-        WxPayService wxPayService = new WxPayService(configStorage);
+        WxProfitSharingService wxPayService = new WxProfitSharingService(configStorage);
         wxPayService.setRequestTemplateConfigStorage(httpConfigStorage);
         return wxPayService;
     }
