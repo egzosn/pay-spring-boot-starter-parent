@@ -1,5 +1,13 @@
 package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
+import java.io.IOException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
+
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.CertStoreType;
@@ -10,13 +18,6 @@ import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMercha
 import com.egzosn.pay.wx.api.WxPayConfigStorage;
 import com.egzosn.pay.wx.api.WxPayService;
 import com.egzosn.pay.wx.bean.WxTransactionType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Configuration;
-
-import java.io.IOException;
 
 /**
  * 微信支付平台
@@ -27,15 +28,16 @@ import java.io.IOException;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
-@Configuration(WxPaymentPlatform.platformName)
+@Configuration(WxPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(WxPaymentPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.wx.api.WxPayConfigStorage"})
 public class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlatform {
 
     protected final Log LOG = LogFactory.getLog(WxPaymentPlatform.class);
 
-    public static final String platformName = "wxPay";
-
+    public static final String PLATFORM_NAME = "wxPay";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
 
     /**
@@ -45,7 +47,7 @@ public class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlat
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**

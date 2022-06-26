@@ -1,10 +1,9 @@
 package com.egzosn.pay.spring.boot.core.utils;
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class SqlTools {
     public static final String SEPARATED = ", ";
-    private static final Pattern pattern = Pattern.compile(":([0-9A-Za-z_]+)[" + SEPARATED + "]?");
+    private static final Pattern PATTERN = Pattern.compile(":([0-9A-Za-z_]+)[" + SEPARATED + "]?");
 
     /**
      * 获取统计的sql
@@ -367,7 +366,7 @@ public class SqlTools {
      * @return 转化后的sql
      */
     public static String forConverSQL(String sql, Map<String, Object> attrs, List<Object> values) {
-        Matcher matcher = pattern.matcher(sql);
+        Matcher matcher = PATTERN.matcher(sql);
         String rexp = null;
         while (matcher.find()) {
             String group = matcher.group(1);

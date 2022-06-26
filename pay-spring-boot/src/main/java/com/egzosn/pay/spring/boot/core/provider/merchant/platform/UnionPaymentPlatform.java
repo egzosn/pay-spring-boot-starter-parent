@@ -1,5 +1,13 @@
 package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
+import java.io.IOException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
+
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.CertStoreType;
@@ -10,13 +18,6 @@ import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMercha
 import com.egzosn.pay.union.api.UnionPayConfigStorage;
 import com.egzosn.pay.union.api.UnionPayService;
 import com.egzosn.pay.union.bean.UnionTransactionType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Configuration;
-
-import java.io.IOException;
 
 /**
  * 银联支付平台
@@ -27,13 +28,14 @@ import java.io.IOException;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
-@Configuration(UnionPaymentPlatform.platformName)
+@Configuration(UnionPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(UnionPaymentPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.union.api.UnionPayConfigStorage"})
 public class UnionPaymentPlatform implements PaymentPlatform {
     protected final Log LOG = LogFactory.getLog(UnionPaymentPlatform.class);
-    public static final String platformName = "unionPay";
-
+    public static final String PLATFORM_NAME = "unionPay";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
 
     /**
@@ -43,7 +45,7 @@ public class UnionPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**
@@ -86,9 +88,6 @@ public class UnionPaymentPlatform implements PaymentPlatform {
             }
             //私钥证书对应的密码
             configStorage.setKeyPrivateCertPwd(merchantDetails.getKeystorePwd());
-
-        }else {
-
 
         }
 

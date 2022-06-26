@@ -28,15 +28,16 @@ import com.egzosn.pay.wx.v3.bean.WxTransactionType;
  * date  2021/10/7.
  * </pre>
  */
-@Configuration(WxV3CombinePaymentPlatform.platformName)
+@Configuration(WxV3CombinePaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(WxV3CombinePaymentPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.wx.v3.api.WxPayConfigStorage"})
 public class WxV3CombinePaymentPlatform  extends WxPayConfigStorage implements PaymentPlatform {
 
     private final Log LOG = LogFactory.getLog(WxV3CombinePaymentPlatform.class);
 
-    public static final String platformName = "wxV3CombinePay";
-
+    public static final String PLATFORM_NAME = "wxV3CombinePay";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
 
     /**
@@ -46,7 +47,7 @@ public class WxV3CombinePaymentPlatform  extends WxPayConfigStorage implements P
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**

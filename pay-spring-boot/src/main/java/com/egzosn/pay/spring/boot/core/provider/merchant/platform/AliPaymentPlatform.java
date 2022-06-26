@@ -1,5 +1,9 @@
 package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
+
 import com.egzosn.pay.ali.api.AliPayConfigStorage;
 import com.egzosn.pay.ali.api.AliPayService;
 import com.egzosn.pay.ali.bean.AliTransactionType;
@@ -10,12 +14,6 @@ import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
-
 /**
  * 支付宝支付平台
  *
@@ -25,12 +23,14 @@ import javax.annotation.PostConstruct;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
-@Configuration(AliPaymentPlatform.platformName)
+@Configuration(AliPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(AliPaymentPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.ali.api.AliPayConfigStorage"})
 public class AliPaymentPlatform implements PaymentPlatform {
 
-    public static final String platformName = "aliPay";
+    public static final String PLATFORM_NAME = "aliPay";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
 
 
@@ -41,7 +41,7 @@ public class AliPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**

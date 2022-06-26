@@ -1,5 +1,9 @@
 package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
+
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
@@ -8,9 +12,6 @@ import com.egzosn.pay.payoneer.api.PayoneerConfigStorage;
 import com.egzosn.pay.payoneer.api.PayoneerPayService;
 import com.egzosn.pay.payoneer.bean.PayoneerTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * P卡(派安盈)支付平台
@@ -21,12 +22,15 @@ import org.springframework.context.annotation.Configuration;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
-@Configuration(PayoneerPaymentPlatform.platformName)
+@Configuration(PayoneerPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(PayoneerPaymentPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.payoneer.api.PayoneerConfigStorage"})
 public class PayoneerPaymentPlatform implements PaymentPlatform {
 
-    public static final String platformName = "payoneerPay";
+
+    public static final String PLATFORM_NAME = "payoneerPay";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
     /**
      * 获取商户平台
@@ -35,7 +39,7 @@ public class PayoneerPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**

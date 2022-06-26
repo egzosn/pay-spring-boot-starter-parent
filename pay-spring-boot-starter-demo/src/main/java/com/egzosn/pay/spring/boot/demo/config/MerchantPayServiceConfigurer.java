@@ -122,9 +122,9 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
      */
     @Override
     public void configure(PayMessageConfigurer configurer) {
-        PaymentPlatform aliPaymentPlatform = PaymentPlatforms.getPaymentPlatform(AliPaymentPlatform.platformName);
+        PaymentPlatform aliPaymentPlatform = PaymentPlatforms.getPaymentPlatform(AliPaymentPlatform.PLATFORM_NAME);
         configurer.addHandler(aliPaymentPlatform, aliPayMessageHandler);
         configurer.addInterceptor(aliPaymentPlatform, spring.getBean(AliPayMessageInterceptor.class));
-        configurer.addHandler(PaymentPlatforms.getPaymentPlatform(WxPaymentPlatform.platformName), new WxPayMessageHandler());
+        configurer.addHandler(PaymentPlatforms.getPaymentPlatform(WxPaymentPlatform.PLATFORM_NAME), new WxPayMessageHandler());
     }
 }

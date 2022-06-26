@@ -1,16 +1,16 @@
 package com.egzosn.pay.spring.boot.core.builders;
 
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.egzosn.pay.spring.boot.core.PayBuilder;
 import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.MerchantDetailsService;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import javax.sql.DataSource;
 
 /**
- *
  * @author egan
- *         <pre>
+ * <pre>
  *         email egzosn@gmail.com
  *         date  2019/5/6 19:36.
  *         </pre>
@@ -18,20 +18,23 @@ import javax.sql.DataSource;
 public class MerchantDetailsServiceBuilder implements PayBuilder<MerchantDetailsService> {
     protected PayMessageConfigurer configurer;
 
-    public static final InMemoryMerchantDetailsServiceBuilder inMemory(){
+    public static InMemoryMerchantDetailsServiceBuilder inMemory() {
         return new InMemoryMerchantDetailsServiceBuilder();
     }
 
-    public static final JdbcMerchantDetailsServiceBuilder jdbc(){
+    public static JdbcMerchantDetailsServiceBuilder jdbc() {
         return new JdbcMerchantDetailsServiceBuilder();
     }
-    public static final JdbcMerchantDetailsServiceBuilder jdbc(boolean cache){
+
+    public static JdbcMerchantDetailsServiceBuilder jdbc(boolean cache) {
         return new JdbcMerchantDetailsServiceBuilder();
     }
-    public static final JdbcMerchantDetailsServiceBuilder jdbc(DataSource source){
+
+    public static JdbcMerchantDetailsServiceBuilder jdbc(DataSource source) {
         return new JdbcMerchantDetailsServiceBuilder(source);
     }
-    public static final JdbcMerchantDetailsServiceBuilder jdbc(JdbcTemplate jdbcTemplate){
+
+    public static JdbcMerchantDetailsServiceBuilder jdbc(JdbcTemplate jdbcTemplate) {
         return new JdbcMerchantDetailsServiceBuilder(jdbcTemplate);
     }
 
@@ -47,9 +50,10 @@ public class MerchantDetailsServiceBuilder implements PayBuilder<MerchantDetails
 
     /**
      * 开始构建
+     *
      * @return 商户列表服务
      */
-    protected  MerchantDetailsService performBuild(){
+    protected MerchantDetailsService performBuild() {
         throw new UnsupportedOperationException("无法构建商家服务(需要使用inMemory()或jdbc())");
     }
 

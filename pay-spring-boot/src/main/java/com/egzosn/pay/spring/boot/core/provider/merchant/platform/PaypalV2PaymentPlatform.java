@@ -23,12 +23,13 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
  * </pre>
  */
 
-@Configuration(PaypalV2PaymentPlatform.platformName)
+@Configuration(PaypalV2PaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(PaypalV2PaymentPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.paypal.api.PayPalConfigStorage"})
 public class PaypalV2PaymentPlatform implements PaymentPlatform {
-    public static final String platformName = "paypalV2Pay";
-
+    public static final String PLATFORM_NAME = "paypalV2Pay";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
 
 
@@ -39,7 +40,7 @@ public class PaypalV2PaymentPlatform implements PaymentPlatform {
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**

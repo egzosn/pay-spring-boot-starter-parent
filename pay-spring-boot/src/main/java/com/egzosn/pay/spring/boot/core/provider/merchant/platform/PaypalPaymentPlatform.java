@@ -1,5 +1,9 @@
 package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
+
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
@@ -8,9 +12,6 @@ import com.egzosn.pay.paypal.api.PayPalConfigStorage;
 import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 贝宝支付平台
@@ -22,11 +23,13 @@ import org.springframework.context.annotation.Configuration;
  *                 </pre>
  */
 
-@Configuration(PaypalPaymentPlatform.platformName)
+@Configuration(PaypalPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(PaypalPaymentPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.paypal.api.PayPalConfigStorage"})
 public class PaypalPaymentPlatform implements PaymentPlatform {
-    public static final String platformName = "paypalPay";
+    public static final String PLATFORM_NAME = "paypalPay";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
 
 
@@ -38,7 +41,7 @@ public class PaypalPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**

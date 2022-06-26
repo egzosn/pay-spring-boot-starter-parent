@@ -1,5 +1,9 @@
 package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
+
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
@@ -8,9 +12,6 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage;
 import com.egzosn.pay.wx.youdian.api.WxYouDianPayService;
 import com.egzosn.pay.wx.youdian.bean.YoudianTransactionType;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 友店支付平台
@@ -20,13 +21,14 @@ import org.springframework.context.annotation.Configuration;
  *         date  2019/4/4 14:35.
  *         </pre>
  */
-@Configuration(YoudianPaymentPlatform.platformName)
+@Configuration(YoudianPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(YoudianPaymentPlatform.class)
 @ConditionalOnClass(name = {"com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage"})
 public  class YoudianPaymentPlatform implements PaymentPlatform {
 
-    public static final String platformName = "youdianPay";
-
+    public static final String PLATFORM_NAME = "youdianPay";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
 
 
@@ -37,7 +39,7 @@ public  class YoudianPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**
@@ -55,7 +57,7 @@ public  class YoudianPaymentPlatform implements PaymentPlatform {
         configStorage.setKeyPrivate(payConfigStorage.getKeyPrivate());
         configStorage.setKeyPublic(payConfigStorage.getKeyPublic());
         configStorage.setSignType(payConfigStorage.getSignType());
-        configStorage.setPayType(payConfigStorage.getPayType().toString());
+        configStorage.setPayType(payConfigStorage.getPayType());
         configStorage.setSeller(payConfigStorage.getSeller());
         configStorage.setInputCharset(payConfigStorage.getInputCharset());
         configStorage.setTest(payConfigStorage.isTest());

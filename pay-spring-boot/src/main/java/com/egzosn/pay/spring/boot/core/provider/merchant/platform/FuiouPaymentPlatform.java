@@ -1,5 +1,9 @@
 package com.egzosn.pay.spring.boot.core.provider.merchant.platform;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Configuration;
+
 import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
@@ -8,9 +12,6 @@ import com.egzosn.pay.fuiou.api.FuiouPayConfigStorage;
 import com.egzosn.pay.fuiou.api.FuiouPayService;
 import com.egzosn.pay.fuiou.bean.FuiouTransactionType;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 富友支付平台
@@ -21,12 +22,14 @@ import org.springframework.context.annotation.Configuration;
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
-@Configuration(FuiouPaymentPlatform.platformName)
+@Configuration(FuiouPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(FuiouPaymentPlatform.class)
 @ConditionalOnClass(name={"com.egzosn.pay.fuiou.api.FuiouPayConfigStorage"})
 public class FuiouPaymentPlatform implements PaymentPlatform {
-    public static final String platformName = "fuiouPay";
 
+    public static final String PLATFORM_NAME = "fuiouPay";
+    @Deprecated
+    public static final String platformName = PLATFORM_NAME;
 
 
 
@@ -38,7 +41,7 @@ public class FuiouPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public String getPlatform() {
-        return platformName;
+        return PLATFORM_NAME;
     }
 
     /**
