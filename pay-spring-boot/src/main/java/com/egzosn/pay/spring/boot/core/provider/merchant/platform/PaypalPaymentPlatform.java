@@ -8,6 +8,7 @@ import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.paypal.api.PayPalConfigStorage;
 import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
@@ -17,7 +18,7 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
  * 贝宝支付平台
  *
  * @author egan
- *         <pre>
+ * <pre>
  *                 email egzosn@gmail.com
  *                 date  2019/4/4 14:35.
  *                 </pre>
@@ -25,13 +26,11 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 
 @Configuration(PaypalPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(PaypalPaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.paypal.api.PayPalConfigStorage"})
+@ConditionalOnClass(name = "com.egzosn.pay.paypal.api.PayPalConfigStorage")
 public class PaypalPaymentPlatform implements PaymentPlatform {
     public static final String PLATFORM_NAME = "paypalPay";
     @Deprecated
     public static final String platformName = PLATFORM_NAME;
-
-
 
 
     /**
@@ -84,6 +83,9 @@ public class PaypalPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
+        if (StringUtils.isEmpty(name)) {
+            return null;
+        }
         return PayPalTransactionType.valueOf(name);
     }
 

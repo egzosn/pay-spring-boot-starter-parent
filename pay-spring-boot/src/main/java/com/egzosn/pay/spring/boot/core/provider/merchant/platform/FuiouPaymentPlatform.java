@@ -8,6 +8,7 @@ import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.fuiou.api.FuiouPayConfigStorage;
 import com.egzosn.pay.fuiou.api.FuiouPayService;
 import com.egzosn.pay.fuiou.bean.FuiouTransactionType;
@@ -17,21 +18,19 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
  * 富友支付平台
  *
  * @author egan
- *         <pre>
+ * <pre>
  *                 email egzosn@gmail.com
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
 @Configuration(FuiouPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(FuiouPaymentPlatform.class)
-@ConditionalOnClass(name={"com.egzosn.pay.fuiou.api.FuiouPayConfigStorage"})
+@ConditionalOnClass(name = "com.egzosn.pay.fuiou.api.FuiouPayConfigStorage")
 public class FuiouPaymentPlatform implements PaymentPlatform {
 
     public static final String PLATFORM_NAME = "fuiouPay";
     @Deprecated
     public static final String platformName = PLATFORM_NAME;
-
-
 
 
     /**
@@ -82,6 +81,9 @@ public class FuiouPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
+        if (StringUtils.isEmpty(name)) {
+            return null;
+        }
         return FuiouTransactionType.valueOf(name);
     }
 

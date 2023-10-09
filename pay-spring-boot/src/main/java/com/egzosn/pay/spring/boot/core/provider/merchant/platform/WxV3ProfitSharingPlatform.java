@@ -13,6 +13,7 @@ import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.CertStoreType;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
 import com.egzosn.pay.wx.v3.api.WxPayConfigStorage;
@@ -30,7 +31,7 @@ import com.egzosn.pay.wx.v3.bean.WxTransactionType;
  */
 @Configuration(WxV3ProfitSharingPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(WxV3ProfitSharingPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.wx.v3.api.WxPayConfigStorage"})
+@ConditionalOnClass(name = "com.egzosn.pay.wx.v3.api.WxPayConfigStorage")
 public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements PaymentPlatform {
 
     private final Log LOG = LogFactory.getLog(WxV3ProfitSharingPlatform.class);
@@ -112,6 +113,9 @@ public class WxV3ProfitSharingPlatform extends WxPayConfigStorage implements Pay
 
     @Override
     public TransactionType getTransactionType(String name) {
+        if (StringUtils.isEmpty(name)) {
+            return null;
+        }
         return WxTransactionType.valueOf(name);
     }
 

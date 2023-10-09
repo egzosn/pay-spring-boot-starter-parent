@@ -8,6 +8,7 @@ import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.paypal.api.PayPalConfigStorage;
 import com.egzosn.pay.paypal.v2.api.PayPalPayService;
 import com.egzosn.pay.paypal.v2.bean.PayPalTransactionType;
@@ -25,12 +26,11 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 
 @Configuration(PaypalV2PaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(PaypalV2PaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.paypal.api.PayPalConfigStorage"})
+@ConditionalOnClass(name = "com.egzosn.pay.paypal.api.PayPalConfigStorage")
 public class PaypalV2PaymentPlatform implements PaymentPlatform {
     public static final String PLATFORM_NAME = "paypalV2Pay";
     @Deprecated
     public static final String platformName = PLATFORM_NAME;
-
 
 
     /**
@@ -83,6 +83,9 @@ public class PaypalV2PaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
+        if (StringUtils.isEmpty(name)) {
+            return null;
+        }
         return PayPalTransactionType.valueOf(name);
     }
 

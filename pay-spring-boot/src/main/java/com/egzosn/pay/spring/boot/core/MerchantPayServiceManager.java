@@ -13,6 +13,8 @@ import com.egzosn.pay.common.api.DefaultPayMessageHandler;
 import com.egzosn.pay.common.api.PayMessageHandler;
 import com.egzosn.pay.common.api.PayMessageInterceptor;
 import com.egzosn.pay.common.api.PayService;
+import com.egzosn.pay.common.api.TransferService;
+import com.egzosn.pay.common.bean.AssistOrder;
 import com.egzosn.pay.common.bean.DefaultNoticeRequest;
 import com.egzosn.pay.common.bean.MethodType;
 import com.egzosn.pay.common.bean.NoticeParams;
@@ -79,13 +81,13 @@ public class MerchantPayServiceManager implements PayServiceManager {
     @Deprecated
     @Override
     public Map<String, Object> getParameter2Map(String detailsId, Map<String, String[]> parameterMap, InputStream is) {
-        return getNoticeParams(detailsId, new DefaultNoticeRequest( parameterMap, is)).getBody();
+        return getNoticeParams(detailsId, new DefaultNoticeRequest(parameterMap, is)).getBody();
     }
 
     /**
      * 将请求参数或者请求流转化为 Map
      *
-     * @param detailsId    商户列表id
+     * @param detailsId 商户列表id
      * @param request   通知请求
      * @return 获得回调的请求参数
      */
@@ -201,12 +203,12 @@ public class MerchantPayServiceManager implements PayServiceManager {
      *                     业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link com.egzosn.pay.common.api.PayService#setPayMessageHandler(com.egzosn.pay.common.api.PayMessageHandler)}
      *                     </p>
      *                     如果未设置 {@link com.egzosn.pay.common.api.PayMessageHandler} 那么会使用默认的 {@link com.egzosn.pay.common.api.DefaultPayMessageHandler}
-     * 方法过时，替代方法{@link #payBack(String, NoticeRequest)}
+     *                     方法过时，替代方法{@link #payBack(String, NoticeRequest)}
      */
     @Deprecated
     @Override
     public String payBack(String detailsId, Map<String, String[]> parameterMap, InputStream is) throws IOException {
-       return this.payBack(detailsId, new DefaultNoticeRequest(parameterMap, is));
+        return this.payBack(detailsId, new DefaultNoticeRequest(parameterMap, is));
     }
 
     /**
@@ -216,14 +218,14 @@ public class MerchantPayServiceManager implements PayServiceManager {
      * @param detailsId 商户列表id
      * @param request   请求参数
      * @return 支付是否成功
-     *                     拦截器相关增加， 详情查看{@link PayService#addPayMessageInterceptor(PayMessageInterceptor)}
-     *                     <p>
-     *                     业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link PayService#setPayMessageHandler(PayMessageHandler)}
-     *                     </p>
-     *                     如果未设置 {@link PayMessageHandler} 那么会使用默认的 {@link DefaultPayMessageHandler}
+     * 拦截器相关增加， 详情查看{@link PayService#addPayMessageInterceptor(PayMessageInterceptor)}
+     * <p>
+     * 业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link PayService#setPayMessageHandler(PayMessageHandler)}
+     * </p>
+     * 如果未设置 {@link PayMessageHandler} 那么会使用默认的 {@link DefaultPayMessageHandler}
      */
     @Override
-    public String payBack(String detailsId, NoticeRequest request)  {
+    public String payBack(String detailsId, NoticeRequest request) {
         //业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看com.egzosn.pay.common.api.PayService.setPayMessageHandler()
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
         PayService payService = details.getPayService();
@@ -240,6 +242,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
     @Override
     public Map<String, Object> query(MerchantQueryOrder order) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(order.getDetailsId());
+        order.setTransactionType(details.getPaymentPlatform().getTransactionType(order.getWayTrade()));
         return details.getPayService().query(order);
     }
 
@@ -252,9 +255,9 @@ public class MerchantPayServiceManager implements PayServiceManager {
     @Override
     public Map<String, Object> close(MerchantQueryOrder order) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(order.getDetailsId());
+        order.setTransactionType(details.getPaymentPlatform().getTransactionType(order.getWayTrade()));
         return details.getPayService().close(order);
     }
-
 
 
     /**
@@ -267,6 +270,7 @@ public class MerchantPayServiceManager implements PayServiceManager {
     @Override
     public RefundResult refund(String detailsId, RefundOrder order) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
+
         return details.getPayService().refund(order);
     }
 
@@ -323,6 +327,24 @@ public class MerchantPayServiceManager implements PayServiceManager {
     public Map<String, Object> transferQuery(String detailsId, String outNo, String tradeNo) {
         PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
         return details.getPayService().transferQuery(outNo, tradeNo);
+    }
+
+    /**
+     * 转账查询
+     *
+     * @param detailsId   列表id
+     * @param assistOrder 辅助交易订单
+     * @return 对应的转账订单
+     */
+    @Override
+    public Map<String, Object> transferQuery(String detailsId, AssistOrder assistOrder) {
+        PaymentPlatformMerchantDetails details = detailsService.loadMerchantByMerchantId(detailsId);
+        PayService payService = details.getPayService();
+        if (payService instanceof TransferService) {
+            return ((TransferService) payService).transferQuery(assistOrder);
+        }
+        //todo: 暂时兼容旧版本
+        return details.getPayService().transferQuery(assistOrder.getOutTradeNo(), assistOrder.getTradeNo());
     }
 
     /**

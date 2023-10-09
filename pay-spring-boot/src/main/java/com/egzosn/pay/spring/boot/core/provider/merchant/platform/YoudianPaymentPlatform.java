@@ -8,6 +8,7 @@ import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage;
 import com.egzosn.pay.wx.youdian.api.WxYouDianPayService;
@@ -15,21 +16,21 @@ import com.egzosn.pay.wx.youdian.bean.YoudianTransactionType;
 
 /**
  * 友店支付平台
+ *
  * @author egan
- *         <pre>
+ * <pre>
  *         email egzosn@gmail.com
  *         date  2019/4/4 14:35.
  *         </pre>
  */
 @Configuration(YoudianPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(YoudianPaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage"})
-public  class YoudianPaymentPlatform implements PaymentPlatform {
+@ConditionalOnClass(name = "com.egzosn.pay.wx.youdian.api.WxYouDianPayConfigStorage")
+public class YoudianPaymentPlatform implements PaymentPlatform {
 
     public static final String PLATFORM_NAME = "youdianPay";
     @Deprecated
     public static final String platformName = PLATFORM_NAME;
-
 
 
     /**
@@ -50,7 +51,7 @@ public  class YoudianPaymentPlatform implements PaymentPlatform {
      */
     @Override
     public PayService getPayService(PayConfigStorage payConfigStorage) {
-        if ( payConfigStorage instanceof WxYouDianPayConfigStorage ){
+        if (payConfigStorage instanceof WxYouDianPayConfigStorage) {
             return new WxYouDianPayService((WxYouDianPayConfigStorage) payConfigStorage);
         }
         WxYouDianPayConfigStorage configStorage = new WxYouDianPayConfigStorage();
@@ -80,6 +81,9 @@ public  class YoudianPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
+        if (StringUtils.isEmpty(name)) {
+            return null;
+        }
         return YoudianTransactionType.valueOf(name);
     }
 

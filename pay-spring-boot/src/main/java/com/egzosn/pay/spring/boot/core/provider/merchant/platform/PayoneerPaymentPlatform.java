@@ -8,6 +8,7 @@ import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.payoneer.api.PayoneerConfigStorage;
 import com.egzosn.pay.payoneer.api.PayoneerPayService;
 import com.egzosn.pay.payoneer.bean.PayoneerTransactionType;
@@ -17,14 +18,14 @@ import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
  * P卡(派安盈)支付平台
  *
  * @author egan
- *         <pre>
+ * <pre>
  *                 email egzosn@gmail.com
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
 @Configuration(PayoneerPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(PayoneerPaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.payoneer.api.PayoneerConfigStorage"})
+@ConditionalOnClass(name = "com.egzosn.pay.payoneer.api.PayoneerConfigStorage")
 public class PayoneerPaymentPlatform implements PaymentPlatform {
 
 
@@ -82,6 +83,9 @@ public class PayoneerPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
+        if (StringUtils.isEmpty(name)) {
+            return null;
+        }
         return PayoneerTransactionType.valueOf(name);
     }
 

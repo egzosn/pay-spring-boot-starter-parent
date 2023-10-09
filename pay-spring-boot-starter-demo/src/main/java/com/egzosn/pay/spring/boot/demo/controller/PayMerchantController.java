@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.egzosn.pay.common.api.PayMessageInterceptor;
+import com.egzosn.pay.common.bean.AssistOrder;
 import com.egzosn.pay.common.bean.RefundOrder;
 import com.egzosn.pay.common.bean.RefundResult;
+import com.egzosn.pay.common.bean.TransferOrder;
 import com.egzosn.pay.common.util.MapGen;
 import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
@@ -151,7 +153,7 @@ public class PayMerchantController {
      * </p>
      * 如果未设置 {@link com.egzosn.pay.common.api.PayMessageHandler} 那么会使用默认的 {@link com.egzosn.pay.common.api.DefaultPayMessageHandler}
      */
-    @RequestMapping(value = "payBack{detailsId}.json")
+    @RequestMapping(value = "payBack/{deatilsId}.json")
     public String payBack(HttpServletRequest request, @PathVariable String detailsId) {
         //业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看com.egzosn.pay.common.api.PayService.setPayMessageHandler()
         return manager.payBack(detailsId, new HttpRequestNoticeParams(request));
@@ -189,7 +191,7 @@ public class PayMerchantController {
      */
     @RequestMapping("query")
     public Map<String, Object> query(MerchantQueryOrder order) {
-//
+
         return manager.query(order);
     }
 
@@ -249,4 +251,29 @@ public class PayMerchantController {
         return manager.downloadBill(order);
 
     }
+
+
+    /**
+     * 转账
+     *
+     * @param order 转账订单
+     * @return 对应的转账结果
+     * 具体参数看具体支付平台，案例pay-java-parent/pay-java-demo/com.egzosn.pay.demo.controller
+     */
+    @RequestMapping("transfer/{detailsId}")
+    public Map<String, Object> transfer(@PathVariable String detailsId, TransferOrder order) {
+        return manager.transfer(detailsId, order);
+    }
+    /**
+     * 转账
+     *
+     * @param order 转账订单
+     * @return 对应的转账结果
+     * 具体参数看具体支付平台，
+     */
+    @RequestMapping("transferQuery/{detailsId}")
+    public Map<String, Object> transferQuery(@PathVariable String detailsId, AssistOrder order) {
+        return manager.transferQuery(detailsId, order);
+    }
+
 }

@@ -11,31 +11,27 @@ import com.egzosn.pay.common.api.PayConfigStorage;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
-
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 支付宝支付平台
  *
  * @author egan
- *         <pre>
+ * <pre>
  *                 email egzosn@gmail.com
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
 @Configuration(AliPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(AliPaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.ali.api.AliPayConfigStorage"})
+@ConditionalOnClass(name = "com.egzosn.pay.ali.api.AliPayConfigStorage")
 public class AliPaymentPlatform implements PaymentPlatform {
 
     public static final String PLATFORM_NAME = "aliPay";
     @Deprecated
     public static final String platformName = PLATFORM_NAME;
-
 
 
     /**
@@ -80,6 +76,7 @@ public class AliPaymentPlatform implements PaymentPlatform {
 
         return new AliPayService(configStorage);
     }
+
     private static void certKeyPublic(AliPayConfigStorage aliPayConfigStorage, CommonPaymentPlatformMerchantDetails payConfigStorage) {
         final String keyPublicCert = payConfigStorage.getKeyPublic();
         //这里通过兼容的方式去处理，匹配尾缀如果为证书文件的话就当证书处理
@@ -95,6 +92,7 @@ public class AliPaymentPlatform implements PaymentPlatform {
         aliPayConfigStorage.setAliPayRootCert(keyCert[1]);
         aliPayConfigStorage.setAliPayCert(payConfigStorage.getKeyPublic());
     }
+
     /**
      * 获取支付平台对应的支付服务
      *
@@ -111,6 +109,9 @@ public class AliPaymentPlatform implements PaymentPlatform {
 
     @Override
     public TransactionType getTransactionType(String name) {
+        if (StringUtils.isEmpty(name)) {
+            return null;
+        }
         return AliTransactionType.valueOf(name);
     }
 

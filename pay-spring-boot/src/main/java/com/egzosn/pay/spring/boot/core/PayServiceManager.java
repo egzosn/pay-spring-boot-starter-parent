@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.egzosn.pay.common.api.PayMessageInterceptor;
 import com.egzosn.pay.common.api.PayService;
+import com.egzosn.pay.common.bean.AssistOrder;
 import com.egzosn.pay.common.bean.NoticeParams;
 import com.egzosn.pay.common.bean.NoticeRequest;
 import com.egzosn.pay.common.bean.PayMessage;
@@ -147,11 +148,11 @@ public interface PayServiceManager {
      * @param detailsId 商户列表id
      * @param request   请求参数
      * @return 支付是否成功
-     *                     拦截器相关增加， 详情查看{@link com.egzosn.pay.common.api.PayService#addPayMessageInterceptor(PayMessageInterceptor)}
-     *                     <p>
-     *                     业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link com.egzosn.pay.common.api.PayService#setPayMessageHandler(com.egzosn.pay.common.api.PayMessageHandler)}
-     *                     </p>
-     *                     如果未设置 {@link com.egzosn.pay.common.api.PayMessageHandler} 那么会使用默认的 {@link com.egzosn.pay.common.api.DefaultPayMessageHandler}
+     * 拦截器相关增加， 详情查看{@link com.egzosn.pay.common.api.PayService#addPayMessageInterceptor(PayMessageInterceptor)}
+     * <p>
+     * 业务处理在对应的PayMessageHandler里面处理，在哪里设置PayMessageHandler，详情查看{@link com.egzosn.pay.common.api.PayService#setPayMessageHandler(com.egzosn.pay.common.api.PayMessageHandler)}
+     * </p>
+     * 如果未设置 {@link com.egzosn.pay.common.api.PayMessageHandler} 那么会使用默认的 {@link com.egzosn.pay.common.api.DefaultPayMessageHandler}
      */
     String payBack(String detailsId, NoticeRequest request);
 
@@ -215,8 +216,20 @@ public interface PayServiceManager {
      * @param outNo     商户转账订单号
      * @param tradeNo   支付平台转账订单号
      * @return 对应的转账订单
+     * @deprecated {@link #transferQuery(String, AssistOrder)}
      */
+    @Deprecated
     Map<String, Object> transferQuery(String detailsId, String outNo, String tradeNo);
+
+
+    /**
+     * 转账查询
+     *
+     * @param detailsId   列表id
+     * @param assistOrder 辅助交易订单
+     * @return 对应的转账订单
+     */
+    Map<String, Object> transferQuery(String detailsId, AssistOrder assistOrder);
 
     /**
      * 创建消息

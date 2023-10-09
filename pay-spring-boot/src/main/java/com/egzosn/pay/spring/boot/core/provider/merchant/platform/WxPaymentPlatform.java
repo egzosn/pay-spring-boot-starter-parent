@@ -13,6 +13,7 @@ import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.CertStoreType;
 import com.egzosn.pay.common.bean.TransactionType;
 import com.egzosn.pay.common.http.HttpConfigStorage;
+import com.egzosn.pay.common.util.str.StringUtils;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
 import com.egzosn.pay.spring.boot.core.merchant.bean.CommonPaymentPlatformMerchantDetails;
 import com.egzosn.pay.wx.api.WxPayConfigStorage;
@@ -23,14 +24,14 @@ import com.egzosn.pay.wx.bean.WxTransactionType;
  * 微信支付平台
  *
  * @author egan
- *         <pre>
+ * <pre>
  *                 email egzosn@gmail.com
  *                 date  2019/4/4 14:35.
  *                 </pre>
  */
 @Configuration(WxPaymentPlatform.PLATFORM_NAME)
 @ConditionalOnMissingBean(WxPaymentPlatform.class)
-@ConditionalOnClass(name = {"com.egzosn.pay.wx.api.WxPayConfigStorage"})
+@ConditionalOnClass(name = "com.egzosn.pay.wx.api.WxPayConfigStorage")
 public class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlatform {
 
     protected final Log LOG = LogFactory.getLog(WxPaymentPlatform.class);
@@ -99,7 +100,8 @@ public class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlat
                 httpConfigStorage.setCertStoreType(merchantDetails.getCertStoreType());
                 try {
                     httpConfigStorage.setKeystore(merchantDetails.getKeyCertInputStream());
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     LOG.error(e);
                 }
 
@@ -117,6 +119,9 @@ public class WxPaymentPlatform extends WxPayConfigStorage implements PaymentPlat
 
     @Override
     public TransactionType getTransactionType(String name) {
+        if (StringUtils.isEmpty(name)) {
+            return null;
+        }
         return WxTransactionType.valueOf(name);
     }
 
