@@ -73,7 +73,7 @@ spring-boot  pay-java-parent
  
 
 作者公众号
-![公众号](https://egzosn.gitee.io/pay-java-parent/gzh.png "gzh.png")
+![公众号](https://gitee.com/egzosn/pay-java-parent/raw/develop/pay-java-demo/src/main/webapp/gzh.png "gzh.png")
 
 E-Mail：egan@egzosn.com
 
@@ -84,7 +84,8 @@ E-Mail：egan@egzosn.com
 2. pay-java(2群)：766275051
 
 
-微信群: 
+微信群: 加我前拜托伸个小手关注公众号
+
 ![微信群](https://egzosn.gitee.io/pay-java-parent/wx.jpg "wx.jpg")
 
 
