@@ -66,6 +66,9 @@ public class WxYouDianMerchantDetails extends WxYouDianPayConfigStorage implemen
     }
 
     public WxYouDianMerchantDetails() {
+       init();
+    }
+    public void init() {
         String platformName = PayoneerPaymentPlatform.platformName;
         setPayType(platformName);
         platform = PaymentPlatforms.getPaymentPlatform(platformName);
@@ -88,6 +91,7 @@ public class WxYouDianMerchantDetails extends WxYouDianPayConfigStorage implemen
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
+        init();
         if (null == payService){
             payService = platform.getPayService(this, getHttpConfigStorage());
         }

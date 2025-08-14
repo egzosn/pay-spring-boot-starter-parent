@@ -68,6 +68,12 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements Payme
     }
 
     public UnionMerchantDetails() {
+        init();
+    }
+    public void init() {
+        if (null != platform){
+            return;
+        }
         String platformName = UnionPaymentPlatform.platformName;
         setPayType(platformName);
         platform = PaymentPlatforms.getPaymentPlatform(platformName);
@@ -90,6 +96,7 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements Payme
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
+        init();
         if (null == payService){
             payService = platform.getPayService(this, getHttpConfigStorage());
         }
@@ -103,6 +110,7 @@ public class UnionMerchantDetails extends UnionPayConfigStorage implements Payme
      */
     @Override
     public PayService getPayService() {
+        initService();
         return payService;
     }
 

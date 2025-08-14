@@ -68,17 +68,19 @@ public class WxV3MerchantDetails extends WxPayConfigStorage implements PaymentPl
     }
 
     public WxV3MerchantDetails() {
-        String platformName = WxV3PaymentPlatform.platformName;
-        initPaymentPlatforms(platformName);
+        init();
     }
 
 
-    public WxV3MerchantDetails initPaymentPlatforms(String platformName) {
+    public WxV3MerchantDetails init() {
+        if (null != platform) {
+            return this;
+        }
+        String platformName = WxV3PaymentPlatform.platformName;
         setPayType(platformName);
         platform = PaymentPlatforms.getPaymentPlatform(platformName);
         return this;
     }
-
 
     /**
      * 获取支付平台
@@ -87,6 +89,7 @@ public class WxV3MerchantDetails extends WxPayConfigStorage implements PaymentPl
      */
     @Override
     public PaymentPlatform getPaymentPlatform() {
+
         return platform;
     }
 
@@ -97,6 +100,7 @@ public class WxV3MerchantDetails extends WxPayConfigStorage implements PaymentPl
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
+        init();
         if (null == payService) {
             payService = platform.getPayService(this, getHttpConfigStorage());
         }
@@ -110,6 +114,7 @@ public class WxV3MerchantDetails extends WxPayConfigStorage implements PaymentPl
      */
     @Override
     public PayService getPayService() {
+        initService();
         return payService;
     }
 
@@ -136,6 +141,10 @@ public class WxV3MerchantDetails extends WxPayConfigStorage implements PaymentPl
     @Override
     public String getDetailsId() {
         return detailsId;
+    }
+
+    public void setDetailsId(String detailsId) {
+        this.detailsId = detailsId;
     }
 
     public WxV3MerchantDetails detailsId(String detailsId) {
@@ -174,6 +183,11 @@ public class WxV3MerchantDetails extends WxPayConfigStorage implements PaymentPl
         return this;
     }
 
+    public WxV3MerchantDetails keyPrivate(String keyPrivate) {
+        setKeyPrivate(keyPrivate);
+        return this;
+    }
+
     public WxV3MerchantDetails v3ApiKey(String v3ApiKey) {
         setV3ApiKey(v3ApiKey);
         return this;
@@ -186,6 +200,16 @@ public class WxV3MerchantDetails extends WxPayConfigStorage implements PaymentPl
 
     public WxV3MerchantDetails keyPublic(String keyPublic) {
         setKeyPublic(keyPublic);
+        return this;
+    }
+
+    public WxV3MerchantDetails keyPublicId(String keyPublicId) {
+        setKeyPublicId(keyPublicId);
+        return this;
+    }
+
+    public WxV3MerchantDetails merchantSerialNumber(String merchantSerialNumber) {
+        setMerchantSerialNumber(merchantSerialNumber);
         return this;
     }
 

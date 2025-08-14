@@ -66,6 +66,12 @@ public class PayoneerMerchantDetails extends PayoneerConfigStorage implements Pa
     }
 
     public PayoneerMerchantDetails() {
+       init();
+    }
+    public void init() {
+        if (null != platform){
+            return;
+        }
         String platformName = PayoneerPaymentPlatform.platformName;
         setPayType(platformName);
         platform = PaymentPlatforms.getPaymentPlatform(platformName);
@@ -88,6 +94,7 @@ public class PayoneerMerchantDetails extends PayoneerConfigStorage implements Pa
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
+        init();
         if (null == payService){
             payService = platform.getPayService(this, getHttpConfigStorage());
         }
@@ -101,6 +108,7 @@ public class PayoneerMerchantDetails extends PayoneerConfigStorage implements Pa
      */
     @Override
     public PayService getPayService() {
+        initService();
         return payService;
     }
 

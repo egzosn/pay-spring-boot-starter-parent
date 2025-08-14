@@ -106,6 +106,9 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      */
     @Override
     public PaymentPlatform getPaymentPlatform() {
+        if (null == platform){
+            platform = PaymentPlatforms.getPaymentPlatform(getPayType());
+        }
         return platform;
     }
 
@@ -116,12 +119,13 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
-        platform = PaymentPlatforms.getPaymentPlatform(getPayType());
+        getPaymentPlatform();
         if (null == payService){
             payService = platform.getPayService(this, getHttpConfigStorage());
         }
         return this;
     }
+
 
     /**
      * 获取支付平台对应的支付服务
@@ -130,6 +134,7 @@ public class CommonPaymentPlatformMerchantDetails extends BasePayConfigStorage i
      */
     @Override
     public PayService getPayService() {
+        initService();
         return payService;
     }
 

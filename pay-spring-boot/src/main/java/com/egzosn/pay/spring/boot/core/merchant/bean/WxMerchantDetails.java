@@ -15,7 +15,7 @@ import com.egzosn.pay.wx.api.WxPayConfigStorage;
  * 支付宝商户信息列表
  *
  * @author egan
- *         <pre>
+ * <pre>
  *                 email egzosn@gmail.com
  *                 date   2019/4/6 20:10.
  *                 </pre>
@@ -32,7 +32,7 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
     /**
      * 商户平台
      */
-    private PaymentPlatform platform ;
+    private PaymentPlatform platform;
 
     private InMemoryMerchantDetailsServiceBuilder builder;
     /**
@@ -67,6 +67,13 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
     }
 
     public WxMerchantDetails() {
+        init();
+    }
+
+    public void init() {
+        if (null != platform) {
+            return;
+        }
         String platformName = WxPaymentPlatform.platformName;
         setPayType(platformName);
         platform = PaymentPlatforms.getPaymentPlatform(platformName);
@@ -89,7 +96,8 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
-        if (null == payService){
+        init();
+        if (null == payService) {
             payService = platform.getPayService(this, getHttpConfigStorage());
         }
         return this;
@@ -102,8 +110,10 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
      */
     @Override
     public PayService getPayService() {
+        initService();
         return payService;
     }
+
     /**
      * 获取HTTP请求配置
      *
@@ -158,7 +168,6 @@ public class WxMerchantDetails extends WxPayConfigStorage implements PaymentPlat
         setTest(test);
         return this;
     }
-
 
 
     public WxMerchantDetails appid(String appid) {

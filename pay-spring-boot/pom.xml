@@ -5,15 +5,12 @@
     <parent>
         <groupId>com.egzosn</groupId>
         <artifactId>pay-spring-boot-starter-parent</artifactId>
-      <version>1.0.4</version>
+      <version>1.0.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.egzosn</groupId>
     <artifactId>pay-spring-boot</artifactId>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
 
 </project>

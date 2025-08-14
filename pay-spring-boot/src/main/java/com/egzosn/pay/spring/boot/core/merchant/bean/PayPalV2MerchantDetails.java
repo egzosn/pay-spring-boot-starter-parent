@@ -66,6 +66,13 @@ public class PayPalV2MerchantDetails extends PayPalConfigStorage implements Paym
     }
 
     public PayPalV2MerchantDetails() {
+        init();
+    }
+
+    public void init() {
+        if (null != platform) {
+            return;
+        }
         String platformName = PaypalV2PaymentPlatform.platformName;
         setPayType(platformName);
         platform = PaymentPlatforms.getPaymentPlatform(platformName);
@@ -88,6 +95,9 @@ public class PayPalV2MerchantDetails extends PayPalConfigStorage implements Paym
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
+
+        init();
+
         if (null == payService) {
             payService = platform.getPayService(this, getHttpConfigStorage());
         }
@@ -101,6 +111,7 @@ public class PayPalV2MerchantDetails extends PayPalConfigStorage implements Paym
      */
     @Override
     public PayService getPayService() {
+        initService();
         return payService;
     }
 

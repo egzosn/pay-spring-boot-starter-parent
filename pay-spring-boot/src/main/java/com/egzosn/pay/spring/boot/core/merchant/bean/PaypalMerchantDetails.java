@@ -65,6 +65,9 @@ public class PaypalMerchantDetails extends PayPalConfigStorage implements Paymen
     }
 
     public PaypalMerchantDetails() {
+      init();
+    }
+    public void init() {
         String platformName = PaypalPaymentPlatform.platformName;
         setPayType(platformName);
         platform = PaymentPlatforms.getPaymentPlatform(platformName);
@@ -87,6 +90,7 @@ public class PaypalMerchantDetails extends PayPalConfigStorage implements Paymen
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
+        init();
         if (null == payService){
             payService = platform.getPayService(this, getHttpConfigStorage());
         }

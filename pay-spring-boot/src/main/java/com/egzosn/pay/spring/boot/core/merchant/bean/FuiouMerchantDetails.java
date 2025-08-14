@@ -15,7 +15,7 @@ import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PaymentPlatfor
  * 富友商户信息列表
  *
  * @author egan
- *         <pre>
+ * <pre>
  *                         email egzosn@gmail.com
  *                         date   2019/4/6 14:30.
  *                         </pre>
@@ -65,6 +65,13 @@ public class FuiouMerchantDetails extends FuiouPayConfigStorage implements Payme
     }
 
     public FuiouMerchantDetails() {
+        init();
+    }
+
+    public void init() {
+        if (null != platform) {
+            return;
+        }
         String platformName = FuiouPaymentPlatform.platformName;
         setPayType(platformName);
         platform = PaymentPlatforms.getPaymentPlatform(platformName);
@@ -88,7 +95,8 @@ public class FuiouMerchantDetails extends FuiouPayConfigStorage implements Payme
      */
     @Override
     public PaymentPlatformServiceAdapter initService() {
-        if (null == payService){
+        init();
+        if (null == payService) {
             payService = platform.getPayService(this, getHttpConfigStorage());
         }
         return this;
@@ -101,6 +109,7 @@ public class FuiouMerchantDetails extends FuiouPayConfigStorage implements Payme
      */
     @Override
     public PayService getPayService() {
+        initService();
         return payService;
     }
 

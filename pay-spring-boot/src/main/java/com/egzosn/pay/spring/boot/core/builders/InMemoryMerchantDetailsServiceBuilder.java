@@ -24,6 +24,7 @@ public class InMemoryMerchantDetailsServiceBuilder extends MerchantDetailsServic
 
 
     public void addMerchantDetails(PaymentPlatformMerchantDetails merchantDetail) {
+
         this.merchantDetails.add(merchantDetail);
     }
 
