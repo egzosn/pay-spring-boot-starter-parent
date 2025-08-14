@@ -1,14 +1,15 @@
 package com.egzosn.pay.spring.boot.core.bean;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.egzosn.pay.common.bean.AssistOrder;
 import com.egzosn.pay.common.bean.BillType;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * 订单辅助接口
- * @author: egan
+ *
+ * @author egan
  * email egzosn@gmail.com
  * date 2017/3/12 14:50
  */
@@ -16,37 +17,37 @@ public class MerchantQueryOrder extends AssistOrder {
     /**
      * 列表id
      */
-    private String  detailsId;
+    private String detailsId;
     /**
-     *     退款金额
+     * 退款金额
      */
     private BigDecimal refundAmount;
     /**
-     *     总金额
+     * 总金额
      */
     private BigDecimal totalAmount;
     /**
-     *     账单时间：具体请查看对应支付平台
+     * 账单时间：具体请查看对应支付平台
      */
     private Date billDate;
     /**
-     *  账单类型：具体请查看对应支付平台
-     *  详情实现查看各个平台组件对应实现类
+     * 账单类型：具体请查看对应支付平台
+     * 详情实现查看各个平台组件对应实现类
      */
     private BillType billType;
     /**
-     *     支付平台订单号或者账单日期
+     * 支付平台订单号或者账单日期
      */
     private Object tradeNoOrBillDate;
     /**
      * 商户单号或者 账单类型
-      */
+     */
     private String outTradeNoBillType;
     /**
      * 交易类型，交易方式，
      * 本字段与{@link com.egzosn.pay.common.bean.PayOrder#getTransactionType}相同。
-     *
-     *  例如，网页支付，扫码付等等
+     * <p>
+     * 例如，网页支付，扫码付等等
      */
     private String wayTrade;
 
