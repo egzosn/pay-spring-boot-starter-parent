@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS `merchant_details`;
 
 CREATE TABLE `merchant_details` (
   `details_id` char(32) NOT NULL COMMENT '列表id',
-  `pay_type` varchar(16) NOT NULL COMMENT '支付类型(支付渠道) 详情查看com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform对应子类，aliPay 支付宝， wxPay微信..等等',
+  `pay_type` varchar(32) NOT NULL COMMENT '支付类型(支付渠道) 详情查看com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform对应子类，aliPay 支付宝， wxPay微信..等等',
   `appid` varchar(32) DEFAULT NULL COMMENT '应用id',
   `mch_id` varchar(32) DEFAULT NULL COMMENT '商户id，商户号，合作伙伴id等等',
   `cert_store_type` varchar(16) DEFAULT NULL COMMENT '当前面私钥公钥为证书类型的时候，这里必填，可选值:PATH,STR,INPUT_STREAM,CLASS_PATH,URL',
